@@ -7226,21 +7226,6 @@ namespace GameObjects
             return ((this.BelongedFaction != null) ? this.BelongedFaction.HasSelfCaptive() : false);
         }
 
-        public bool FactionHasTreasure()
-        {
-            if (this.BelongedFaction != null)
-            {
-                foreach (Person person in this.BelongedFaction.Persons)
-                {
-                    if (person.TreasureCount > 0)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
         public bool FindRouteway(LinkNode node, bool hasEnd, out float rate)
         {
             rate = 1f;
@@ -7415,56 +7400,18 @@ namespace GameObjects
             return area;
         }
 
+        /// <summary>
+        /// 获取建筑内所有人物（含移动人物）
+        /// </summary>
+        /// <returns></returns>
         public PersonList GetAllPersons()
         {
             PersonList list = new PersonList();
-            foreach (Person person in this.Persons)
-            {
-                list.Add(person);
-            }
-            foreach (Person person in this.MovingPersons)
-            {
-                list.Add(person);
-            }
-            return list;
-        }
 
-        public TreasureList GetAllTreasureInArchitecture()
-        {
-            TreasureList list = new TreasureList();
-            foreach (Person person in this.GetAllPersons())
-            {
-                person.AddTreasureToList(list);
-            }
-            return list;
-        }
+            list.AddRange(Persons);
 
-        public TreasureList GetAllTreasureInArchitectureExceptLeader()
-        {
-            TreasureList list = new TreasureList();
-            if (this.BelongedFaction != null)
-            {
-                foreach (Person person in this.Persons)
-                {
-                    if (person != this.BelongedFaction.Leader)
-                    {
-                        person.AddTreasureToList(list);
-                    }
-                }
-            }
-            return list;
-        }
+            list.AddRange(MovingPersons);
 
-        public TreasureList GetAllTreasureInFaction()
-        {
-            TreasureList list = new TreasureList();
-            if (this.BelongedFaction != null)
-            {
-                foreach (Person person in this.BelongedFaction.Persons)
-                {
-                    person.AddTreasureToList(list);
-                }
-            }
             return list;
         }
 
@@ -8911,16 +8858,6 @@ namespace GameObjects
             return this.TransferArchitectureList;
         }
 
-        public TreasureList GetTreasureListOfLeader()
-        {
-            TreasureList list = new TreasureList();
-            if (this.BelongedFaction != null)
-            {
-                this.BelongedFaction.Leader.AddTreasureToList(list);
-            }
-            return list;
-        }
-
         public GameArea GetTroopEnterableArea(Troop troop)
         {
             GameArea area = new GameArea();
@@ -9438,40 +9375,6 @@ namespace GameObjects
                 {
                     return true;
                 }
-            }
-            return false;
-        }
-
-        public bool HasTreasure()
-        {
-            foreach (Person person in this.GetAllPersons())
-            {
-                if (person.TreasureCount > 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool HasTreasureToAward()
-        {
-            if ((this.BelongedFaction != null) && (this.BelongedFaction.Leader != null))
-            {
-                if (this.BelongedFaction.PersonCount <= 1)
-                {
-                    return false;
-                }
-                return this.BelongedFaction.Leader.TreasureCount > 0;
-            }
-            return false;
-        }
-
-        public bool HasTreasureToConfiscate()
-        {
-            if ((this.BelongedFaction != null) && (this.BelongedFaction.Leader != null))
-            {
-                return this.BelongedFaction.AllTreasuresExceptLeader.Count > 0;
             }
             return false;
         }
@@ -15666,5 +15569,139 @@ namespace GameObjects
                 p.ShuijunExperience += (int)(Session.Parameters.TrainAbilityAmount * NavalTrainingFacilityRate * GameObject.Random(90, 110) / 100f);
             }
         }
+
+        #region 宝物
+
+        /// <summary>
+        /// 势力内是否有宝物
+        /// </summary>
+        /// <returns></returns>
+        public bool FactionHasTreasure()
+        {
+            if (this.BelongedFaction != null)
+            {
+                foreach (Person person in this.BelongedFaction.Persons)
+                {
+                    if (person.TreasureCount > 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 建筑内是否有宝物
+        /// </summary>
+        /// <returns></returns>
+        public bool HasTreasure()
+        {
+            foreach (Person person in this.GetAllPersons())
+            {
+                if (person.TreasureCount > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 建筑内是否有可授予的宝物
+        /// </summary>
+        /// <returns></returns>
+        public bool HasTreasureToAward()
+        {
+            if ((this.BelongedFaction != null) && (this.BelongedFaction.Leader != null))
+            {
+                if (this.BelongedFaction.PersonCount <= 1)
+                {
+                    return false;
+                }
+                return this.BelongedFaction.Leader.TreasureCount > 0;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 建筑内是否有可没收的宝物
+        /// </summary>
+        /// <returns></returns>
+        public bool HasTreasureToConfiscate()
+        {
+            if ((this.BelongedFaction != null) && (this.BelongedFaction.Leader != null))
+            {
+                return this.BelongedFaction.AllTreasuresExceptLeader.Count > 0;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 获取君主宝物列表
+        /// </summary>
+        /// <returns></returns>
+        public TreasureList GetTreasureListOfLeader()
+        {
+            TreasureList list = new TreasureList();
+            if (this.BelongedFaction != null)
+            {
+                this.BelongedFaction.Leader.AddTreasureToList(list);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获取建筑内所有宝物
+        /// </summary>
+        /// <returns></returns>
+        public TreasureList GetAllTreasureInArchitecture()
+        {
+            TreasureList list = new TreasureList();
+            foreach (Person person in this.GetAllPersons())
+            {
+                person.AddTreasureToList(list);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获取建筑内所有宝物（君主除外）
+        /// </summary>
+        /// <returns></returns>
+        public TreasureList GetAllTreasureInArchitectureExceptLeader()
+        {
+            TreasureList list = new TreasureList();
+            if (this.BelongedFaction != null)
+            {
+                foreach (Person person in this.Persons)
+                {
+                    if (person != this.BelongedFaction.Leader)
+                    {
+                        person.AddTreasureToList(list);
+                    }
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获取势力内所有宝物
+        /// </summary>
+        /// <returns></returns>
+        public TreasureList GetAllTreasureInFaction()
+        {
+            TreasureList list = new TreasureList();
+            if (this.BelongedFaction != null)
+            {
+                foreach (Person person in this.BelongedFaction.Persons)
+                {
+                    person.AddTreasureToList(list);
+                }
+            }
+            return list;
+        }
+
+        #endregion
     }
 }

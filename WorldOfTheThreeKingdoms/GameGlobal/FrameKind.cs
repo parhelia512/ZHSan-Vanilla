@@ -1,8 +1,4 @@
-﻿using System;
-
-
-
-namespace GameGlobal
+﻿namespace GameGlobal
 {
     public enum FrameKind
     {
@@ -33,6 +29,10 @@ namespace GameGlobal
         State,
         Region,
         SimpleArchitecture,
+
+        /// <summary>
+        /// 宝物
+        /// </summary>
         Treasure,
         YearTable,
         Information,

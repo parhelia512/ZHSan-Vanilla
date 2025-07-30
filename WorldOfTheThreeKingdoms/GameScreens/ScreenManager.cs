@@ -40,45 +40,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         {
         }
 
-        private void FrameFunction_Architecture_AfterGetAwardTreasure() // 赏赐宝物
-        {
-            this.CurrentGameObject = Session.MainGame.mainGameScreen.Plugins.TabListPlugin.SelectedItem as GameObject;            
-            if (this.CurrentGameObject != null)
-            {
-                Treasure currentGameObject = this.CurrentGameObject as Treasure;
-                if (currentGameObject.BelongedPerson != null)
-                {
-                    Session.MainGame.mainGameScreen.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.Person, FrameFunction.GetAwardTreasurePerson, false, true, true, false, this.CurrentArchitecture.BelongedFaction.PersonsInArchitecturesExceptLeader, null, "", "");
-                }
-            }
-        }
-
-        private void FrameFunction_Architecture_AfterGetAwardTreasurePerson() // 赏赐宝物
-        {
-            this.CurrentPerson = Session.MainGame.mainGameScreen.Plugins.TabListPlugin.SelectedItem as Person;
-            if (this.CurrentPerson != null)
-            {
-                Treasure currentGameObject = this.CurrentGameObject as Treasure;
-                if (currentGameObject.BelongedPerson != null)
-                {
-                    this.CurrentArchitecture.BelongedFaction.Leader.LoseTreasure(currentGameObject);
-                    this.CurrentPerson.AwardedTreasure(currentGameObject);
-                }
-            }
-        }
-        private void FrameFunction_Architecture_AfterGetSellTreasure() // 卖宝
-        {
-            this.CurrentGameObjects = this.CurrentArchitecture.GetTreasureListOfLeader().GetSelectedList();
-            if (this.CurrentGameObjects != null)
-            {
-                foreach (Treasure treasure in this.CurrentGameObjects)
-                {
-                    this.CurrentArchitecture.BelongedFaction.Leader.LoseTreasure(treasure);
-                    Session.Current.Scenario.Treasures.Remove(treasure);
-                    this.CurrentArchitecture.IncreaseFund(treasure.Worth * 1000);
-                }
-            }
-        }
         private void FrameFunction_Architecture_Afterxuanzemeinv() // 纳妃
         {
             this.CurrentPerson = Session.MainGame.mainGameScreen.Plugins.TabListPlugin.SelectedItem as Person;
@@ -166,7 +127,12 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             }
         }
 
-        private void FrameFunction_Architecture_AfterGetConfiscateTreasure() // 没收
+        #region 宝物
+
+        /// <summary>
+        /// 没收宝物
+        /// </summary>
+        private void FrameFunction_Architecture_AfterGetConfiscateTreasure()
         {
             this.CurrentGameObject = Session.MainGame.mainGameScreen.Plugins.TabListPlugin.SelectedItem as GameObject;
             if (this.CurrentGameObject != null)
@@ -179,6 +145,58 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 }
             }
         }
+
+        /// <summary>
+        /// 授予宝物-选择宝物
+        /// </summary>
+        private void FrameFunction_Architecture_AfterGetAwardTreasure()
+        {
+            this.CurrentGameObject = Session.MainGame.mainGameScreen.Plugins.TabListPlugin.SelectedItem as GameObject;
+            if (this.CurrentGameObject != null)
+            {
+                Treasure currentGameObject = this.CurrentGameObject as Treasure;
+                if (currentGameObject.BelongedPerson != null)
+                {
+                    Session.MainGame.mainGameScreen.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.Person, FrameFunction.GetAwardTreasurePerson, false, true, true, false, this.CurrentArchitecture.BelongedFaction.PersonsInArchitecturesExceptLeader, null, "", "");
+                }
+            }
+        }
+
+        /// <summary>
+        /// 授予宝物-选择人物
+        /// </summary>
+        private void FrameFunction_Architecture_AfterGetAwardTreasurePerson()
+        {
+            this.CurrentPerson = Session.MainGame.mainGameScreen.Plugins.TabListPlugin.SelectedItem as Person;
+            if (this.CurrentPerson != null)
+            {
+                Treasure currentGameObject = this.CurrentGameObject as Treasure;
+                if (currentGameObject.BelongedPerson != null)
+                {
+                    this.CurrentArchitecture.BelongedFaction.Leader.LoseTreasure(currentGameObject);
+                    this.CurrentPerson.AwardedTreasure(currentGameObject);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 出售宝物
+        /// </summary>
+        private void FrameFunction_Architecture_AfterGetSellTreasure()
+        {
+            this.CurrentGameObjects = this.CurrentArchitecture.GetTreasureListOfLeader().GetSelectedList();
+            if (this.CurrentGameObjects != null)
+            {
+                foreach (Treasure treasure in this.CurrentGameObjects)
+                {
+                    this.CurrentArchitecture.BelongedFaction.Leader.LoseTreasure(treasure);
+                    Session.Current.Scenario.Treasures.Remove(treasure);
+                    this.CurrentArchitecture.IncreaseFund(treasure.Worth * 1000);
+                }
+            }
+        }
+
+        #endregion
 
         private void FrameFunction_Architecture_AfterGetConvinceDestinationPerson() // 说服
         {
@@ -1436,20 +1454,21 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     this.FrameFunction_Architecture_AfterGetShortestNoWaterRouteway();
                     break;
 
+                #region 宝物
                 case FrameFunction.GetConfiscateTreasure:
                     this.FrameFunction_Architecture_AfterGetConfiscateTreasure();
                     break;
-
                 case FrameFunction.GetAwardTreasure:
                     this.FrameFunction_Architecture_AfterGetAwardTreasure();
                     break;
-
                 case FrameFunction.GetAwardTreasurePerson:
                     this.FrameFunction_Architecture_AfterGetAwardTreasurePerson();
                     break;
                 case FrameFunction.GetSellTreasure:
                     this.FrameFunction_Architecture_AfterGetSellTreasure();
                     break;
+                #endregion
+
                 case FrameFunction.xuanzemeinv :
                     this.FrameFunction_Architecture_Afterxuanzemeinv();
                     break;

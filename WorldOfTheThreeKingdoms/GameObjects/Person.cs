@@ -1,20 +1,16 @@
 ﻿using GameGlobal;
+using GameManager;
 using GameObjects.Animations;
 using GameObjects.FactionDetail;
+using GameObjects.Influences;
 using GameObjects.PersonDetail;
 using GameObjects.TroopDetail;
-using GameObjects.Influences;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Platforms;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.IO;
-using GameObjects.Conditions;
 using System.Runtime.Serialization;
-using Platforms;
 using Tools;
-using GameManager;
 
 namespace GameObjects
 {
@@ -1765,18 +1761,6 @@ namespace GameObjects
             }
         }
 
-        public void AwardedTreasure(Treasure t)
-        {
-            this.ReceiveTreasure(t);
-
-            if (this.OnBeAwardedTreasure != null)
-            {
-                this.OnBeAwardedTreasure(this, t);
-            }
-            // this.AdjustIdealToFactionLeader(-t.Worth / 50);
-
-        }
-
         public bool BeAvailable()
         {
             Architecture gameObject = Session.Current.Scenario.Architectures.GetGameObject(this.AvailableLocation) as Architecture;
@@ -2260,18 +2244,36 @@ namespace GameObjects
             }
         }
 
-        public void ConfiscatedTreasure(Treasure t)
-        {
-            this.AdjustRelation(this.BelongedFaction.Leader, -t.Worth, -5);
-            this.LoseTreasure(t);
+        #region 宝物
 
-            if (this.OnBeConfiscatedTreasure != null)
-            {
-                this.OnBeConfiscatedTreasure(this, t);
-            }
+        /// <summary>
+        /// 授予宝物
+        /// </summary>
+        /// <param name="treasure"></param>
+        public void AwardedTreasure(Treasure treasure)
+        {
+            ReceiveTreasure(treasure);
+
+            OnBeAwardedTreasure?.Invoke(this, treasure);
+
+            // this.AdjustIdealToFactionLeader(-treasure.Worth / 50);
+        }
+
+        /// <summary>
+        /// 没收宝物
+        /// </summary>
+        /// <param name="treasure"></param>
+        public void ConfiscatedTreasure(Treasure treasure)
+        {
+            AdjustRelation(BelongedFaction.Leader, -treasure.Worth, -5);
+            LoseTreasure(treasure);
+
+            OnBeConfiscatedTreasure?.Invoke(this, treasure);
 
             ExtensionInterface.call("ConfiscatedTreasure", new Object[] { Session.Current.Scenario, this });
         }
+
+        #endregion
 
         public static int ControversyWinningChance(Person source, Person destination)
         {
@@ -11373,6 +11375,12 @@ namespace GameObjects
             return new Dictionary<Person, int>(this.relations);
         }
 
+        /// <summary>
+        /// 调整关系
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="factor"></param>
+        /// <param name="adjust"></param>
         public void AdjustRelation(Person p, float factor, float adjust)
         {
             if (!Session.GlobalVariables.EnablePersonRelations) return;

@@ -946,7 +946,7 @@ Color="4294375158" />
         <Leaf Text="\n" Color="4294375158" />
         <Leaf Text="　　如果选择自动拒绝，则系统将帮助玩家拒绝所有的请求。" Color="4294375158" />
     </Branch>
-    <Branch Name="Monarch_Treasure_Confiscate">
+    <Branch Name="Faction_Treasure_Confiscate">
         <Leaf Text="　　　　　　　　　　　　　君主-" Color="4294375158" />
         <Leaf Text="没收宝物" Color="4293651200" />
         <Leaf Text="\n" Color="4294375158" />
@@ -957,7 +957,7 @@ Color="4294375158" />
         <Leaf Text="\n" Color="4294375158" />
         <Leaf Text="　　如果被没收宝物的将领忠诚度不大于100，则其忠诚度会下降两倍于宝物价值的量，并有几率下野。" Color="4294375158" />
     </Branch>
-    <Branch Name="Monarch_Treasure_Award">
+    <Branch Name="Faction_Treasure_Award">
         <Leaf Text="　　　　　　　　　　　　　君主-" Color="4294375158" />
         <Leaf Text="授予宝物" Color="4293651200" />
         <Leaf Text="\n" Color="4294375158" />
