@@ -1,8 +1,4 @@
-﻿using System;
-
-
-
-namespace GameGlobal
+﻿namespace GameGlobal
 {
     public enum FrameFunction
     {
@@ -74,10 +70,27 @@ namespace GameGlobal
         GetTroopershipMilitary,
         GetShortestRouteway,
         GetShortestNoWaterRouteway,
+
+        /// <summary>
+        /// 宝物-没收
+        /// </summary>
         GetConfiscateTreasure,
+
+        /// <summary>
+        /// 宝物-授予
+        /// </summary>
         GetAwardTreasure,
+
+        /// <summary>
+        /// 宝物-授予-人物
+        /// </summary>
         GetAwardTreasurePerson,
+
+        /// <summary>
+        /// 宝物-出售
+        /// </summary>
         GetSellTreasure,
+
         xuanzemeinv,
         chongxingmeinv,
         MoveFeizi,

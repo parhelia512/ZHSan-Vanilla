@@ -182,11 +182,21 @@ namespace GameObjects
             return person;
         }
 
+        /// <summary>
+        /// 人物授予宝物事件
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="t"></param>
         private void person_OnBeAwardedTreasure(Person person, Treasure t)
         {
             Session.MainGame.mainGameScreen.PersonBeAwardedTreasure(person, t);
         }
 
+        /// <summary>
+        /// 人物没收宝物事件
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="t"></param>
         private void person_OnBeConfiscatedTreasure(Person person, Treasure t)
         {
             Session.MainGame.mainGameScreen.PersonBeConfiscatedTreasure(person, t);

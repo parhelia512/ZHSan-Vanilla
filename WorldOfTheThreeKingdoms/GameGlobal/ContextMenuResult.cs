@@ -32,6 +32,10 @@ namespace GameGlobal
         Faction_DiplomaticRelations,
         Faction_Techniques,
         Faction_Sections,
+
+        /// <summary>
+        /// 势力-宝物
+        /// </summary>
         Faction_Treasure,
         Faction_Informations,
         Internal_StopWork,
@@ -131,8 +135,20 @@ namespace GameGlobal
         Monarch_hougongTop_moveFeizi,
         Monarch_hougongTop_releaseFeizi,
         Faction_Refuse,
+
+        /// <summary>
+        /// 势力-宝物-没收
+        /// </summary>
         Faction_Treasure_Confiscate,
+
+        /// <summary>
+        /// 势力-宝物-授予
+        /// </summary>
         Faction_Treasure_Award,
+
+        /// <summary>
+        /// 势力-宝物-出售
+        /// </summary>
         Faction_Treasure_Sell,
         Section_New,
         Section_Regroup,
