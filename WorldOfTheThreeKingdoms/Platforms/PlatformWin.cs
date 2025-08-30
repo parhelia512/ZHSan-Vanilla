@@ -310,8 +310,9 @@ namespace Platforms
                 return ApplicationUrl + "WorldOfTheThreeKingdoms.exe";
             }
         }
-        public bool editing = false;
+
         #region 加載資源文件
+
         /// <summary>
         /// 加載資源文本
         /// </summary>
@@ -320,17 +321,15 @@ namespace Platforms
         public string LoadText(string res)
         {
             res = res.Replace("\\", "/");
-            if (!editing)
-            {
-                res = base.GetMODFile(res);
-            }
 
+            res = GetMODFile(res);
 
             lock (Platform.IoLock)
             {
                 return File.ReadAllText(res);
             }
         }
+
         /// <summary>
         /// 加載資源文本
         /// </summary>
@@ -852,7 +851,6 @@ namespace Platforms
 
             return isExist;
         }
-
 
         /// <summary>
         /// 保存用戶文本

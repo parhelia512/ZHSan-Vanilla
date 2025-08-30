@@ -346,7 +346,11 @@ namespace GameGlobal
             return this.MemberwiseClone() as Parameters;
         }
 
-        public void InitializeGameParameters(string str)
+        /// <summary>
+        /// 初始化游戏参数
+        /// </summary>
+        /// <param name="str"></param>
+        public void InitializeGameParameters(string str = "")
         {
             XmlDocument document = new XmlDocument();
 
@@ -354,7 +358,7 @@ namespace GameGlobal
             document.LoadXml(xml);
 
             XmlNode nextSibling = document.FirstChild.NextSibling;
-            if (str == "")
+            if (str == string.Empty)
             {
                 FindTreasureChance = int.Parse(nextSibling.Attributes.GetNamedItem("FindTreasureChance").Value);
                 LearnSkillDays = int.Parse(nextSibling.Attributes.GetNamedItem("LearnSkillDays").Value);

@@ -92,12 +92,11 @@ namespace WorldOfTheThreeKingdoms
             //獲取設置數據
             Setting.Init(false);
 
-            string str = "";
             Session.globalVariablesBasic = new GlobalVariables();
-            Session.globalVariablesBasic.InitialGlobalVariables(str);
+            Session.globalVariablesBasic.InitialGlobalVariables();
 
             Session.parametersBasic = new Parameters();
-            Session.parametersBasic.InitializeGameParameters(str);
+            Session.parametersBasic.InitializeGameParameters();
 
             //獲取設置數據
             Setting.Init(true);

@@ -608,21 +608,12 @@ namespace Platforms
 
         public string GetMODFile(string res)
         {
-            //res = res.Replace("\\", "/");
-
-            //根據MOD來選擇素材
-            if (Setting.Current == null || String.IsNullOrEmpty(Setting.Current.MODRuntime))
+            var mod = Setting.Current.MODRuntime;
+            if (Setting.Current != null && !string.IsNullOrEmpty(mod))
             {
-
-            }
-            else
-            {
-                var mod = res.Replace("Content", "MODs/" + Setting.Current.MODRuntime);
-
-                if (Platform.Current.FileExists(mod))
-                {
-                    res = mod;
-                }
+                var modRes = res.Replace("Content", $"MODs/{mod}");
+                if (Platform.Current.FileExists(modRes))
+                    return modRes;
             }
 
             return res;

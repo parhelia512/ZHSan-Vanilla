@@ -68,50 +68,30 @@ namespace GameManager
 
         public static void Init(bool prepare)
         {
-            try
+            string file = "Setting.config";
+            if (Platform.Current.UserFileExist(file))
             {
-                string file = "Setting.config";
-                if (Platform.Current.UserFileExist(file))
+                try
                 {
-                    try
+                    Current = SimpleSerializer.DeserializeJsonFile<Setting>(file, true, false) ?? new Setting();
+
+                    if (prepare)
                     {
-                        Current = SimpleSerializer.DeserializeJsonFile<Setting>(file, true, false);
-
-                        if (prepare)
-                        {
-                            Prepare();
-                        }
-
-                        Save();
+                        Prepare();
                     }
-                    catch (Exception ex)
-                    {
 
-                    }
+                    Save();
                 }
-            }
-            catch (Exception ex)
-            {
-                WebTools.TakeWarnMsg("初始用户设置失败:Setting.config", "Init:", ex);
-            }
-
-            if (Current == null)
-            {
-                Current = new Setting();
-
-                if (prepare)
+                catch (Exception ex)
                 {
-                    Prepare();
+                    WebTools.TakeWarnMsg("初始用户设置失败:Setting.config", "Init:", ex);
                 }
-
-                Save();
             }
 
             //if (Platform.PlatFormType == PlatFormType.iOS)  //|| Platform.PlatForm == PlatForm.WinRT || Platform.PlatForm == PlatForm.WP)
             //{
             //	Session.RealResolution = Session.Resolution = Platform.PreferResolution;
             //}
-
         }
 
         public static void Save()

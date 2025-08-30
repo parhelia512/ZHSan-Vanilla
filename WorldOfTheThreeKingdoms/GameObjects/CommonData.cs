@@ -1,5 +1,4 @@
-﻿using GameGlobal;
-using GameObjects.Animations;
+﻿using GameObjects.Animations;
 using GameObjects.ArchitectureDetail;
 using GameObjects.Conditions;
 using GameObjects.FactionDetail;
@@ -9,9 +8,10 @@ using GameObjects.PersonDetail;
 using GameObjects.SectionDetail;
 using GameObjects.TroopDetail;
 using GameObjects.TroopDetail.EventEffect;
-using System.Collections;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Platforms;
+using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace GameObjects
@@ -19,7 +19,6 @@ namespace GameObjects
     [DataContract]
     public class CommonData
     {
-
         public static CommonData Current = null;
 
         public static bool CurrentReady = false;
@@ -45,13 +44,13 @@ namespace GameObjects
         //性能优化
         [DataMember]
         public ConditionKindTable AllConditionKinds = new ConditionKindTable();
-        
+
         [DataMember]
         public ConditionTable AllConditions = new ConditionTable();
 
         [DataMember]
         public FacilityKindTable AllFacilityKinds = new FacilityKindTable();
-        
+
         [DataMember]
         public zainanzhongleibiao suoyouzainanzhonglei = new zainanzhongleibiao();
 
@@ -76,7 +75,7 @@ namespace GameObjects
 
         [DataMember]
         public SectionAIDetailTable AllSectionAIDetails = new SectionAIDetailTable();
-        
+
         [DataMember]
         public SkillTable AllSkills = new SkillTable();
         [DataMember]
@@ -94,7 +93,7 @@ namespace GameObjects
 
         [DataMember]
         public TitleTable AllTitles = new TitleTable();
-        
+
         [DataMember]
         public TitleKindTable AllTitleKinds = new TitleKindTable();
 
@@ -102,7 +101,7 @@ namespace GameObjects
         //public GuanzhiKindTable AllGuanzhiKinds = new GuanzhiKindTable();
         [DataMember]
         public AnimationTable AllTroopAnimations = new AnimationTable();
-        
+
         [DataMember]
         public EventEffectKindTable AllTroopEventEffectKinds = new EventEffectKindTable();
 
@@ -114,7 +113,7 @@ namespace GameObjects
 
         [DataMember]
         public GameObjects.ArchitectureDetail.EventEffect.EventEffectTable AllEventEffects = new GameObjects.ArchitectureDetail.EventEffect.EventEffectTable();
-        
+
         [DataMember]
         public List<BiographyAdjectives> AllBiographyAdjectives = new List<BiographyAdjectives>();
         [DataMember]
@@ -176,7 +175,26 @@ namespace GameObjects
             this.AllTrainPolicies.Clear();
         }
 
-    }
-    
-}
+        /// <summary>
+        /// CommonData初始化
+        /// </summary>
+        public static void Init()
+        {
+            new PlatformTask(() =>
+            {
+                try
+                {
+                    Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
 
+                    GameScenario.ProcessCommonData(Current);
+
+                    CurrentReady = true;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("CommonData初始化失敗:" + ex);
+                }
+            }).Start();
+        }
+    }
+}

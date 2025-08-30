@@ -319,7 +319,13 @@ namespace GameGlobal
             return s;
         }
 
-        public bool InitialGlobalVariables(string str)
+        /// <summary>
+        /// 初始化全局变量
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public bool InitialGlobalVariables(string str = "")
         {
             Exception exception;
 
@@ -330,7 +336,7 @@ namespace GameGlobal
             document.LoadXml(xml);
 
             XmlNode nextSibling = document.FirstChild.NextSibling;
-            if (str == "")
+            if (str == string.Empty)
             {
                 try
                 {
