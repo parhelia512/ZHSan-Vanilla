@@ -188,9 +188,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         {
             startLines = Platform.Current.LoadTexts(@"Content\StartLines.txt");
 
-            if (Platform.Current.UserFileExist(new string[] { "startRead.txt" })[0])
+            var startReadFile = "startRead.txt";
+
+            if (Platform.Current.UserFileExist(startReadFile))
             {
-                string content = Platform.Current.GetUserText("startRead.txt");
+                string content = Platform.Current.GetUserText(startReadFile);
                 int version;
                 int.TryParse(content, out version);
                 if (version >= currentStartVersion)
@@ -206,7 +208,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 MenuType = MenuType.Start;
             }
-            Platform.Current.SaveUserFile("startRead.txt", currentStartVersion.ToString());
+            Platform.Current.SaveUserFile(startReadFile, currentStartVersion.ToString());
 
             // 不存在其他mod时，默认原版
             var originalMod = new MOD { ID = "", Name = "原版", Desc = "", Mode = "" };

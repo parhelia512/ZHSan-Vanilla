@@ -70,13 +70,12 @@ namespace GameManager
         {
             try
             {
-                string file1 = "Setting.config";
-                //string file2 = "settings.config";
-                if (Platform.Current.UserFileExist(new string[] { file1 })[0])
+                string file = "Setting.config";
+                if (Platform.Current.UserFileExist(file))
                 {
                     try
                     {
-                        Current = SimpleSerializer.DeserializeJsonFile<Setting>(file1, true, false);
+                        Current = SimpleSerializer.DeserializeJsonFile<Setting>(file, true, false);
 
                         if (prepare)
                         {

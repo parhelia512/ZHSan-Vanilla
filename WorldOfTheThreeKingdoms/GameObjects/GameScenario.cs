@@ -5486,7 +5486,7 @@ namespace GameObjects
 
             List<Scenario> scesList = null;
 
-            if (Platform.Current.UserFileExist(new string[] { saveFile })[0])
+            if (Platform.Current.UserFileExist(saveFile))
             {
                 scesList = SimpleSerializer.DeserializeJsonFile<List<Scenario>>(saveFile, true).NullToEmptyList();
             }
