@@ -766,45 +766,50 @@ namespace WorldOfTheThreeKingdomsEditor
                 }
             }
             scen.ClearPersonStatusCache();
-            foreach (Faction f in scen.Factions.GetRandomList())
+
+            for (int i = 0; i < 5; ++i)
             {
-                Architecture oldArch = f.Capital;
-                bool retry = false;
-                int retries = 0;
-                do
+                foreach (Faction f in scen.Factions.GetRandomList())
                 {
-                    retry = false;
-                    Architecture chosen = scen.Architectures.GetRandomObject() as Architecture;
-                    if (chosen.BelongedFaction == null && chosen.Kind.HasAgriculture && chosen.Kind.HasCommerce
-                        && chosen.Kind.HasMorale && chosen.Kind.HasDomination && chosen.Kind.HasPopulation
-                        && chosen.Population >= 50000)
-                    {
-                        f.RemoveArchitecture(oldArch);
-                        f.AddArchitecture(chosen);
-                        f.Capital = chosen;
-
-                        foreach (Person p in oldArch.Persons)
+                    Architecture oldArch = f.Capital;
+                    bool retry = false;
+                    int retries = 0;
+                    do
+                    { 
+                        retry = false;
+                        Architecture chosen = scen.Architectures.GetRandomObject() as Architecture;
+                        if (chosen.BelongedFaction == null && (i <= 3 || (chosen.Kind.HasAgriculture && chosen.Kind.HasCommerce
+                            && chosen.Kind.HasMorale && chosen.Kind.HasDomination && chosen.Kind.HasPopulation
+                            && chosen.Population >= 40000)))
                         {
-                            p.LocationArchitecture = f.Capital;
+                            f.RemoveArchitecture(oldArch);
+                            f.AddArchitecture(chosen);
+                            f.Capital = chosen;
+
+                            foreach (Person p in oldArch.Persons)
+                            {
+                                p.LocationArchitecture = f.Capital;
+                            }
+
+                            MilitaryList mList = oldArch.Militaries;
+                            foreach (Military m in mList.GetList())
+                            {
+                                oldArch.RemoveMilitary(m);
+                                f.Capital.AddMilitary(m);
+                            }
+
+                            f.Capital.PersonsString = oldArch.PersonsString;
+                            oldArch.PersonsString = "";
+
+                            f.ArchitecturesString = f.Capital.ID.ToString();
                         }
-                        MilitaryList mList = oldArch.Militaries;
-                        foreach (Military m in mList.GetList())
+                        else
                         {
-                            oldArch.RemoveMilitary(m);
-                            f.Capital.AddMilitary(m);
+                            retry = true;
+                            retries++;
                         }
-
-                        f.Capital.PersonsString = oldArch.PersonsString;
-                        oldArch.PersonsString = "";
-
-                        f.ArchitecturesString = f.Capital.ID.ToString();
-                    }
-                    else
-                    {
-                        retry = true;
-                        retries++;
-                    }
-                } while (retry && retries < 100);
+                    } while (retry && retries < 100);
+                }
             }
 
             int added = 10;
