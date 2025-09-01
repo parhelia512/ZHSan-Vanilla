@@ -6119,7 +6119,7 @@ namespace GameObjects
                         GameObjectList candidate = new GameObjectList();
                         foreach (Person q in this.Persons)
                         {
-                            if (q.IsValidTeacher && q.HasStrainTo(p) && q != p)
+                            if (q.IsValidTeacher && q.HasStrainTo(p) && q != p && q.Age > 12 && !q.Hates(p) && !p.Hates(q))
                             {
                                 candidate.Add(q);
                             }
@@ -6133,7 +6133,7 @@ namespace GameObjects
                             parental = (Person)candidate[0];
                         }
                     }
-                    if (!parental.IsValidTeacher && GameObject.Chance(25))
+                    if (!parental.IsValidTeacher && GameObject.Chance(50))
                     {
                         GameObjectList candidate = new GameObjectList();
                         foreach (Person q in this.Persons)
@@ -6143,7 +6143,7 @@ namespace GameObjects
                                 candidate.Add(q);
                             }
                         }
-                        candidate.PropertyName = "Age";
+                        candidate.PropertyName = "Merit";
                         candidate.IsNumber = true;
                         candidate.SmallToBig = false;
                         candidate.ReSort();
