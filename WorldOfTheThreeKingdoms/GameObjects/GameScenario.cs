@@ -3921,9 +3921,33 @@ namespace GameObjects
             }
         }
 
+        private void DeleteInvalidRelations()
+        {
+            foreach (Person p in Persons)
+            {
+                if (p.Spouse != null && !p.Spouse.Alive)
+                {
+                    p.Spouse = null;
+                }
+
+                if (p.Brothers != null)
+                {
+                    foreach (Person b in p.Brothers.GetList())
+                    {
+                        if (!b.Alive)
+                        {
+                            p.Brothers.Remove(b);
+                        }
+                    }
+                }
+            }
+        }
+
         public void AfterLoadGameScenario(MainGameScreen screen)
         {
             MigrateScenario();
+
+            DeleteInvalidRelations();
 
             this.InitPluginsWithScenario(screen);
             this.InitializeMapData();
