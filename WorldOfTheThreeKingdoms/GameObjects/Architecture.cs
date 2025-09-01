@@ -2746,6 +2746,7 @@ namespace GameObjects
                                                     else if (firstHalfPerson != null &&
                                                              !firstHalfPerson.HasLeadingArmy &&
                                                              p.BelongedFaction == null &&
+                                                             firstHalfPerson.CanConvinceChance(p) <= 10 &&
                                                              p.Sex != firstHalfPerson.BelongedFaction.Leader.Sex)
                                                     {
                                                         firstHalfPerson.OutsideDestination = target.ArchitectureArea.Centre;

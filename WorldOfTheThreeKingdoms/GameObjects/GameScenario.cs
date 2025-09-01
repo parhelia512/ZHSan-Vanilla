@@ -6188,6 +6188,10 @@ namespace GameObjects
                                             if (q == parental || q.HasStrainTo(p) || q.Closes(p.Father) || q.Closes(p.Mother) || q.Closes(parental) || GameObject.Chance(q.GetRelation(parental) / 20))
                                             {
                                                 teachers.Add(q);
+                                                if (q == parental)
+                                                {
+                                                    teachers.Add(q);
+                                                }
                                             }
                                         }
                                     }
@@ -6232,6 +6236,10 @@ namespace GameObjects
                                             if (q == parental || q.HasStrainTo(p) || q.Closes(p.Father) || q.Closes(p.Mother) || q.Closes(parental) || GameObject.Chance(q.GetRelation(parental) / 20))
                                             {
                                                 teachers.Add(q);
+                                                if (q == parental)
+                                                {
+                                                    teachers.Add(q);
+                                                }
                                             }
                                         }
                                     }
@@ -6277,6 +6285,10 @@ namespace GameObjects
                                             if (q == parental || q.HasStrainTo(p) || q.Closes(p.Father) || q.Closes(p.Mother) || q.Closes(parental) || GameObject.Chance(q.GetRelation(parental) / 20))
                                             {
                                                 teachers.Add(q);
+                                                if (q == parental)
+                                                {
+                                                    teachers.Add(q);
+                                                }
                                             }
                                         }
                                     }
@@ -6321,6 +6333,10 @@ namespace GameObjects
                                             if (q == parental || q.HasStrainTo(p) || q.Closes(p.Father) || q.Closes(p.Mother) || q.Closes(parental) || GameObject.Chance(q.GetRelation(parental) / 20))
                                             {
                                                 teachers.Add(q);
+                                                if (q == parental)
+                                                {
+                                                    teachers.Add(q);
+                                                }
                                             }
                                         }
                                     }
@@ -6366,6 +6382,10 @@ namespace GameObjects
                                             if (q == parental || q.HasStrainTo(p) || q.Closes(p.Father) || q.Closes(p.Mother) || q.Closes(parental) || GameObject.Chance(q.GetRelation(parental) / 20))
                                             {
                                                 teachers.Add(q);
+                                                if (q == parental)
+                                                {
+                                                    teachers.Add(q);
+                                                }
                                             }
                                         }
                                     }
@@ -6411,6 +6431,10 @@ namespace GameObjects
                                             if (q == parental || q.HasStrainTo(p) || q.Closes(p.Father) || q.Closes(p.Mother) || q.Closes(parental) || GameObject.Chance(q.GetRelation(parental) / 20))
                                             {
                                                 teachers.Add(q);
+                                                if (q == parental)
+                                                {
+                                                    teachers.Add(q);
+                                                }
                                             }
                                         }
                                     }
@@ -6487,6 +6511,10 @@ namespace GameObjects
                                             if (q == parental || q.HasStrainTo(p) || q.Closes(p.Father) || q.Closes(p.Mother) || q.Closes(parental) || GameObject.Chance(q.GetRelation(parental) / 20))
                                             {
                                                 teachers.Add(q);
+                                                if (q == parental)
+                                                {
+                                                    teachers.Add(q);
+                                                }
                                             }
                                         }
                                     }
