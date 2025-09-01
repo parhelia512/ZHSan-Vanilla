@@ -2743,6 +2743,15 @@ namespace GameObjects
                                                         firstHalfPerson.GoForAssassinate(p);
                                                         break;
                                                     }
+                                                    else if (firstHalfPerson != null &&
+                                                             !firstHalfPerson.HasLeadingArmy &&
+                                                             p.BelongedFaction == null &&
+                                                             p.Sex != firstHalfPerson.BelongedFaction.Leader.Sex)
+                                                    {
+                                                        firstHalfPerson.OutsideDestination = target.ArchitectureArea.Centre;
+                                                        firstHalfPerson.GoForAssassinate(p);
+                                                        break;
+                                                    }
                                                     else if (firstHalfPerson != null && !firstHalfPerson.HasLeadingArmy &&
                                                            firstHalfPerson.NonFightingNumber > firstHalfPerson.FightingNumber &&
                                                             firstHalfPerson.FightingNumber < 350 && firstHalfPerson != this.BelongedFaction.Leader &&

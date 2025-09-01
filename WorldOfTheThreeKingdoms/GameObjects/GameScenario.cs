@@ -6133,7 +6133,7 @@ namespace GameObjects
                             parental = (Person)candidate[0];
                         }
                     }
-                    if (!parental.IsValidTeacher && GameObject.Chance(50) && p.BelongedFaction != null)
+                    if (!parental.IsValidTeacher && GameObject.Chance(75) && p.BelongedFaction != null)
                     {
                         GameObjectList candidate = new GameObjectList();
                         foreach (Person q in p.BelongedFaction.Persons)
@@ -6152,7 +6152,7 @@ namespace GameObjects
                             parental = (Person)candidate[0];
                         }
                     }
-                    if (!parental.IsValidTeacher && GameObject.Chance(25))
+                    if (!parental.IsValidTeacher && GameObject.Chance(40))
                     {
                         GameObjectList candidate = new GameObjectList();
                         foreach (Person q in this.Persons)
