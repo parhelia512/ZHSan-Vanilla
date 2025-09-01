@@ -274,12 +274,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     }
                     break;
 
-                case ContextMenuResult.Faction_Treasure:
-                    if (this.CurrentArchitecture.BelongedFaction != null)
-                    {
-                        this.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.Treasure, FrameFunction.Browse, true, true, false, false, this.CurrentArchitecture.GetAllTreasureInFaction(), null, "", "");
-                    }
-                    break;
                 case ContextMenuResult.Faction_Informations:
                     if (this.CurrentArchitecture.BelongedFaction != null)
                     {
@@ -747,16 +741,24 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     this.CurrentArchitecture.BelongedFaction.AutoRefuse = !this.CurrentArchitecture.BelongedFaction.AutoRefuse;
                     break;
 
+                #region 势力-宝物
+                case ContextMenuResult.Faction_Treasure:
+                    if (this.CurrentArchitecture.BelongedFaction != null)
+                    {
+                        this.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.Treasure, FrameFunction.Browse, true, true, false, false, this.CurrentArchitecture.GetAllTreasureInFaction(), null, "", "");
+                    }
+                    break;
                 case ContextMenuResult.Faction_Treasure_Confiscate:
                     this.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.Treasure, FrameFunction.GetConfiscateTreasure, false, true, true, false, this.CurrentArchitecture.BelongedFaction.AllTreasuresExceptLeader, null, "", "");
                     break;
-
                 case ContextMenuResult.Faction_Treasure_Award:
                     this.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.Treasure, FrameFunction.GetAwardTreasure, false, true, true, false, this.CurrentArchitecture.GetTreasureListOfLeader(), null, "", "");
                     break;
                 case ContextMenuResult.Faction_Treasure_Sell:
                     this.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.Treasure, FrameFunction.GetSellTreasure, false, true, true, true, this.CurrentArchitecture.GetTreasureListOfLeader(), null, "卖宝", "");
                     break;
+                #endregion
+
                 case ContextMenuResult.Faction_officePosition_SelfBecomeEmperor:
                     this.CurrentArchitecture.BelongedFaction.SelfBecomeEmperor();
                     break;

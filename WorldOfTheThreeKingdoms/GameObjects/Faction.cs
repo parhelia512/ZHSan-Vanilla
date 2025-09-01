@@ -412,6 +412,9 @@ namespace GameObjects
         */
 
 
+        /// <summary>
+        /// 获取势力所有宝物（君主除外）
+        /// </summary>
         public TreasureList AllTreasuresExceptLeader
         {
             get

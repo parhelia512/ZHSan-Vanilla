@@ -337,20 +337,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             Session.Current.Scenario.YearTable.addGameEndWithUniteEntry(Session.Current.Scenario.Date, faction);
         }
 
-        public override void PersonBeAwardedTreasure(Person person, Treasure t)
-        {
-            /*
-            if (((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.IsCurrentPlayer(person.BelongedFaction)) || Session.GlobalVariables.SkyEye)
-            {
-                person.TextResultString = t.Name;
-                this.Plugins.tupianwenziPlugin.SetGameObjectBranch(person, person, TextMessageKind.BeAwardedTreasure, "PersonBeAwardedTreasure");
-                this.Plugins.tupianwenziPlugin.SetPosition(ShowPosition.Bottom);
-                this.Plugins.tupianwenziPlugin.IsShowing = true;
-
-
-            }*/
-        }
-
         public override void selfFoundPregnant(Person person)
         {
             if (((Session.Current.Scenario.CurrentPlayer != null) && person.BelongedArchitecture != null &&
@@ -548,20 +534,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             this.Plugins.tupianwenziPlugin.SetGameObjectBranch(person, gameObject, branchName);
             this.Plugins.tupianwenziPlugin.SetPosition(ShowPosition.Bottom, Session.MainGame.mainGameScreen);
             this.Plugins.tupianwenziPlugin.IsShowing = true;
-        }
-
-        public override void PersonBeConfiscatedTreasure(Person person, Treasure t)
-        {
-            /*
-            if (((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.IsCurrentPlayer(person.BelongedFaction)) || Session.GlobalVariables.SkyEye)
-            {
-                person.TextResultString = t.Name;
-                this.Plugins.tupianwenziPlugin.SetGameObjectBranch(person, person, TextMessageKind.BeConfiscatedTreasure, "PersonBeConfiscatedTreasure");
-                this.Plugins.tupianwenziPlugin.SetPosition(ShowPosition.Bottom);
-                this.Plugins.tupianwenziPlugin.IsShowing = true;
-            }
-            */
-
         }
 
         public void PersonBeiDuoqi(Person person, Faction t)
@@ -1221,19 +1193,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             }
         }
 
-        public override void PersonTreasureFound(Person person, Treasure treasure)
-        {
-            if (((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.IsCurrentPlayer(person.BelongedFaction)) || Session.GlobalVariables.SkyEye)
-            {
-                person.TextDestinationString = person.TargetArchitecture.Name;
-                person.TextResultString = treasure.Name;
-                this.Plugins.tupianwenziPlugin.SetGameObjectBranch(person, person, TextMessageKind.TreasureFound, "PersonTreasureFound");
-                this.Plugins.tupianwenziPlugin.SetPosition(ShowPosition.Bottom, Session.MainGame.mainGameScreen);
-                this.Plugins.tupianwenziPlugin.IsShowing = true;
-                this.Plugins.GameRecordPlugin.AddBranch(person, "SearchTreasureFound", person.Position);
-            }
-        }
-
         public override void PersonCapturedByArchitecture(Person person, Architecture architecture)
         {
             if (Session.Current.Scenario.CurrentPlayer == null || Session.Current.Scenario.IsCurrentPlayer(person.BelongedFaction) 
@@ -1534,5 +1493,42 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             this.Plugins.tupianwenziPlugin.SetGameObjectBranch(merger.Leader, merger, TextMessageKind.AIMergeAgainstPlayer, "AIMergeAgainstPlayer", "AIMergeAgainstPlayer.jpg", "");
             this.Plugins.tupianwenziPlugin.IsShowing = true;
         }
+
+        #region 宝物事件
+        public override void PersonBeAwardedTreasure(Person person, Treasure t)
+        {
+            if (((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.IsCurrentPlayer(person.BelongedFaction)) || Session.GlobalVariables.SkyEye)
+            {
+                person.TextResultString = t.Name;
+                this.Plugins.tupianwenziPlugin.SetGameObjectBranch(person, person, TextMessageKind.BeAwardedTreasure, "PersonBeAwardedTreasure");
+                this.Plugins.tupianwenziPlugin.SetPosition(ShowPosition.Bottom, Session.MainGame.mainGameScreen);
+                this.Plugins.tupianwenziPlugin.IsShowing = true;
+            }
+        }
+
+        public override void PersonBeConfiscatedTreasure(Person person, Treasure t)
+        {
+            if (((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.IsCurrentPlayer(person.BelongedFaction)) || Session.GlobalVariables.SkyEye)
+            {
+                person.TextResultString = t.Name;
+                this.Plugins.tupianwenziPlugin.SetGameObjectBranch(person, person, TextMessageKind.BeConfiscatedTreasure, "PersonBeConfiscatedTreasure");
+                this.Plugins.tupianwenziPlugin.SetPosition(ShowPosition.Bottom, Session.MainGame.mainGameScreen);
+                this.Plugins.tupianwenziPlugin.IsShowing = true;
+            }
+        }
+
+        public override void PersonTreasureFound(Person person, Treasure treasure)
+        {
+            if (((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.IsCurrentPlayer(person.BelongedFaction)) || Session.GlobalVariables.SkyEye)
+            {
+                person.TextDestinationString = person.TargetArchitecture.Name;
+                person.TextResultString = treasure.Name;
+                this.Plugins.tupianwenziPlugin.SetGameObjectBranch(person, person, TextMessageKind.TreasureFound, "PersonTreasureFound");
+                this.Plugins.tupianwenziPlugin.SetPosition(ShowPosition.Bottom, Session.MainGame.mainGameScreen);
+                this.Plugins.tupianwenziPlugin.IsShowing = true;
+                this.Plugins.GameRecordPlugin.AddBranch(person, "SearchTreasureFound", person.Position);
+            }
+        }
+        #endregion
     }
 }
