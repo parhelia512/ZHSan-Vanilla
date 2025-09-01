@@ -11703,12 +11703,9 @@ namespace GameObjects
             }
         }
 
-        public bool IsValidTeacher
+        public bool IsValidTeacher(Person p)
         {
-            get
-            {
-                return this.Alive && (this.Status != PersonStatus.Captive);
-            }
+            return this.Alive && (this.Status != PersonStatus.Captive) && this != p && this.Age >= 12 && !p.Hates(this) && !this.Hates(p);
         }
 
         public bool Trainable
