@@ -6100,7 +6100,7 @@ namespace GameObjects
                         GameObjectList candidate = new GameObjectList();
                         foreach (Person q in this.Persons)
                         {
-                            if (q.IsValidTeacher && ((q.Father == p.Father) || (q.Mother == p.Mother)) && q != p)
+                            if (q.IsValidTeacher && ((q.Father == p.Father) || (q.Mother == p.Mother)) && q != p && q.Age > 12 && !q.Hates(p) && !p.Hates(q))
                             {
                                 candidate.Add(q);
                             }
@@ -6133,12 +6133,31 @@ namespace GameObjects
                             parental = (Person)candidate[0];
                         }
                     }
-                    if (!parental.IsValidTeacher && GameObject.Chance(50))
+                    if (!parental.IsValidTeacher && GameObject.Chance(50) && p.BelongedFaction != null)
+                    {
+                        GameObjectList candidate = new GameObjectList();
+                        foreach (Person q in p.BelongedFaction.Persons)
+                        {
+                            if (q.IsValidTeacher && !q.Hates(p) && !p.Hates(q))
+                            {
+                                candidate.Add(q);
+                            }
+                        }
+                        candidate.PropertyName = "Merit";
+                        candidate.IsNumber = true;
+                        candidate.SmallToBig = false;
+                        candidate.ReSort();
+                        if (candidate.Count > 0)
+                        {
+                            parental = (Person)candidate[0];
+                        }
+                    }
+                    if (!parental.IsValidTeacher && GameObject.Chance(25))
                     {
                         GameObjectList candidate = new GameObjectList();
                         foreach (Person q in this.Persons)
                         {
-                            if (!q.Hates(p) && !p.Hates(q))
+                            if (q.IsValidTeacher && !q.Hates(p) && !p.Hates(q))
                             {
                                 candidate.Add(q);
                             }
