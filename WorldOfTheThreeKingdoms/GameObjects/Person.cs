@@ -10831,8 +10831,8 @@ namespace GameObjects
                         float extraRate = q.PregnancyRate(this);
 
                         var rate = nvren.Status == PersonStatus.Princess ? Session.GlobalVariables.hougongGetChildrenRate : Session.GlobalVariables.getChildrenRate / 2;
-                        float pregnantChance = rate / 100.0f * (Session.Current.Scenario.IsPlayer(this.BelongedFaction) ? 1 : Session.Parameters.AIExtraPerson);
-                        pregnantChance *= houGongDays * 2 * extraRate;
+                        float pregnantChance = rate / 200.0f * (Session.Current.Scenario.IsPlayer(this.BelongedFaction) ? 1 : Session.Parameters.AIExtraPerson);
+                        pregnantChance *= houGongDays * extraRate;
 
                         if (GameObject.Chance(Math.Max((int)pregnantChance, Session.Parameters.MinPregnantProb))
                             && !q.huaiyun && !this.huaiyun && this.isLegalFeiZiExcludeAge(q) &&

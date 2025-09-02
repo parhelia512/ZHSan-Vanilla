@@ -1480,14 +1480,14 @@ namespace GameObjects
             }
 
             //chongxing
-            if (this.Leader.LocationArchitecture != null && this.Leader.LocationArchitecture.Endurance > 50 && !this.Leader.LocationArchitecture.HasHostileTroopsInView())
+            if (this.Leader.LocationArchitecture != null && this.Leader.LocationArchitecture.Endurance > 100 && !this.Leader.LocationArchitecture.HasHostileTroopsInView())
             {
                 if (this.Leader.Status == PersonStatus.Normal && this.Leader.LocationArchitecture != null && this.Leader.LocationTroop == null &&
                     !this.Leader.huaiyun && this.Leader.WaitForFeiZi == null)
                 {
                     if (hougongValid)
                     {
-                        if (GameObject.Chance(5 + this.Leader.Ambition * this.Leader.Ambition * 5))
+                        if (GameObject.Chance(2 + this.Leader.Ambition * this.Leader.Ambition * 2))
                         {
                             Person target = null;
                             Architecture location = null;
