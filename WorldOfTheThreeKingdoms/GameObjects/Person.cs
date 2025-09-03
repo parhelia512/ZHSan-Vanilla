@@ -5578,6 +5578,9 @@ namespace GameObjects
         public void LeaveFaction()
         {
             Faction oldFaction = this.BelongedFaction;
+            
+            if (this.BelongedFaction != null && this.BelongedFaction.Leader == this) return;
+            
             if (GameObject.Chance(20) && this.LocationArchitecture != null && this.Status == PersonStatus.Normal && this.BelongedFaction != null && this.BelongedFaction.Leader != this && !this.IsCaptive && !this.NvGuan)
             {
                 if ((this.Loyalty < 50) && GameObject.Chance(100 - this.Loyalty * 2) && (GameObject.Random(this.Loyalty * (1 + (int)this.PersonalLoyalty)) <= GameObject.Random(5)))
