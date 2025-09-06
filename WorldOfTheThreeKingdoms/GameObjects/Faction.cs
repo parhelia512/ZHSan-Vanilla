@@ -1487,7 +1487,7 @@ namespace GameObjects
                 {
                     if (hougongValid)
                     {
-                        if (GameObject.Chance(2 + this.Leader.Ambition * this.Leader.Ambition * 2))
+                        if (GameObject.Random((int) (60f / (this.Leader.Ambition + 1) * Math.Sqrt(this.Leader.NumberOfChildren))) == 0)
                         {
                             Person target = null;
                             Architecture location = null;
