@@ -3334,9 +3334,10 @@ namespace GameObjects
 
             if (architectureByPosition == null) return false;
 
+            if (target.BelongedFaction != null && target.BelongedFaction.Leader == this) return false;
+
             int idealOffset = Person.GetIdealOffset(target, this.BelongedFaction.Leader) - this.ConvinceIdealSkip;
 
-            
             ConvinceSuccess =
                     (
              ((target.IsCaptive && architectureByPosition.IsCaptiveInArchitecture(target.BelongedCaptive))
