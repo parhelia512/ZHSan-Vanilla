@@ -1011,7 +1011,9 @@
     <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind350.cs" />
     <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind351.cs" />
     <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind352.cs" />
+    <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind3520.cs" />
     <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind353.cs" />
+    <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind3530.cs" />
     <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind354.cs" />
     <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind360.cs" />
     <Compile Include="GameObjects\Influences\InfluenceKindPack\InfluenceKind370.cs" />
@@ -1383,6 +1385,8 @@
     <Compile Include="GameObjects\Tool.cs" />
     <Compile Include="GameObjects\ToolAlign.cs" />
     <Compile Include="GameObjects\Treasure.cs" />
+    <Compile Include="GameObjects\TreasureCreationSetting.cs" />
+    <Compile Include="GameObjects\TreasureCreationSettingList.cs" />
     <Compile Include="GameObjects\TreasureList.cs" />
     <Compile Include="GameObjects\Troop.cs" />
     <Compile Include="GameObjects\TroopAction.cs" />

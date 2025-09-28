@@ -123,6 +123,9 @@ namespace GameObjects
         public PersonGeneratorTypeList AllPersonGeneratorTypes = new PersonGeneratorTypeList();
         [DataMember]
         public TrainPolicyList AllTrainPolicies = new TrainPolicyList();
+        
+        [DataMember]
+        public TreasureCreationSettingList AllTreasureCreationSettings = new TreasureCreationSettingList();
 
         public CombatNumberGenerator NumberGenerator = new CombatNumberGenerator();
 
@@ -174,6 +177,7 @@ namespace GameObjects
             this.suoyouzainanzhonglei.Clear();
             this.AllPersonGeneratorTypes.Clear();
             this.AllTrainPolicies.Clear();
+            this.AllTreasureCreationSettings.Clear();
         }
 
     }

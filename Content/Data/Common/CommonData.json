@@ -31250,7 +31250,7 @@
 "MaintenanceCost":10,
 "PointCost":0,
 "PopulationRelated":true,
-"PositionOccupied":4,
+"PositionOccupied":2,
 "TechnologyNeeded":300,
 "bukechaichu":false,
 "rongna":0
@@ -31273,7 +31273,7 @@
 "MaintenanceCost":10,
 "PointCost":0,
 "PopulationRelated":true,
-"PositionOccupied":8,
+"PositionOccupied":6,
 "TechnologyNeeded":300,
 "bukechaichu":false,
 "rongna":0
@@ -31595,7 +31595,7 @@
 "MaintenanceCost":10,
 "PointCost":0,
 "PopulationRelated":false,
-"PositionOccupied":10,
+"PositionOccupied":6,
 "TechnologyNeeded":250,
 "bukechaichu":false,
 "rongna":0
@@ -31641,7 +31641,7 @@
 "MaintenanceCost":50,
 "PointCost":1000000,
 "PopulationRelated":true,
-"PositionOccupied":80,
+"PositionOccupied":40,
 "TechnologyNeeded":1000,
 "bukechaichu":false,
 "rongna":0
@@ -32262,7 +32262,7 @@
 "MaintenanceCost":0,
 "PointCost":0,
 "PopulationRelated":true,
-"PositionOccupied":1,
+"PositionOccupied":2,
 "TechnologyNeeded":0,
 "bukechaichu":false,
 "rongna":0
@@ -32842,6 +32842,213 @@
 "bukechaichu":false,
 "rongna":0
 }
+},
+{
+    "Key": 403,
+    "Value": {
+        "ID": 403,
+        "Name": "酒館",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "",
+        "Days": 30,
+        "Endurance": 1000,
+        "FactionLimit": 9999,
+        "FundCost": 10000,
+        "InfluencesString": "3520",
+        "MaintenanceCost": 0,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 2,
+        "TechnologyNeeded": 300,
+        "bukechaichu": false,
+        "rongna": 0
+    }
+},
+{
+    "Key": 404,
+    "Value": {
+        "ID": 404,
+        "Name": "铠甲店",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "2393 2705 2706 2707 2711 2715 2716",
+        "Days": 60,
+        "Endurance": 2000,
+        "FactionLimit": 9999,
+        "FundCost": 40000,
+        "InfluencesString": "3530",
+        "MaintenanceCost": 10,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 6,
+        "TechnologyNeeded": 500,
+        "bukechaichu": false,
+        "rongna": 0
+    }
+},
+{
+    "Key": 405,
+    "Value": {
+        "ID": 405,
+        "Name": "頭盔店",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "2393 2705 2706 2707 2711 2715 2716",
+        "Days": 60,
+        "Endurance": 2000,
+        "FactionLimit": 9999,
+        "FundCost": 40000,
+        "InfluencesString": "3531",
+        "MaintenanceCost": 10,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 6,
+        "TechnologyNeeded": 500,
+        "bukechaichu": false,
+        "rongna": 0
+    }
+},
+{
+    "Key": 406,
+    "Value": {
+        "ID": 406,
+        "Name": "武器店",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "2393 2705 2706 2707 2711 2715 2716",
+        "Days": 60,
+        "Endurance": 2000,
+        "FactionLimit": 9999,
+        "FundCost": 40000,
+        "InfluencesString": "3532",
+        "MaintenanceCost": 10,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 6,
+        "TechnologyNeeded": 500,
+        "bukechaichu": false,
+        "rongna": 0
+    }
+},
+{
+    "Key": 407,
+    "Value": {
+        "ID": 407,
+        "Name": "馴馬場",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "2394 2705 2706 2707 2711 2715 2716",
+        "Days": 60,
+        "Endurance": 2000,
+        "FactionLimit": 9999,
+        "FundCost": 40000,
+        "InfluencesString": "3533",
+        "MaintenanceCost": 10,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 6,
+        "TechnologyNeeded": 500,
+        "bukechaichu": false,
+        "rongna": 0
+    }
+},
+{
+    "Key": 408,
+    "Value": {
+        "ID": 408,
+        "Name": "政書店",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "2383 2705 2706 2707 2711 2715 2716",
+        "Days": 60,
+        "Endurance": 2000,
+        "FactionLimit": 9999,
+        "FundCost": 40000,
+        "InfluencesString": "3540",
+        "MaintenanceCost": 10,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 6,
+        "TechnologyNeeded": 500,
+        "bukechaichu": false,
+        "rongna": 0
+    }
+},
+{
+    "Key": 409,
+    "Value": {
+        "ID": 409,
+        "Name": "兵書店",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "2383 2705 2706 2707 2711 2715 2716",
+        "Days": 60,
+        "Endurance": 2000,
+        "FactionLimit": 9999,
+        "FundCost": 40000,
+        "InfluencesString": "3541",
+        "MaintenanceCost": 10,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 6,
+        "TechnologyNeeded": 500,
+        "bukechaichu": false,
+        "rongna": 0
+    }
+},
+{
+    "Key": 410,
+    "Value": {
+        "ID": 410,
+        "Name": "古籍店",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "2383 2705 2706 2707 2711 2715 2716",
+        "Days": 60,
+        "Endurance": 2000,
+        "FactionLimit": 9999,
+        "FundCost": 40000,
+        "InfluencesString": "3542",
+        "MaintenanceCost": 10,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 6,
+        "TechnologyNeeded": 500,
+        "bukechaichu": false,
+        "rongna": 0
+    }
+},
+{
+    "Key": 411,
+    "Value": {
+        "ID": 411,
+        "Name": "飾物店",
+        "AIBuildConditionWeightString": "",
+        "AILevel": 20,
+        "ArchitectureLimit": 1,
+        "ConditionTableString": "2382 2705 2706 2707 2711 2715 2716",
+        "Days": 60,
+        "Endurance": 2000,
+        "FactionLimit": 9999,
+        "FundCost": 40000,
+        "InfluencesString": "3550",
+        "MaintenanceCost": 10,
+        "PointCost": 0,
+        "PopulationRelated": false,
+        "PositionOccupied": 6,
+        "TechnologyNeeded": 500,
+        "bukechaichu": false,
+        "rongna": 0
+    }
 }
 ]
 },
@@ -36267,6 +36474,30 @@
 "TroopLeaderValid":false,
 "Type":5
 }
+},
+{
+    "Key": 3520,
+    "Value": {
+        "ID": 3520,
+        "Name": "酒館設施",
+        "AIPersonValue": 0,
+        "AIPersonValuePow": 0,
+        "Combat": false,
+        "TroopLeaderValid": false,
+        "Type": 5
+    }
+},
+{
+    "Key": 3530,
+    "Value": {
+        "ID": 3530,
+        "Name": "打造寶物設施",
+        "AIPersonValue": 0,
+        "AIPersonValuePow": 0,
+        "Combat": false,
+        "TroopLeaderValid": false,
+        "Type": 5
+    }
 },
 {
 "Key":4000,
@@ -53865,6 +54096,177 @@
 "Parameter":"1.0",
 "Parameter2":""
 }
+},
+{
+"Key":3520,
+"Value":{
+"ID":3520,
+"Name":"酒館設施",
+"Description":"酒館設施",
+"Kind":{
+"ID":3520,
+"Name":"酒館設施",
+"AIPersonValue":0,
+"AIPersonValuePow":0,
+"Combat":false,
+"TroopLeaderValid":false,
+"Type":5
+},
+"Parameter":"50",
+"Parameter2":""
+}
+},
+{
+    "Key": 3530,
+    "Value": {
+        "ID": 3530,
+        "Name": "打造铠甲設施",
+        "Description": "打造铠甲設施",
+        "Kind": {
+            "ID": 3530,
+            "Name": "打造寶物設施",
+            "AIPersonValue": 0,
+            "AIPersonValuePow": 0,
+            "Combat": false,
+            "TroopLeaderValid": false,
+            "Type": 5
+        },
+        "Parameter": "1",
+        "Parameter2": "0.9"
+    }
+},
+{
+    "Key": 3531,
+    "Value": {
+        "ID": 3531,
+        "Name": "打造頭盔設施",
+        "Description": "打造頭盔設施",
+        "Kind": {
+            "ID": 3530,
+            "Name": "打造寶物設施",
+            "AIPersonValue": 0,
+            "AIPersonValuePow": 0,
+            "Combat": false,
+            "TroopLeaderValid": false,
+            "Type": 5
+        },
+        "Parameter": "2",
+        "Parameter2": "0.8"
+    }
+},
+{
+    "Key": 3532,
+    "Value": {
+        "ID": 3532,
+        "Name": "打造武器設施",
+        "Description": "打造武器設施",
+        "Kind": {
+            "ID": 3530,
+            "Name": "打造寶物設施",
+            "AIPersonValue": 0,
+            "AIPersonValuePow": 0,
+            "Combat": false,
+            "TroopLeaderValid": false,
+            "Type": 5
+        },
+        "Parameter": "3",
+        "Parameter2": "0.8"
+    }
+},
+{
+    "Key": 3533,
+    "Value": {
+        "ID": 3533,
+        "Name": "馴馬設施",
+        "Description": "馴馬設施",
+        "Kind": {
+            "ID": 3530,
+            "Name": "打造寶物設施",
+            "AIPersonValue": 0,
+            "AIPersonValuePow": 0,
+            "Combat": false,
+            "TroopLeaderValid": false,
+            "Type": 5
+        },
+        "Parameter": "4",
+        "Parameter2": "0.05"
+    }
+},
+{
+    "Key": 3540,
+    "Value": {
+        "ID": 3540,
+        "Name": "抄寫政書設施",
+        "Description": "抄寫政書設施",
+        "Kind": {
+            "ID": 3530,
+            "Name": "打造寶物設施",
+            "AIPersonValue": 0,
+            "AIPersonValuePow": 0,
+            "Combat": false,
+            "TroopLeaderValid": false,
+            "Type": 5
+        },
+        "Parameter": "10",
+        "Parameter2": "0.9"
+    }
+},
+{
+    "Key": 3541,
+    "Value": {
+        "ID": 3541,
+        "Name": "抄寫兵書設施",
+        "Description": "抄寫兵書設施",
+        "Kind": {
+            "ID": 3530,
+            "Name": "打造寶物設施",
+            "AIPersonValue": 0,
+            "AIPersonValuePow": 0,
+            "Combat": false,
+            "TroopLeaderValid": false,
+            "Type": 5
+        },
+        "Parameter": "11",
+        "Parameter2": "0.9"
+    }
+},
+{
+    "Key": 3542,
+    "Value": {
+        "ID": 3542,
+        "Name": "抄寫古籍設施",
+        "Description": "抄寫古籍設施",
+        "Kind": {
+            "ID": 3530,
+            "Name": "打造寶物設施",
+            "AIPersonValue": 0,
+            "AIPersonValuePow": 0,
+            "Combat": false,
+            "TroopLeaderValid": false,
+            "Type": 5
+        },
+        "Parameter": "12",
+        "Parameter2": "0.9"
+    }
+},
+{
+    "Key": 3550,
+    "Value": {
+        "ID": 3550,
+        "Name": "飾物補給設施",
+        "Description": "飾物補給設施",
+        "Kind": {
+            "ID": 3530,
+            "Name": "打造寶物設施",
+            "AIPersonValue": 0,
+            "AIPersonValuePow": 0,
+            "Combat": false,
+            "TroopLeaderValid": false,
+            "Type": 5
+        },
+        "Parameter": "20",
+        "Parameter2": "0.7"
+    }
 },
 {
 "Key":4000,
@@ -143319,6 +143721,82 @@
 "shijianxiaxian":5,
 "tongzhishanghai":6
 }
+}
+]
+},
+"AllTreasureCreationSettings":{
+"TreasureCreationSettings":[
+{
+"Key":1,
+"Value":{
+"ID":1,
+"Name":"铠甲",
+"EligibleInfluenceIDs":[350,405,420,455],
+"Cost": 3000
+}
+},
+{
+    "Key": 2,
+    "Value": {
+        "ID": 2,
+        "Name": "頭盔",
+        "EligibleInfluenceIDs": [350,405,420,530],
+        "Cost": 2500
+    }
+},
+{
+    "Key": 3,
+    "Value": {
+        "ID": 3,
+        "Name": "武器",
+        "EligibleInfluenceIDs": [351,360,370,400,410,520,540,550,6010,6130,6835],
+        "Cost": 2500
+    }
+},
+{
+    "Key": 4,
+    "Value": {
+        "ID": 4,
+        "Name": "馬",
+        "EligibleInfluenceIDs": [260,262,400,520,550],
+        "Cost": 3000
+    }
+},
+{
+    "Key": 10,
+    "Value": {
+        "ID": 10,
+        "Name": "政書",
+        "EligibleInfluenceIDs": [0,1,2,3,4,5,10,11,12,13,14,15,6030,6845],
+        "Cost": 3000
+    }
+},
+{
+    "Key": 11,
+    "Value": {
+        "ID": 11,
+        "Name": "兵書",
+        "EligibleInfluenceIDs": [80,81,90,91,410,420,430,431,500,510,560,6000,6020,6830,6840],
+        "Cost": 3000
+    }
+},
+{
+    "Key": 12,
+    "Value": {
+        "ID": 12,
+        "Name": "古籍",
+        "EligibleInfluenceIDs": [20,21,22,23,24,25,60,61,62,63,64,65,100,160,6040,6050,6850],
+        "Cost": 3000
+    }
+},
+{
+    "Key": 20,
+    "Value": {
+        "ID": 20,
+        "Name": "飾物",
+        "EligibleInfluenceIDs": [6040,350,405,510,600],
+        "Cost": 2000
+    }
 }
 ]
 }
