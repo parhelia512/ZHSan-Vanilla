@@ -1,21 +1,19 @@
 ﻿using GameGlobal;
+using GameManager;
 using GameObjects.Animations;
 using GameObjects.ArchitectureDetail;
+using GameObjects.Conditions;
 using GameObjects.FactionDetail;
 using GameObjects.Influences;
 using GameObjects.MapDetail;
 using GameObjects.PersonDetail;
 using GameObjects.TroopDetail;
-using GameObjects.Conditions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Runtime.Serialization;
-using GameManager;
+using System.Text;
 
 namespace GameObjects
 {
@@ -307,8 +305,17 @@ namespace GameObjects
         private bool isStrategicCenter;
 
         public bool JustAttacked = false;
-        private ArchitectureKind kind;
 
+        private ArchitectureKind _architectureKind;
+
+        /// <summary>
+        /// 建筑类型
+        /// </summary>
+        public ArchitectureKind Kind
+        {
+            get => _architectureKind;
+            set => _architectureKind = value;
+        }
 
         [DataMember]
         public int StateID { get; set; }
@@ -1245,7 +1252,7 @@ namespace GameObjects
 
         public bool AgricultureAvail()
         {
-            return (this.Kind.HasAgriculture && this.HasPerson());
+            return (_architectureKind.HasAgriculture && this.HasPerson());
         }
 
         private void RoutewayAI()
@@ -1583,7 +1590,7 @@ namespace GameObjects
                         {
                             continue;
                         }
-                        if ((((!kind.PopulationRelated || this.Kind.HasPopulation) && ((this.Technology >= kind.TechnologyNeeded) && (facilityPositionLeft >= kind.PositionOccupied)))
+                        if ((((!kind.PopulationRelated || _architectureKind.HasPopulation) && ((this.Technology >= kind.TechnologyNeeded) && (facilityPositionLeft >= kind.PositionOccupied)))
                             && ((!kind.UniqueInArchitecture || !this.ArchitectureHasFacilityKind(kind.ID)) && (!kind.UniqueInFaction || !this.FactionHasFacilityKind(kind.ID))))
                             && ((kind.FrontLine && ((this.HostileLine || (this.FrontLine && GameObject.Chance(50))) || (!this.FrontLine && GameObject.Chance(10)))) || (!kind.FrontLine && ((!this.FrontLine || (!this.HostileLine && GameObject.Chance(50))) || (this.HostileLine && GameObject.Chance(5))))))
                         {
@@ -2175,12 +2182,12 @@ namespace GameObjects
             }
             else                                                                                                       // 资金足够
             {
-                bool[] need = {this.Kind.HasAgriculture && this.Agriculture < this.AgricultureCeiling * 0.8,
-                               this.Kind.HasCommerce && this.Commerce < this.CommerceCeiling * 0.8,
-                               this.Kind.HasTechnology && this.Technology < this.TechnologyCeiling * 0.8,
-                               this.Kind.HasDomination && this.Domination < this.DominationCeiling * 0.8,
-                               this.Kind.HasMorale && this.Morale < this.MoraleCeiling * 0.8,
-                               this.Kind.HasEndurance && this.Endurance < this.EnduranceCeiling * 0.8,
+                bool[] need = {_architectureKind.HasAgriculture && this.Agriculture < this.AgricultureCeiling * 0.8,
+                               _architectureKind.HasCommerce && this.Commerce < this.CommerceCeiling * 0.8,
+                               _architectureKind.HasTechnology && this.Technology < this.TechnologyCeiling * 0.8,
+                               _architectureKind.HasDomination && this.Domination < this.DominationCeiling * 0.8,
+                               _architectureKind.HasMorale && this.Morale < this.MoraleCeiling * 0.8,
+                               _architectureKind.HasEndurance && this.Endurance < this.EnduranceCeiling * 0.8,
                                needTrain};
                 bool needOnlyOneDomination = false;
                 bool needOnlyOneMorale = false;
@@ -2206,12 +2213,12 @@ namespace GameObjects
 
                 if (!need[0] && !need[1] && !need[2] && !need[3] && !need[4] && !need[5] & !need[6])
                 {
-                     need = new bool[]{this.Kind.HasAgriculture && this.Agriculture < this.AgricultureCeiling,
-                               this.Kind.HasCommerce && this.Commerce < this.CommerceCeiling,
-                               this.Kind.HasTechnology && this.Technology < this.TechnologyCeiling,
-                               this.Kind.HasDomination && this.Domination < this.DominationCeiling,
-                               this.Kind.HasMorale && this.Morale < this.MoraleCeiling,
-                               this.Kind.HasEndurance && this.Endurance < this.EnduranceCeiling,
+                     need = new bool[]{_architectureKind.HasAgriculture && this.Agriculture < this.AgricultureCeiling,
+                               _architectureKind.HasCommerce && this.Commerce < this.CommerceCeiling,
+                               _architectureKind.HasTechnology && this.Technology < this.TechnologyCeiling,
+                               _architectureKind.HasDomination && this.Domination < this.DominationCeiling,
+                               _architectureKind.HasMorale && this.Morale < this.MoraleCeiling,
+                               _architectureKind.HasEndurance && this.Endurance < this.EnduranceCeiling,
                                needTrain};
                 }
 
@@ -2245,8 +2252,8 @@ namespace GameObjects
                 }
                 else // 最近受到攻击
                 {
-                    bool[] need2 = {false, false, this.Kind.HasTechnology && this.Technology < 200, this.Kind.HasDomination && this.Domination < this.DominationCeiling - 5,
-                                    this.Kind.HasMorale && this.Morale < Session.Parameters.RecruitmentMorale, this.Kind.HasEndurance && this.Endurance < 500, needTrain};
+                    bool[] need2 = {false, false, _architectureKind.HasTechnology && this.Technology < 200, _architectureKind.HasDomination && this.Domination < this.DominationCeiling - 5,
+                                    _architectureKind.HasMorale && this.Morale < Session.Parameters.RecruitmentMorale, _architectureKind.HasEndurance && this.Endurance < 500, needTrain};
                     foreach (Person p in this.Persons)
                     {
                         p.resetPreferredWorkkind(need);
@@ -2273,7 +2280,7 @@ namespace GameObjects
 
                     bool needRecruit = false;
                     bool lotsOfPopulation = GameObject.Chance((int)((((float)this.Population / (float)this.PopulationCeiling) * 100f - 50f) * 2.5));
-                    if ((recentlyAttacked || this.BelongedFaction.PlanTechniqueArchitecture != this) && this.Kind.HasPopulation && ((recentlyAttacked || GameObject.Random((int)this.BelongedFaction.Leader.StrategyTendency + 1) == 0) && this.RecruitmentAvail()))
+                    if ((recentlyAttacked || this.BelongedFaction.PlanTechniqueArchitecture != this) && _architectureKind.HasPopulation && ((recentlyAttacked || GameObject.Random((int)this.BelongedFaction.Leader.StrategyTendency + 1) == 0) && this.RecruitmentAvail()))
                     {
                         if (this.ArmyScale < this.FewArmyScale || lotsOfPopulation)
                         {
@@ -2355,7 +2362,7 @@ namespace GameObjects
         private void AIRecruitMilitary()
         {
             bool flag2 = this.RecentlyAttacked > 0;
-            if ((this.Kind.HasPopulation && (flag2 || (this.BelongedFaction.PlanTechniqueArchitecture != this))) &&
+            if ((_architectureKind.HasPopulation && (flag2 || (this.BelongedFaction.PlanTechniqueArchitecture != this))) &&
                 (flag2 || (this.Population > ((this.RecruitmentPopulationBoundary * (1 + (int)this.BelongedFaction.Leader.StrategyTendency * 0.5f)) + GameObject.Random(this.RecruitmentPopulationBoundary)))))
             {
                 int unfullArmyCount = 0;
@@ -3502,15 +3509,15 @@ namespace GameObjects
                         }
                     }
                     int num2 = 0;
-                    if ((GameObject.Chance(50) && this.Kind.HasDomination) && (this.Domination < (this.DominationCeiling * 0.8)))
+                    if ((GameObject.Chance(50) && _architectureKind.HasDomination) && (this.Domination < (this.DominationCeiling * 0.8)))
                     {
                         num2++;
                     }
-                    if ((GameObject.Chance(50) && this.Kind.HasEndurance) && (this.Endurance < (this.EnduranceCeiling * 0.2f)))
+                    if ((GameObject.Chance(50) && _architectureKind.HasEndurance) && (this.Endurance < (this.EnduranceCeiling * 0.2f)))
                     {
                         num2++;
                     }
-                    if ((GameObject.Chance(50) && this.Kind.HasMorale) && (this.Morale < Session.Parameters.RecruitmentMorale))
+                    if ((GameObject.Chance(50) && _architectureKind.HasMorale) && (this.Morale < Session.Parameters.RecruitmentMorale))
                     {
                         num2++;
                     }
@@ -3554,7 +3561,7 @@ namespace GameObjects
                     {
                         if (!flag2 || !GameObject.Chance(80))
                         {
-                            if (this.Kind.HasAgriculture && (this.Agriculture < this.AgricultureCeiling))
+                            if (_architectureKind.HasAgriculture && (this.Agriculture < this.AgricultureCeiling))
                             {
                                 if (this.BelongedSection.AIDetail.ValueAgriculture)
                                 {
@@ -3565,7 +3572,7 @@ namespace GameObjects
                                     list3.AddWorkRate(new WorkRate(((float) this.Agriculture) / ((float) this.AgricultureCeiling), ArchitectureWorkKind.农业));
                                 }
                             }
-                            if (this.Kind.HasCommerce && (this.Commerce < this.CommerceCeiling))
+                            if (_architectureKind.HasCommerce && (this.Commerce < this.CommerceCeiling))
                             {
                                 if (this.BelongedSection.AIDetail.ValueCommerce)
                                 {
@@ -3576,7 +3583,7 @@ namespace GameObjects
                                     list3.AddWorkRate(new WorkRate(((float) this.Commerce) / ((float) this.CommerceCeiling), ArchitectureWorkKind.商业));
                                 }
                             }
-                            if (this.Kind.HasTechnology && (this.Technology < this.TechnologyCeiling))
+                            if (_architectureKind.HasTechnology && (this.Technology < this.TechnologyCeiling))
                             {
                                 if (this.BelongedSection.AIDetail.ValueTechnology || (GameObject.Chance(50) && (this.IsStateAdmin || this.IsRegionCore)))
                                 {
@@ -3588,7 +3595,7 @@ namespace GameObjects
                                 }
                             }
                         }
-                        if (this.Kind.HasDomination && (this.Domination < this.DominationCeiling))
+                        if (_architectureKind.HasDomination && (this.Domination < this.DominationCeiling))
                         {
                             if (this.BelongedSection.AIDetail.ValueDomination)
                             {
@@ -3599,7 +3606,7 @@ namespace GameObjects
                                 list3.AddWorkRate(new WorkRate((((float) this.Domination) / 5f) / ((float) this.DominationCeiling), ArchitectureWorkKind.统治));
                             }
                         }
-                        if (this.Kind.HasMorale && (this.Morale < this.MoraleCeiling))
+                        if (_architectureKind.HasMorale && (this.Morale < this.MoraleCeiling))
                         {
                             if (this.BelongedSection.AIDetail.ValueMorale)
                             {
@@ -3610,7 +3617,7 @@ namespace GameObjects
                                 list3.AddWorkRate(new WorkRate(((float) this.Morale) / ((float) this.MoraleCeiling), ArchitectureWorkKind.民心));
                             }
                         }
-                        if (this.Kind.HasEndurance && (this.Endurance < this.EnduranceCeiling))
+                        if (_architectureKind.HasEndurance && (this.Endurance < this.EnduranceCeiling))
                         {
                             if (this.BelongedSection.AIDetail.ValueEndurance)
                             {
@@ -3648,7 +3655,7 @@ namespace GameObjects
                         }
                     }
                     MilitaryList recruitmentMilitaryList = null;
-                    if (((flag2 || (this.BelongedFaction.PlanTechniqueArchitecture != this)) && this.Kind.HasPopulation) && ((flag2 || (GameObject.Random(GameObject.Square(((int) this.BelongedFaction.Leader.StrategyTendency) + 1)) == 0)) && this.RecruitmentAvail()))
+                    if (((flag2 || (this.BelongedFaction.PlanTechniqueArchitecture != this)) && _architectureKind.HasPopulation) && ((flag2 || (GameObject.Random(GameObject.Square(((int) this.BelongedFaction.Leader.StrategyTendency) + 1)) == 0)) && this.RecruitmentAvail()))
                     {
                         recruitmentMilitaryList = this.GetRecruitmentMilitaryList();
                         if ((this.ArmyScale < this.FewArmyScale) && flag2)
@@ -3659,7 +3666,7 @@ namespace GameObjects
                         {
                             list3.AddWorkRate(new WorkRate(0f, ArchitectureWorkKind.补充));
                         }
-                        else if ((((GameObject.Chance(1) || (this.BelongedSection.AIDetail.ValueRecruitment && GameObject.Chance(5))) && ((this.ArmyScale >= this.LargeArmyScale) && this.IsFoodAbundant)) || ((((this.ArmyScale < this.LargeArmyScale) && this.IsFoodEnough) && (((this.IsImportant || (this.AreaCount > 2)) && (this.Population > this.Kind.PopulationBoundary)) || (((this.AreaCount <= 2) && !this.IsImportant) && (this.Population > (this.RecruitmentPopulationBoundary / 2))))) && ((this.BelongedSection.AIDetail.ValueRecruitment && GameObject.Chance(60)) || GameObject.Chance(15)))) && (GameObject.Random(Enum.GetNames(typeof(PersonStrategyTendency)).Length) >=(int) this.BelongedFaction.Leader.StrategyTendency))
+                        else if ((((GameObject.Chance(1) || (this.BelongedSection.AIDetail.ValueRecruitment && GameObject.Chance(5))) && ((this.ArmyScale >= this.LargeArmyScale) && this.IsFoodAbundant)) || ((((this.ArmyScale < this.LargeArmyScale) && this.IsFoodEnough) && (((this.IsImportant || (this.AreaCount > 2)) && (this.Population > _architectureKind.PopulationBoundary)) || (((this.AreaCount <= 2) && !this.IsImportant) && (this.Population > (this.RecruitmentPopulationBoundary / 2))))) && ((this.BelongedSection.AIDetail.ValueRecruitment && GameObject.Chance(60)) || GameObject.Chance(15)))) && (GameObject.Random(Enum.GetNames(typeof(PersonStrategyTendency)).Length) >=(int) this.BelongedFaction.Leader.StrategyTendency))
                         {
                             num3 = 0f;
                             foreach (Military military in recruitmentMilitaryList)
@@ -3793,7 +3800,7 @@ namespace GameObjects
                             }
                         }
                     }
-                    if (this.Kind.HasPopulation && (flag2 || (this.BelongedFaction.PlanTechniqueArchitecture != this)))
+                    if (_architectureKind.HasPopulation && (flag2 || (this.BelongedFaction.PlanTechniqueArchitecture != this)))
                     {
                         if (((!flag2 && !this.BelongedSection.AIDetail.ValueNewMilitary) && !GameObject.Chance(10)) || (this.ArmyScale >= this.LargeArmyScale))
                         {
@@ -4563,7 +4570,7 @@ namespace GameObjects
 
         public bool AppointMayorAvail() //任命县令
         {
-            if (this.BelongedFaction != null && this.BelongedFaction.Leader.BelongedCaptive == null && this.MayorID == -1  && this.Kind.ID != 4)
+            if (this.BelongedFaction != null && this.BelongedFaction.Leader.BelongedCaptive == null && this.MayorID == -1  && _architectureKind.ID != 4)
             {
                 if (Session.Current.Scenario.IsPlayer(this.BelongedFaction) && this.MayorCandicate.Count > 0)
                 {
@@ -5102,7 +5109,7 @@ namespace GameObjects
 
         private void RefreshNeutralBuilding()
         {
-            if (this.Kind.ID == 250)
+            if (_architectureKind.ID == 250)
             {
                 this.Endurance += 50;
                 this.Domination += 5;
@@ -5335,7 +5342,7 @@ namespace GameObjects
 
         public bool CommerceAvail()
         {
-            return (this.Kind.HasCommerce && this.HasPerson());
+            return (_architectureKind.HasCommerce && this.HasPerson());
         }
 
         public bool ConvincePersonAvail()
@@ -6005,7 +6012,7 @@ namespace GameObjects
             }
             else
             {
-                if (GameObject.Random(Session.GlobalVariables.zainanfashengjilv) == 0 && this.Kind.CountToMerit)
+                if (GameObject.Random(Session.GlobalVariables.zainanfashengjilv) == 0 && _architectureKind.CountToMerit)
                 {
                     int kindID;
                     kindID = GameObject.Random(Session.Current.Scenario.GameCommonData.suoyouzainanzhonglei.Count);
@@ -6731,31 +6738,31 @@ namespace GameObjects
 
         public void DevelopDay()
         {
-            if (this.kind.HasAgriculture)
+            if (_architectureKind.HasAgriculture)
             {
                 this.DevelopAgriculture();
             }
-            if (this.kind.HasCommerce)
+            if (_architectureKind.HasCommerce)
             {
                 this.DevelopCommerce();
             }
-            if (this.kind.HasTechnology)
+            if (_architectureKind.HasTechnology)
             {
                 this.DevelopTechnology();
             }
-            if (this.kind.HasDomination)
+            if (_architectureKind.HasDomination)
             {
                 this.DevelopDomination();
             }
-            if (this.kind.HasMorale)
+            if (_architectureKind.HasMorale)
             {
                 this.DevelopMorale();
             }
-            if (this.kind.HasEndurance)
+            if (_architectureKind.HasEndurance)
             {
                 this.DevelopEndurance();
             }
-            if (this.kind.HasPopulation)
+            if (_architectureKind.HasPopulation)
             {
                 this.DevelopPopulation();
             }
@@ -6887,11 +6894,11 @@ namespace GameObjects
         {
             if (this.BelongedFaction != null)
             {
-                if (this.Kind.HasAgriculture)
+                if (_architectureKind.HasAgriculture)
                 {
                     this.DevelopFood();
                 }
-                if (this.Kind.HasCommerce)
+                if (_architectureKind.HasCommerce)
                 {
                     this.DevelopFund();
                 }
@@ -6969,7 +6976,7 @@ namespace GameObjects
             if (this.BelongedFaction != null)
             {
 
-                if (this.Kind.HasPopulation || this.Kind.HasMorale)
+                if (_architectureKind.HasPopulation || _architectureKind.HasMorale)
                 {
                     this.DevelopMilitaryPopulation();
                 }
@@ -7105,7 +7112,7 @@ namespace GameObjects
 
         public bool DisbandAvail()
         {
-            return ((this.Militaries.Count > 0) && this.Kind.HasPopulation);
+            return ((this.Militaries.Count > 0) && _architectureKind.HasPopulation);
         }
 
         public void DisbandMilitary(Military m)
@@ -7128,7 +7135,7 @@ namespace GameObjects
 
         public bool DominationAvail()
         {
-            return (this.Kind.HasDomination && this.HasPerson());
+            return (_architectureKind.HasDomination && this.HasPerson());
         }
 
         public string DominationInInformationLevel(InformationLevel level)
@@ -7158,7 +7165,7 @@ namespace GameObjects
 
         public bool EnduranceAvail()
         {
-            return (this.Kind.HasEndurance && this.HasPerson());
+            return (_architectureKind.HasEndurance && this.HasPerson());
         }
 
         public string EnduranceInInformationLevel(InformationLevel level)
@@ -9272,7 +9279,7 @@ namespace GameObjects
             if (this.BelongedFaction != null)
             {
                 GameArea viewArea = this.ViewArea;
-                if (this.Kind.HasLongView && (this.ArmyScale < this.NormalArmyScale))
+                if (_architectureKind.HasLongView && (this.ArmyScale < this.NormalArmyScale))
                 {
                     viewArea = this.LongViewArea;
                 }
@@ -10504,14 +10511,14 @@ namespace GameObjects
 
         public bool MoraleAvail()
         {
-            return (this.Kind.HasMorale && this.HasPerson());
+            return (_architectureKind.HasMorale && this.HasPerson());
         }
 
         public bool NewMilitaryAvail()
         {
             if (this.BelongedFaction != null)
             {
-                if (!this.Kind.HasPopulation)
+                if (!_architectureKind.HasPopulation)
                 {
                     return false;
                 }
@@ -10755,7 +10762,7 @@ namespace GameObjects
                 this.PlanArchitecture = null;
             }
             else if ((this.PlanArchitecture != null) || ((this.IsGood() || GameObject.Chance((int)(GameObject.Square((int)leader.Ambition) * Session.Parameters.AIAttackChanceIfUnfull))) &&
-              (this.Domination >= this.DominationCeiling * 0.7 || this.Population <= this.Kind.PopulationBoundary / 2)))
+              (this.Domination >= this.DominationCeiling * 0.7 || this.Population <= _architectureKind.PopulationBoundary / 2)))
             {
                 Architecture target = this.PlanArchitecture;
                 LinkNode wayToTarget = null;
@@ -10862,7 +10869,7 @@ namespace GameObjects
                                 }
                             }
                             else if ((Session.GlobalVariables.PopulationRecruitmentLimit && (this.ArmyQuantity > this.Population)) || this.Population <= 0 ||
-                                !this.Kind.HasPopulation || !this.Kind.HasMorale)
+                                !_architectureKind.HasPopulation || !_architectureKind.HasMorale)
                             {
                                 if (armyScaleHere >= armyScaleRequiredForAttack)
                                 {
@@ -11202,7 +11209,7 @@ namespace GameObjects
 
         private void PopulationEscapeEvent()
         {
-            if ((((!this.DayAvoidPopulationEscape && this.Kind.HasPopulation) && ((this.Domination < this.DominationCeiling) && (this.RecentlyAttacked > 0))) && ((this.Population > (0x3e8 * this.AreaCount)) && (this.Morale < this.MoraleCeiling))) && (GameObject.Random(((int)Math.Pow((double)(this.Domination + this.Morale), 2.0)) + 0x3e8) < GameObject.Random(0x3e8)))
+            if ((((!this.DayAvoidPopulationEscape && _architectureKind.HasPopulation) && ((this.Domination < this.DominationCeiling) && (this.RecentlyAttacked > 0))) && ((this.Population > (0x3e8 * this.AreaCount)) && (this.Morale < this.MoraleCeiling))) && (GameObject.Random(((int)Math.Pow((double)(this.Domination + this.Morale), 2.0)) + 0x3e8) < GameObject.Random(0x3e8)))
             {
                 int num = 0;
                 int maxValue = this.Population / 100;
@@ -11505,7 +11512,7 @@ namespace GameObjects
                 {
                     return false;
                 }
-                if (!this.Kind.HasPopulation || !this.Kind.HasMorale)
+                if (!_architectureKind.HasPopulation || !_architectureKind.HasMorale)
                 {
                     return false;
                 }
@@ -11783,7 +11790,7 @@ namespace GameObjects
 
         public bool RegionCoreEffectAvail()
         {
-            return (this.Kind.HasTechnology && (this.Technology >= ((int)(this.TechnologyCeiling * 0.8))));
+            return (_architectureKind.HasTechnology && (this.Technology >= ((int)(this.TechnologyCeiling * 0.8))));
         }
 
         public bool RegroupSectionAvail()
@@ -12206,7 +12213,7 @@ namespace GameObjects
                 zhenzaiPersons.ReSort();
             }
             agriculturePersons.Clear();
-            if (this.Kind.HasAgriculture)
+            if (_architectureKind.HasAgriculture)
             {
                 foreach (Person person in pl)
                 {
@@ -12217,7 +12224,7 @@ namespace GameObjects
                 agriculturePersons.ReSort();
             }
             commercePersons.Clear();
-            if (this.Kind.HasCommerce)
+            if (_architectureKind.HasCommerce)
             {
                 foreach (Person person in pl)
                 {
@@ -12228,7 +12235,7 @@ namespace GameObjects
                 commercePersons.ReSort();
             }
             technologyPersons.Clear();
-            if (this.Kind.HasTechnology)
+            if (_architectureKind.HasTechnology)
             {
                 foreach (Person person in pl)
                 {
@@ -12239,7 +12246,7 @@ namespace GameObjects
                 technologyPersons.ReSort();
             }
             dominationPersons.Clear();
-            if (this.Kind.HasDomination)
+            if (_architectureKind.HasDomination)
             {
                 foreach (Person person in pl)
                 {
@@ -12250,7 +12257,7 @@ namespace GameObjects
                 dominationPersons.ReSort();
             }
             moralePersons.Clear();
-            if (this.Kind.HasMorale)
+            if (_architectureKind.HasMorale)
             {
                 foreach (Person person in pl)
                 {
@@ -12261,7 +12268,7 @@ namespace GameObjects
                 moralePersons.ReSort();
             }
             endurancePersons.Clear();
-            if (this.Kind.HasEndurance)
+            if (_architectureKind.HasEndurance)
             {
                 foreach (Person person in pl)
                 {
@@ -12422,7 +12429,7 @@ namespace GameObjects
 
         private void Sourrounded()
         {
-            if (((this.BelongedFaction != null) && (this.Endurance > 0)) && this.Kind.HasDomination)
+            if (((this.BelongedFaction != null) && (this.Endurance > 0)) && _architectureKind.HasDomination)
             {
                 int num = 0;
                 foreach (Point point in this.ContactArea.Area)
@@ -12511,7 +12518,7 @@ namespace GameObjects
 
         public bool StateAdminEffectAvail()
         {
-            return (this.Kind != null && this.Kind.HasTechnology && (this.Technology >= ((int)(this.TechnologyCeiling * 0.5))));
+            return (_architectureKind != null && _architectureKind.HasTechnology && (this.Technology >= ((int)(this.TechnologyCeiling * 0.5))));
         }
 
         private void StopAllWork()
@@ -12598,7 +12605,7 @@ namespace GameObjects
 
         public bool TechnologyAvail()
         {
-            return (this.Kind.HasTechnology && this.HasPerson());
+            return (_architectureKind.HasTechnology && this.HasPerson());
         }
 
         public override string ToString()
@@ -12881,11 +12888,14 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 农业最大值
+        /// </summary>
         public int AgricultureCeiling
         {
             get
             {
-                return this.kind.HasAgriculture ? ((this.Kind.AgricultureBase + (this.Kind.AgricultureUnit * (this.JianzhuGuimo - 1))) + this.IncrementOfAgricultureCeiling) : 0;
+                return _architectureKind.HasAgriculture ? ((_architectureKind.AgricultureBase + (_architectureKind.AgricultureUnit * (this.JianzhuGuimo - 1))) + this.IncrementOfAgricultureCeiling) : 0;
             }
         }
 
@@ -13151,11 +13161,14 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 商业最大值
+        /// </summary>
         public int CommerceCeiling
         {
             get
             {
-                return this.kind.HasCommerce ? ((this.Kind.CommerceBase + (this.Kind.CommerceUnit * (this.JianzhuGuimo - 1))) + this.IncrementOfCommerceCeiling) : 0;
+                return _architectureKind.HasCommerce ? ((_architectureKind.CommerceBase + (_architectureKind.CommerceUnit * (this.JianzhuGuimo - 1))) + this.IncrementOfCommerceCeiling) : 0;
             }
         }
 
@@ -13259,11 +13272,14 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 统治最大值
+        /// </summary>
         public int DominationCeiling
         {
             get
             {
-                return this.kind.HasDomination ? (this.Kind.DominationBase + (this.Kind.DominationUnit * (this.JianzhuGuimo - 1)) + this.IncrementOfDominationCeiling) : 0;
+                return _architectureKind.HasDomination ? (_architectureKind.DominationBase + (_architectureKind.DominationUnit * (this.JianzhuGuimo - 1)) + this.IncrementOfDominationCeiling) : 0;
             }
         }
 
@@ -13287,11 +13303,14 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 耐力最大值
+        /// </summary>
         public int EnduranceCeiling
         {
             get
             {
-                return this.kind.HasEndurance ? ((this.Kind.EnduranceBase + (this.Kind.EnduranceUnit * (this.JianzhuGuimo - 1))) + this.IncrementOfEnduranceCeiling) : 0;
+                return _architectureKind.HasEndurance ? ((_architectureKind.EnduranceBase + (_architectureKind.EnduranceUnit * (this.JianzhuGuimo - 1))) + this.IncrementOfEnduranceCeiling) : 0;
             }
         }
 
@@ -13526,7 +13545,7 @@ namespace GameObjects
         {
             get
             {
-                return (this.Kind.FacilityPositionUnit * (this.JianzhuGuimo + this.IncrementOfFacilityPositionCount));
+                return (_architectureKind.FacilityPositionUnit * (this.JianzhuGuimo + this.IncrementOfFacilityPositionCount));
             }
         }
 
@@ -13611,11 +13630,14 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 粮草最大值
+        /// </summary>
         public int FoodCeiling
         {
             get
             {
-                return (this.kind.FoodMaxUnit * this.JianzhuGuimo) + this.IncrementOfFoodCeiling;
+                return (_architectureKind.FoodMaxUnit * this.JianzhuGuimo) + this.IncrementOfFoodCeiling;
             }
         }
 
@@ -13773,7 +13795,7 @@ namespace GameObjects
         {
             get
             {
-                return (this.Kind.FundMaxUnit * this.JianzhuGuimo) + this.IncrementOfFundCeiling;
+                return (_architectureKind.FundMaxUnit * this.JianzhuGuimo) + this.IncrementOfFundCeiling;
             }
         }
 
@@ -14086,23 +14108,11 @@ namespace GameObjects
         [DataMember]
         public int KindId { get; set; }
 
-        public ArchitectureKind Kind
-        {
-            get
-            {
-                return this.kind;
-            }
-            set
-            {
-                this.kind = value;
-            }
-        }
-
         public string KindString
         {
             get
             {
-                return this.Kind.Name;
+                return _architectureKind.Name;
             }
         }
 
@@ -14138,8 +14148,7 @@ namespace GameObjects
         {
             get
             {
-                //Why Kind is null sometimes?
-                if (this.Kind == null || !this.Kind.HasLongView)
+                if (!_architectureKind.HasLongView)
                 {
                     return this.ViewArea;
                 }
@@ -14147,7 +14156,7 @@ namespace GameObjects
                 {
                     return this.longViewArea;
                 }
-                return (this.longViewArea = GameArea.GetAreaFromArea(this.ArchitectureArea, this.LongViewDistance, this.kind.HasObliqueView, this.BelongedFaction));
+                return (this.longViewArea = GameArea.GetAreaFromArea(this.ArchitectureArea, this.LongViewDistance, _architectureKind.HasObliqueView, this.BelongedFaction));
             }
             set
             {
@@ -14204,11 +14213,14 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 士气最大值 ?? 民心最大值
+        /// </summary>
         public int MoraleCeiling
         {
             get
             {
-                return this.kind.HasMorale ? (this.Kind.MoraleBase + (this.Kind.MoraleUnit * (this.JianzhuGuimo - 1)) + this.IncrementOfMoraleCeiling) : 0;
+                return _architectureKind.HasMorale ? (_architectureKind.MoraleBase + (_architectureKind.MoraleUnit * (this.JianzhuGuimo - 1)) + this.IncrementOfMoraleCeiling) : 0;
             }
         }
 
@@ -14364,7 +14376,7 @@ namespace GameObjects
         {
             get
             {
-                return (int)((this.Kind.PopulationBase + (this.Kind.PopulationUnit * (this.JianzhuGuimo - 1))) * (1 + this.RateIncrementOfPopulationCeiling));
+                return (int)((_architectureKind.PopulationBase + (_architectureKind.PopulationUnit * (this.JianzhuGuimo - 1))) * (1 + this.RateIncrementOfPopulationCeiling));
             }
         }
 
@@ -14402,8 +14414,8 @@ namespace GameObjects
         {
             get
             {
-                // return (this.Kind.PopulationBoundary * this.AreaCount);
-                return (this.Kind.PopulationBoundary);
+                // return (_architectureKind.PopulationBoundary * this.AreaCount);
+                return (_architectureKind.PopulationBoundary);
             }
         }
 
@@ -14575,11 +14587,14 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 技术最大值
+        /// </summary>
         public int TechnologyCeiling
         {
             get
             {
-                return this.kind.HasTechnology ? ((this.Kind.TechnologyBase + (this.Kind.TechnologyUnit * (this.JianzhuGuimo - 1))) + this.IncrementOfTechnologyCeiling) : 0;
+                return _architectureKind.HasTechnology ? ((_architectureKind.TechnologyBase + (_architectureKind.TechnologyUnit * (this.JianzhuGuimo - 1))) + this.IncrementOfTechnologyCeiling) : 0;
             }
         }
 
@@ -14595,7 +14610,7 @@ namespace GameObjects
         {
             get
             {
-                return this.Kind.Texture;
+                return _architectureKind.Texture;
             }
         }
 
@@ -14627,7 +14642,7 @@ namespace GameObjects
         {
             get
             {
-                return (this.Kind.HasHarbor || this.TroopershipAvailable);
+                return (_architectureKind.HasHarbor || this.TroopershipAvailable);
             }
         }
 
@@ -14643,11 +14658,14 @@ namespace GameObjects
         {
             get
             {
-                if (this.viewArea != null)
+                if (viewArea == null)
                 {
-                    return this.viewArea;
+                    var hasOblique = _architectureKind?.HasObliqueView ?? false;
+
+                    viewArea = GameArea.GetAreaFromArea(this.ArchitectureArea, this.ViewDistance, hasOblique, this.BelongedFaction);
                 }
-                return (this.viewArea = GameArea.GetAreaFromArea(this.ArchitectureArea, this.ViewDistance, this.kind == null ? false : this.kind.HasObliqueView, this.BelongedFaction));
+
+                return viewArea;
             }
             set
             {
@@ -14659,7 +14677,7 @@ namespace GameObjects
         {
             get
             {
-                return (this.kind == null ? 0 : (this.Kind.ViewDistance + (this.AreaCount / this.Kind.ViewDistanceIncrementDivisor))) + this.IncrementOfViewRadius;
+                return _architectureKind.ViewDistance + (this.AreaCount / _architectureKind.ViewDistanceIncrementDivisor) + this.IncrementOfViewRadius;
             }
         }
 
@@ -14850,7 +14868,7 @@ namespace GameObjects
             if (this.JianzhuGuimo != 1 && this.JianzhuGuimo != 5) return false;
             if (Session.Current.Scenario.ScenarioMap.UseSimpleArchImages) return false;
 
-            if (this.Kind.Expandable < this.JianzhuGuimo) return false;
+            if (_architectureKind.Expandable < this.JianzhuGuimo) return false;
 
             TerrainDetail terrainKindByPosition;
             foreach (Point point in this.ExpandPoint())
@@ -14888,8 +14906,8 @@ namespace GameObjects
 
 
             this.ContactArea = this.ArchitectureArea.GetContactArea(false);
-            this.ViewArea = GameArea.GetAreaFromArea(this.ArchitectureArea, this.ViewDistance, this.Kind.HasObliqueView, this.BelongedFaction);
-            this.LongViewArea = GameArea.GetAreaFromArea(this.ArchitectureArea, this.LongViewDistance, this.Kind.HasObliqueView, this.BelongedFaction);
+            this.ViewArea = GameArea.GetAreaFromArea(this.ArchitectureArea, this.ViewDistance, _architectureKind.HasObliqueView, this.BelongedFaction);
+            this.LongViewArea = GameArea.GetAreaFromArea(this.ArchitectureArea, this.LongViewDistance, _architectureKind.HasObliqueView, this.BelongedFaction);
             this.BaseFoodSurplyArea = this.LongViewArea;
 
             foreach (Point point in this.ArchitectureArea.Area)
@@ -15158,6 +15176,9 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 中心点
+        /// </summary>
         public Point zhongxindian
         {
             get
@@ -15184,6 +15205,9 @@ namespace GameObjects
             }
         }
 
+        /// <summary>
+        /// 顶点
+        /// </summary>
         public Point dingdian
         {
             get
@@ -15197,7 +15221,7 @@ namespace GameObjects
                     }
                 }
 
-                if (this.kind != null && this.Kind.ID == 2)  //如果是关隘
+                if (_architectureKind != null && _architectureKind.ID == 2)  //如果是关隘
                 {
                     if (this.JianzhuGuimo == 1)
                     {

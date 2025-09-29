@@ -385,9 +385,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
         public static GameScenario LoadScenarioData(string scenarioName, bool fromScenario, MainGameScreen mainGameScreen, bool editing = false)
         {
-            //Stopwatch stopwatch = new Stopwatch();
-            //stopwatch.Start();
-
             GameScenario scenario = null;
 
             Session.Current.IsWorking = true;
@@ -417,8 +414,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             scenario.LoadedFileName = scenarioName;
 
-            //stopwatch.Stop();
-
             scenario.UsingOwnCommonData = true;
 
             if (scenario.GameCommonData == null)
@@ -430,9 +425,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 GameScenario.ProcessCommonData(scenario.GameCommonData);
 
-                if (scenario.GameCommonData.AllArchitectureKinds == null || scenario.GameCommonData.AllArchitectureKinds.ArchitectureKinds == null || scenario.GameCommonData.AllArchitectureKinds.ArchitectureKinds.Count == 0)
+                // 所有建筑类型
+                var architectureKinds = scenario.GameCommonData.AllArchitectureKinds;
+                if (architectureKinds == null || architectureKinds.ArchitectureKinds == null || architectureKinds.ArchitectureKinds.Count == 0)
                 {
-                    scenario.GameCommonData.AllArchitectureKinds = CommonData.Current.AllArchitectureKinds;
+                    architectureKinds = CommonData.Current.AllArchitectureKinds;
                     scenario.UsingOwnCommonData = false;
                 }
                 if (scenario.GameCommonData.AllAttackDefaultKinds == null || scenario.GameCommonData.AllAttackDefaultKinds.Count == 0)

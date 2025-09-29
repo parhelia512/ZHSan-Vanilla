@@ -20,6 +20,7 @@ using Tools;
 using GameManager;
 using Platforms;
 using WorldOfTheThreeKingdoms.GameScreens;
+using System.Windows.Forms;
 
 namespace GameObjects
 {
@@ -79,6 +80,9 @@ namespace GameObjects
         [DataMember]
         public Dictionary<int, int[]> AiBattlingArchitectureStrings = new Dictionary<int, int[]>();
 
+        /// <summary>
+        /// 建筑列表
+        /// </summary>
         [DataMember]
         public ArchitectureList Architectures = new ArchitectureList();
         
@@ -3321,17 +3325,19 @@ namespace GameObjects
 
             //}
 
+            // 处理建筑数据
             foreach (Architecture architecture in this.Architectures)
             {
                 List<string> e = new List<string>();
 
                 architecture.Init();
                 
+                // 建筑类型
                 architecture.Kind = this.GameCommonData.AllArchitectureKinds.GetArchitectureKind(architecture.KindId);
-
                 if (architecture.Kind == null)
                 {
-                    e.Add("建筑种类ID" + architecture.KindId + "不存在");
+                    var message = $"建筑种类ID：{architecture.KindId}, 不存在";
+                    throw new Exception(message);
                 }
 
                 architecture.LocationState = this.States.GetGameObject(architecture.StateID) as State;
@@ -5510,7 +5516,7 @@ namespace GameObjects
 
             List<Scenario> scesList = null;
 
-            if (Platform.Current.UserFileExist(new string[] { saveFile })[0])
+            if (Platform.Current.UserFileExist(saveFile))
             {
                 scesList = SimpleSerializer.DeserializeJsonFile<List<Scenario>>(saveFile, true).NullToEmptyList();
             }

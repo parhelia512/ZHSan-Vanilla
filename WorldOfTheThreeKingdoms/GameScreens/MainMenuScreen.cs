@@ -192,9 +192,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         {
             startLines = Platform.Current.LoadTexts(@"Content\StartLines.txt");
 
-            if (Platform.Current.UserFileExist(new string[] { "startRead.txt" })[0])
+            var startReadFile = "startRead.txt";
+
+            if (Platform.Current.UserFileExist(startReadFile))
             {
-                string content = Platform.Current.GetUserText("startRead.txt");
+                string content = Platform.Current.GetUserText(startReadFile);
                 int version;
                 int.TryParse(content, out version);
                 if (version >= currentStartVersion)
@@ -210,7 +212,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 MenuType = MenuType.Start;
             }
-            Platform.Current.SaveUserFile("startRead.txt", currentStartVersion.ToString());
+            Platform.Current.SaveUserFile(startReadFile, currentStartVersion.ToString());
 
             // 不存在其他mod时，默认原版
             var originalMod = new MOD { ID = "", Name = "原版", Desc = "", Mode = "" };
@@ -278,12 +280,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 }
             }
 
-            MOD currentMod = mods.FirstOrDefault(x => x.ID.Equals(Setting.Current.MOD));
-            if (currentMod == null)
-            {
-                currentMod = mods.FirstOrDefault();
-                Setting.Current.MOD = currentMod.ID;
-            }
+            MOD currentMod = mods.FirstOrDefault(x => x.ID.Equals(Setting.Current.MOD)) ?? mods.FirstOrDefault();
+            Setting.Current.MOD = currentMod.ID;
 
 
             #region 获取头像包
@@ -303,6 +301,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             Current = this;
 
+            // 按钮列表
             btList = new List<ButtonTexture>() { };
 
             var btOne = new ButtonTexture(@"Content\Textures\Resources\Start\Menu", "New", new Vector2(100 + currentMod.xOffset, 600 + currentMod.yOffset));
@@ -368,9 +367,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 btOne.Visible = false;
             }
             btList.Add(btOne);
-
-            //New
-
+            
+            // 新建游戏-就绪按钮
             btScenarioList = new List<ButtonTexture>();
             btOne = new ButtonTexture(@"Content\Textures\Resources\Start\ReadyButton", "OK", new Vector2(820, 600));
             btOne.OnButtonPress += (sender, e) =>
@@ -454,6 +452,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             };
             btScenarioList.Add(btOne);
 
+            // 载入游戏-就绪按钮
             btSaveList = new List<ButtonTexture>();
             btOne = new ButtonTexture(@"Content\Textures\Resources\Start\ReadyButton", "Load", new Vector2(755, 615));
             btOne.OnButtonPress += (sender, e) =>
@@ -527,6 +526,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             };
             lbSettingList.Add(lbOne);
 
+            // 游戏设置-就绪按钮
             btSettingList = new List<ButtonTexture>();
             btOne = new ButtonTexture(@"Content\Textures\Resources\Start\ReadyButton", "Cancel", new Vector2(800 + 180, 615));
             btOne.OnButtonPress += (sender, e) =>
@@ -2089,6 +2089,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             };
             btSettingList.Add(btOne);
 
+            // 遍历mods渲染游戏设置的mod选择&事件
             for (int i = 0; i < mods.Count; i++)
             {
                 var mod = mods[i];
@@ -2097,6 +2098,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 {
                     ID = "MOD" + mod.ID
                 };
+
                 btOne.OnButtonPress += (sender, e) =>
                 {
                     btSettingList.Where(bt0 => !String.IsNullOrEmpty(bt0.ID) && bt0.ID.StartsWith("MOD")).ForEach(bt1 => { bt1.Selected = false; });
@@ -2112,6 +2114,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         Setting.Current.MOD = id;
 
                         CacheManager.Clear(CacheType.Live);
+
+                        // 重载CommonData，不同mod的CommonData不一致，例如建筑类型表
+                        CommonData.Init();
                     }
                 };
                 btSettingList.Add(btOne);
@@ -2323,7 +2328,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             //    UnCheckTextBoxs();
             //    tbGamerName.Selected = true;
             //};
-
+            
+            // 游戏鸣谢-就绪按钮
             btAboutList = new List<ButtonTexture>();
             btOne = new ButtonTexture(@"Content\Textures\Resources\Start\ReadyButton", "Cancel", new Vector2(800 + 220, 615));
             btOne.OnButtonPress += (sender, e) =>

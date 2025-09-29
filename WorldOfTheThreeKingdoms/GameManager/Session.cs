@@ -254,87 +254,73 @@ namespace GameManager
 
         public static void Init()
         {
-            new PlatformTask(() =>
-            {
-                try
-                {
-                    #region 手機版采用跟PC同樣設置
-                    //if (Platform.PlatFormType == PlatFormType.Win)
-                    //{
-                    //    //此選項用於生成壓縮格式的劇本，以減小遊戲占用存儲空間
-                    //    bool BuildScenarioDataZip = false;
+            #region 手機版采用跟PC同樣設置
+            //if (Platform.PlatFormType == PlatFormType.Win)
+            //{
+            //    //此選項用於生成壓縮格式的劇本，以減小遊戲占用存儲空間
+            //    bool BuildScenarioDataZip = false;
 
-                    //    if (BuildScenarioDataZip)
-                    //    {
-                    //        string comFile = Platform.Current.SolutionDir + @"Content\Data\Common\CommonData.json";
-                    //        string comFileCon = Platform.Current.ReadAllText(comFile);
-                    //        var common = Tools.SimpleSerializer.DeserializeJson<CommonData>(comFileCon);
+            //    if (BuildScenarioDataZip)
+            //    {
+            //        string comFile = Platform.Current.SolutionDir + @"Content\Data\Common\CommonData.json";
+            //        string comFileCon = Platform.Current.ReadAllText(comFile);
+            //        var common = Tools.SimpleSerializer.DeserializeJson<CommonData>(comFileCon);
 
-                    //        //var str = System.IO.File.ReadAllText(@"C:\Projects\InfluenceKind.xml");
-                    //        //var doc = new System.Xml.XmlDocument();
-                    //        //doc.LoadXml(str);
+            //        //var str = System.IO.File.ReadAllText(@"C:\Projects\InfluenceKind.xml");
+            //        //var doc = new System.Xml.XmlDocument();
+            //        //doc.LoadXml(str);
 
-                    //        //var childNodes = ((System.Xml.XmlLinkedNode)doc.FirstChild).NextSibling.ChildNodes;
+            //        //var childNodes = ((System.Xml.XmlLinkedNode)doc.FirstChild).NextSibling.ChildNodes;
 
-                    //        //foreach (System.Xml.XmlElement child in childNodes)
-                    //        //{
-                    //        //    var id = child["ID"];
-                    //        //    var type = child["Type"];
-                    //        //    var combat = child["Combat"];
-                    //        //    var pv = child["AIPersonValue"];
-                    //        //    var pvp = child["AIPersonValuePow"];
+            //        //foreach (System.Xml.XmlElement child in childNodes)
+            //        //{
+            //        //    var id = child["ID"];
+            //        //    var type = child["Type"];
+            //        //    var combat = child["Combat"];
+            //        //    var pv = child["AIPersonValue"];
+            //        //    var pvp = child["AIPersonValuePow"];
 
-                    //        //    var influ = common.AllInfluenceKinds.InfluenceKinds.FirstOrDefault(inf => inf.Key == int.Parse(id.InnerText));
-                    //        //    influ.Value.Type = (InfluenceType)Enum.Parse(typeof(InfluenceType), type.InnerText);
-                    //        //    influ.Value.Combat = combat.InnerText == "1";
-                    //        //    influ.Value.AIPersonValue = float.Parse(pv.InnerText);
-                    //        //    influ.Value.AIPersonValuePow = float.Parse(pvp.InnerText);
-                    //        //}
+            //        //    var influ = common.AllInfluenceKinds.InfluenceKinds.FirstOrDefault(inf => inf.Key == int.Parse(id.InnerText));
+            //        //    influ.Value.Type = (InfluenceType)Enum.Parse(typeof(InfluenceType), type.InnerText);
+            //        //    influ.Value.Combat = combat.InnerText == "1";
+            //        //    influ.Value.AIPersonValue = float.Parse(pv.InnerText);
+            //        //    influ.Value.AIPersonValuePow = float.Parse(pvp.InnerText);
+            //        //}
 
-                    //        string json = SimpleSerializer.SerializeJson<CommonData>(common, true);
-                    //        string comZipFile = Platform.Current.SolutionDir + @"Content\Data\CommonZip\CommonData.json";
-                    //        Platform.Current.WriteAllText(comZipFile, json);
+            //        string json = SimpleSerializer.SerializeJson<CommonData>(common, true);
+            //        string comZipFile = Platform.Current.SolutionDir + @"Content\Data\CommonZip\CommonData.json";
+            //        Platform.Current.WriteAllText(comZipFile, json);
 
-                    //        string dir = Platform.Current.SolutionDir + @"Content\Data\Scenario\";
-                    //        var sces = Platform.Current.GetFiles(dir);
+            //        string dir = Platform.Current.SolutionDir + @"Content\Data\Scenario\";
+            //        var sces = Platform.Current.GetFiles(dir);
 
-                    //        foreach (var sce in sces)
-                    //        {
-                    //            if (sce.Contains("Scenarios.json"))
-                    //            {
-                    //                continue;
-                    //            }
+            //        foreach (var sce in sces)
+            //        {
+            //            if (sce.Contains("Scenarios.json"))
+            //            {
+            //                continue;
+            //            }
 
-                    //            string fileName = Platform.Current.GetFileNameFromPath(sce);
-                    //            string sceFileCon = Platform.Current.ReadAllText(dir + fileName);
-                    //            var scenario = Tools.SimpleSerializer.DeserializeJson<GameScenario>(sceFileCon, false);
+            //            string fileName = Platform.Current.GetFileNameFromPath(sce);
+            //            string sceFileCon = Platform.Current.ReadAllText(dir + fileName);
+            //            var scenario = Tools.SimpleSerializer.DeserializeJson<GameScenario>(sceFileCon, false);
 
-                    //            json = Tools.SimpleSerializer.SerializeJson<GameScenario>(scenario, true);
-                    //            string scenarioZipFile = Platform.Current.SolutionDir + @"Content\Data\ScenarioZip\" + fileName;
-                    //            Platform.Current.WriteAllText(scenarioZipFile, json);
-                    //        }
-                    //    }
-                    //}
+            //            json = Tools.SimpleSerializer.SerializeJson<GameScenario>(scenario, true);
+            //            string scenarioZipFile = Platform.Current.SolutionDir + @"Content\Data\ScenarioZip\" + fileName;
+            //            Platform.Current.WriteAllText(scenarioZipFile, json);
+            //        }
+            //    }
+            //}
 
-                    //bool zip = true;
+            //bool zip = true;
 
-                    //if (Platform.PlatFormType == PlatFormType.Win || Platform.PlatFormType == PlatFormType.Desktop)
-                    //{
-                    //    zip = false;
-                    //}
-                    #endregion
+            //if (Platform.PlatFormType == PlatFormType.Win || Platform.PlatFormType == PlatFormType.Desktop)
+            //{
+            //    zip = false;
+            //}
+            #endregion
 
-                    CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
-
-                    GameScenario.ProcessCommonData(CommonData.Current);
-
-                    CommonData.CurrentReady = true;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("CommonData初始化失敗:" + ex);
-                }
-            }).Start();
+            CommonData.Init();
 
             //if (String.IsNullOrEmpty(Setting.Current.Difficulty))
             //{

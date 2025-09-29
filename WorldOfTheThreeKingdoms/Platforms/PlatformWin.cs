@@ -310,8 +310,9 @@ namespace Platforms
                 return ApplicationUrl + "WorldOfTheThreeKingdoms.exe";
             }
         }
-        public bool editing = false;
+
         #region 加載資源文件
+
         /// <summary>
         /// 加載資源文本
         /// </summary>
@@ -320,17 +321,15 @@ namespace Platforms
         public string LoadText(string res)
         {
             res = res.Replace("\\", "/");
-            if (!editing)
-            {
-                res = base.GetMODFile(res);
-            }
 
+            res = GetMODFile(res);
 
             lock (Platform.IoLock)
             {
                 return File.ReadAllText(res);
             }
         }
+
         /// <summary>
         /// 加載資源文本
         /// </summary>
@@ -525,7 +524,7 @@ namespace Platforms
             {
                 if (isUser)
                 {
-                    if (!UserFileExist(new string[] { res })[0])
+                    if (!UserFileExist(res))
                     {
                         //暫時沒有文件
                         return null;
@@ -825,47 +824,51 @@ namespace Platforms
                 return null;
             }
         }
-        /// <summary>
-        /// 判斷用戶文件是否存在
-        /// </summary>
-        /// <param name="res"></param>
-        /// <returns></returns>
-        public bool[] UserFileExist(string[] res)
-        {
-            if (res == null || res.Length == 0)
-            {
-                return null;
-            }
-            try
-            {
-                List<bool> results = new List<bool>();
-                foreach (string re in res)
-                {
-                    bool exis = false;
-                    if (!String.IsNullOrEmpty(re.Trim()))
-                    {
-                        try
-                        {
-                            lock (Platform.IoLock)
-                            {
-                                exis = File.Exists(UserApplicationDataPath + re.Trim());
-                            }
-                        }
-                        catch
-                        {
 
-                        }
-                    }
-                    results.Add(exis);
-                }
-                return results.ToArray();
-            }
-            catch (Exception ex)
+        /// <summary>
+        /// 判断用户文件是否存在
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        public List<bool> UserFileExist(List<string> files)
+        {
+            if (files.Count == 0) return new List<bool> { false };
+
+            var result = new List<bool>();
+            foreach (var file in files)
             {
-                WebTools.TakeWarnMsg("判断文件存在失败:" + String.Join(",", res), "UserFileExist:" + UserApplicationDataPath + String.Join(",", res), ex);
-                return null;
+                var filePath = file.Trim();
+                if (!string.IsNullOrWhiteSpace(filePath))
+                {
+                    var isExist = File.Exists(UserApplicationDataPath + filePath);
+
+                    result.Add(isExist);
+                }
+                else
+                {
+                    result.Add(false);
+                }
             }
+
+            return result;
         }
+
+        /// <summary>
+        /// 判断用户文件是否存在
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public bool UserFileExist(string file)
+        {
+            if (string.IsNullOrWhiteSpace(file)) return false;
+
+            var filePath = file.Trim();
+
+            var isExist = File.Exists(UserApplicationDataPath + filePath);
+
+            return isExist;
+        }
+
         /// <summary>
         /// 保存用戶文本
         /// </summary>
@@ -971,7 +974,7 @@ namespace Platforms
         {
             foreach (string file in files)
             {
-                if (UserFileExist(new string[] { file.NullToString().Trim() })[0])
+                if (UserFileExist(file))
                 {
                     try
                     {
