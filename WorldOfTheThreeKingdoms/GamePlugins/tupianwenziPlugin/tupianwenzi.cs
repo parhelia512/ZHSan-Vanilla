@@ -129,7 +129,7 @@ namespace tupianwenziPlugin
             {
                 Rectangle? sourceRectangle = null;
 
-                CacheManager.DrawZhsanAvatar(this.SpeakingPerson, "", this.PortraitDisplayPosition, Color.White, 0.201f);
+                CacheManager.DrawZhsanAvatar(this.SpeakingPerson, this.PortraitDisplayPosition, 0.201f);
 
                 sourceRectangle = null;
                 CacheManager.Draw(this.BackgroundTexture, this.BackgroundDisplayPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.2f);

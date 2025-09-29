@@ -11,7 +11,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-
 namespace TroopDetailPlugin
 {
 	internal class TroopDetail
@@ -159,7 +158,7 @@ namespace TroopDetailPlugin
 				CacheManager.Draw(this.BackgroundTexture, this.BackgroundDisplayPosition, nullable, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.2f);
 				nullable = null;
 
-                CacheManager.DrawZhsanAvatar(this.ShowingTroop.Leader, "s", this.PortraitDisplayPosition, Color.White, 0.199f);
+                CacheManager.DrawZhsanAvatar(this.ShowingTroop.Leader, this.PortraitDisplayPosition, 0.199f, PortraitSize.Small);
 
 				this.TroopNameText.Draw(0.1999f);
 				List<LabelText>.Enumerator enumerator = this.LabelTexts.GetEnumerator();

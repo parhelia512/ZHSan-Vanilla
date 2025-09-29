@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using		GameFreeText;
-using		GameGlobal;
-using		GameObjects;
+﻿using GameFreeText;
+using GameGlobal;
+using GameManager;
+using GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameManager;
-using Platforms;
 
 namespace TroopTitlePlugin
 {
@@ -264,7 +259,7 @@ namespace TroopTitlePlugin
                     //{
                     //CacheManager.Draw(troop.Leader.TroopPortrait, new Rectangle(this.displayOffset.X + this.PortraitPosition.X, this.displayOffset.Y + this.PortraitPosition.Y, this.PortraitPosition.Width, this.PortraitPosition.Height), null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.4687f);
 
-                    CacheManager.DrawZhsanAvatar(troop.Leader, "s", new Rectangle(this.displayOffset.X + this.PortraitPosition.X, this.displayOffset.Y + this.PortraitPosition.Y, this.PortraitPosition.Width, this.PortraitPosition.Height), Color.White, 0.4687f);
+                    CacheManager.DrawZhsanAvatar(troop.Leader, new Rectangle(this.displayOffset.X + this.PortraitPosition.X, this.displayOffset.Y + this.PortraitPosition.Y, this.PortraitPosition.Width, this.PortraitPosition.Height), 0.4687f, PortraitSize.Small);
 
                     //}
                     //catch { }
@@ -352,7 +347,7 @@ namespace TroopTitlePlugin
                     //{ 
                         //CacheManager.Draw(troop.Leader.TroopPortrait, this.ThePortraitDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.469f);
 
-                        CacheManager.DrawZhsanAvatar(troop.Leader, "s", this.ThePortraitDisplayPosition, Color.White, 0.469f);
+                        CacheManager.DrawZhsanAvatar(troop.Leader, this.ThePortraitDisplayPosition, 0.469f, PortraitSize.Small);
 
                         if (ShowFactionName1Background == "on")
                         {
@@ -475,7 +470,7 @@ namespace TroopTitlePlugin
                     //catch { }
                     //try
                     //{
-                    CacheManager.DrawZhsanAvatar(troop.Leader, "s", this.ThePortraitDisplayPosition, Color.White, 0.469f);
+                    CacheManager.DrawZhsanAvatar(troop.Leader, this.ThePortraitDisplayPosition, 0.469f, PortraitSize.Small);
                     //CacheManager.Draw(troop.Leader.TroopPortrait, this.ThePortraitDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.469f);
                         if (ShowFactionName2Background == "on" && this.FactionName2Background != null)
                         {

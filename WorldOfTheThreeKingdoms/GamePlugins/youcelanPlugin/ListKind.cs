@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 //using System.Drawing;
 using System.Xml;
-using System.Linq;
 
 namespace youcelanPlugin
 {
@@ -132,7 +132,7 @@ namespace youcelanPlugin
                         {
                         }
                     }
-                    CacheManager.DrawZhsanAvatar(person, "s", rec, Color.White, depth);
+                    CacheManager.DrawZhsanAvatar(person, rec, depth, PortraitSize.Small);
                 }
             }
             if (this.tabList.ShowVerticalScrollBar)

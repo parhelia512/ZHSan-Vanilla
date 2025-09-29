@@ -132,7 +132,7 @@ namespace TabListPlugin
 
                     //CacheManager.Draw(person.SmallPortrait, rec, nullable, Microsoft.Xna.Framework.Color.White, 0f, Vector2.Zero, SpriteEffects.None, depth);
 
-                    CacheManager.DrawZhsanAvatar(person, "s", rec, Color.White, depth);
+                    CacheManager.DrawZhsanAvatar(person, rec, depth, PortraitSize.Small);
 
                     //}
                     //catch

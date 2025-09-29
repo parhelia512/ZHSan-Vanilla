@@ -1,3 +1,5 @@
+using FontStashSharp;
+using GameGlobal;
 using GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -5,9 +7,9 @@ using Platforms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Tools;
-using FontStashSharp;
 namespace GameManager
 {
     public class PlatformTexture
@@ -487,69 +489,111 @@ namespace GameManager
             }
         }
 
-        public static void DrawZhsanAvatar(Person person, string type, Rectangle pos, Color color, float depth)
+        /// <summary>
+        /// 获取人物头像
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="pos"></param>
+        /// <param name="depth"></param>
+        /// <param name="size"></param>
+        /// <param name="color"></param>
+        public static void DrawZhsanAvatar(Person person, Rectangle pos, float depth, PortraitSize size = PortraitSize.Medium, Color? color = null, PortraitDefaultType? type = null)
         {
-            if (person == null)
-            {
-                return;
-            }
-            float pictureID = Convert.ToSingle(person.PictureIndex);
+            var path = GetPersonPortraitPath(person, type , size);
 
-            //if (person.Age >= 50)
-            //{
-            //    pictureID += 0.5f;
-            //}
-            //if (person.Age <= 20)
-            //{
-            //    pictureID += 0.2f;
-            //}
-            DrawZhsanAvatar(pictureID, person.FallbackPictureIndex, type, pos, color, depth);
+            var drawColor = color ?? Color.White;
+
+            DrawAvatar(path, pos, drawColor, false, true, TextureShape.None, null, depth);
         }
 
-        public static void DrawZhsanAvatar(float pictureIndex, int fallbackIndex, string type, Rectangle pos, Color color, float depth)
+        /// <summary>
+        /// 获取人物头像
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="pos"></param>
+        /// <param name="depth"></param>
+        /// <param name="size"></param>
+        /// <param name="color"></param>
+        /// <param name="type"></param>
+        public static void DrawZhsanAvatar(int index, Rectangle pos, float depth, PortraitSize size = PortraitSize.Medium, Color? color = null, PortraitDefaultType? type = null)
         {
-            if (type == "f" || type == "t")
+            var path = GetPersonPortraitPath(index, type , size);
+
+            var drawColor = color ?? Color.White;
+
+            DrawAvatar(path, pos, drawColor, false, true, TextureShape.None, null, depth);
+        }
+
+        /// <summary>
+        /// 获取头像路径
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="type"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private static string GetPersonPortraitPath(Person person, PortraitDefaultType? type = null, PortraitSize size = PortraitSize.Medium)
+        {
+            var id = person == null ? (int)PortraitDefaultType.Military : person.PictureIndex;
+
+            var defaultType = type ?? (person == null ? PortraitDefaultType.Military : person.GetPortraitDefaultType());
+
+            var path = GetPersonPortraitPath(id, defaultType, size);
+
+            return path;
+        }
+
+        /// <summary>
+        /// 获取头像路径
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="type"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private static string GetPersonPortraitPath(int index, PortraitDefaultType? type = null, PortraitSize size = PortraitSize.Medium)
+        {
+            var defaultIndex = (int)(type ?? PortraitDefaultType.Military);
+
+            var customDir = @"Content/Textures/GameComponents/PersonPortrait/Images/Player/";
+            
+            var portraitPack = Setting.Current.PortraitPack;
+            var defaultDir = String.IsNullOrWhiteSpace(portraitPack) ? @"Content/Textures/GameComponents/PersonPortrait/Images/Default/"
+                                                                     : $"Portraits/{portraitPack}/";
+
+            var suffix = size == PortraitSize.Medium ? string.Empty : "s";
+
+            var customPath = $"{customDir}{index}{suffix}.jpg";
+            var defaultPath = $"{defaultDir}{index}{suffix}.jpg";
+
+            var paths = new[]
             {
-                type = "";
+                customPath,                             // 自定义
+                ReplaceModPath(defaultPath),            // mod头像
+                defaultPath,                            // 头像包
+                $"{defaultDir}{index}.jpg",             // 原尺寸
+                $"{defaultDir}{defaultIndex}.jpg"       // 通用默认头像
+            };
+
+            foreach (var path in paths)
+            {
+                if (Platform.Current.FileExists(path))
+                    return path;
             }
 
-            string id = String.Format("Content/Textures/GameComponents/PersonPortrait/Images/Player/{0}{1}.jpg", Convert.ToInt32(pictureIndex), type);
-            if (!(Setting.Current == null || String.IsNullOrEmpty(Setting.Current.MODRuntime)))
-            {
-                id = id.Replace("Content", "MODs/" + Setting.Current.MODRuntime);
-            }
+            return string.Empty;
+        }
 
-            if (Platform.Current.FileExists(id))
-            {
+        /// <summary>
+        /// 替换mod路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private static string ReplaceModPath(string path)
+        {
+            var mod = Setting.Current.MODRuntime;
+            if (Setting.Current != null && !String.IsNullOrEmpty(mod))
+                path = path.Replace("Content", $"MODs/{mod}");
 
-            }
-            else
-            {
-                id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", Convert.ToInt32(pictureIndex), type);
-                if (!(Setting.Current == null || String.IsNullOrEmpty(Setting.Current.MODRuntime)))
-                {
-                    id = id.Replace("Content", "MODs/" + Setting.Current.MODRuntime);
-                }
-
-                if (Platform.Current.FileExists(id))
-                {
-
-                }
-                else
-                {
-                    id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", Convert.ToInt32(pictureIndex), "");
-                    if (Platform.Current.FileExists(id))
-                    {
-
-                    }
-                    else
-                    {
-                        id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", fallbackIndex, "");
-                    }
-                }
-            }
-
-            DrawAvatar(id, pos, Color.White, false, true, TextureShape.None, null, depth);
+            return path;
         }
 
         public static void DrawShape(string name, TextureShape shape, float[] shapeParms, Vector2 pos, Color color, Vector2 scale, Rectangle? source = null, bool isTemp = true)

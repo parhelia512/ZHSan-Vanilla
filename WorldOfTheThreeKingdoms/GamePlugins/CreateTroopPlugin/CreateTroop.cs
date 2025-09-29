@@ -250,7 +250,7 @@ namespace CreateTroopPlugin
                 //catch
                 //{
                 //}
-                CacheManager.DrawZhsanAvatar(this.CreatingTroop.Leader, "s", this.PortraitDisplayPosition, Color.White, 0.199f);
+                CacheManager.DrawZhsanAvatar(this.CreatingTroop.Leader, this.PortraitDisplayPosition, 0.199f, PortraitSize.Small);
             }
             this.TroopNameText.Draw(0.1999f);
             foreach (LabelText text in this.LabelTexts)

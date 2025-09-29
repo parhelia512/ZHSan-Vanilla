@@ -1,3 +1,4 @@
+using GameGlobal;
 using GameManager;
 using GameObjects;
 using GamePanels;
@@ -46,6 +47,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         private static int h = 0;
 
         public List<MOD> mods = new List<MOD>();
+
+        // 头像包，空字符串默认原版
+        public List<string> portraitPacks = new List<string>() { string.Empty };
 
         public static MainMenuScreen Current = null;
 
@@ -280,6 +284,22 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 currentMod = mods.FirstOrDefault();
                 Setting.Current.MOD = currentMod.ID;
             }
+
+
+            #region 获取头像包
+
+            var portraitPackPath = @"Portraits/";
+            var portraitDirNames = Platform.Current.GetDirectoryNames(portraitPackPath);
+            portraitPacks.AddRange(portraitDirNames);
+
+            // 防止修改头像包文件夹名称时，出现没有选中的情况
+            var currentPortraitPack = portraitPacks.FirstOrDefault(x => x.Equals(Setting.Current.PortraitPack));
+            if (currentPortraitPack == null)
+            {
+                Setting.Current.PortraitPack = portraitPacks.FirstOrDefault();
+            }
+
+            #endregion
 
             Current = this;
 
@@ -2073,7 +2093,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 var mod = mods[i];
 
-                btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(400 + 160 * i, 120))
+                btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(375 + 120 * i, 120))
                 {
                     ID = "MOD" + mod.ID
                 };
@@ -2096,6 +2116,40 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 };
                 btSettingList.Add(btOne);
             }
+
+            #region 添加头像包CheckBoxs
+
+            var portraitTextureType = "Portrait";
+
+            for (var i = 0; i < portraitPacks.Count; i++)
+            {
+                btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(375 + 120 * i, 155))
+                {
+                    ID = portraitTextureType + portraitPacks[i]
+                };
+
+                btOne.OnButtonPress += (sender, e) =>
+                {
+                    btSettingList.Where(x => !String.IsNullOrEmpty(x.ID) && x.ID.StartsWith(portraitTextureType)).ForEach(x => { x.Selected = false; });
+
+                    var bt = (ButtonTexture)sender;
+
+                    bt.Selected = true;
+
+                    string id = bt.ID.Replace(portraitTextureType, string.Empty);
+
+                    if (!Setting.Current.PortraitPack.Equals(id))
+                    {
+                        Setting.Current.PortraitPack = id;
+
+                        CacheManager.Clear(CacheType.Live);
+                    }
+                };
+
+                btSettingList.Add(btOne);
+            }
+
+            #endregion
 
             nstMusic = new NumericSetTextureF(0, 100, 100, null, new Vector2(420, 330), true)
             {
@@ -3354,6 +3408,18 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 btOne.Selected = mod.ID == Setting.Current.MOD.NullToString();
             }
 
+            #region 初始化头像包按钮状态
+
+            var portraitTextureType = "Portrait";
+            foreach (var name in portraitPacks)
+            {
+                btOne = btSettingList.FirstOrDefault(bt => bt.ID == portraitTextureType + name);
+
+                btOne.Selected = name == Setting.Current.PortraitPack;
+            }
+
+            #endregion
+
             nstAutoSaveTime.NowNumber = Setting.Current.GlobalVariables.AutoSaveFrequency;
 
             nstArmySpeed.NowNumber = Setting.Current.GlobalVariables.TroopMoveSpeed;
@@ -4446,7 +4512,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                         CacheManager.DrawString(Session.Current.Font, person.Calmness.ToString(), bt.Position + new Vector2(470 + 30, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
                                         if (bt.MouseOver)
                                         {
-                                            CacheManager.DrawAvatar(@"Content\Textures\GameComponents\PersonPortrait\Images\Default\" + person.PictureIndex + ".jpg", new Rectangle(221, 81, 191, 191), Color.White * alpha, false, true, TextureShape.None, null);
+                                            CacheManager.DrawZhsanAvatar(person, new Rectangle(221, 81, 191, 191), 0f, PortraitSize.Medium, Color.White * alpha, PortraitDefaultType.Military);
                                         }
                                     }
 
@@ -4465,14 +4531,18 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     }
                     else
                     {
+                        // 剧本君主头像列表
+                        var LeaderPics = CurrentScenario.LeaderPics.Split(',').ToList();
+
                         frame_PlayersList.ContentContorls.ForEach(bt =>
                         {
                             CheckBox checkBox = bt as CheckBox;
                             int index = frame_PlayersList.ContentContorls.IndexOf(checkBox);
-                            var LeaderPic = CurrentScenario.LeaderPics.Split(',').NullToEmptyArray()[index];
+                            int.TryParse(LeaderPics[index], out var leaderPicIndex);
+
                             if (checkBox.MouseOver)
                             {
-                                CacheManager.DrawAvatar(@"Content\Textures\GameComponents\PersonPortrait\Images\Default\" + LeaderPic + ".jpg", new Rectangle(221, 81, 191, 191), Color.White, false, true, TextureShape.None, null);
+                                CacheManager.DrawZhsanAvatar(leaderPicIndex, new Rectangle(221, 81, 191, 191), 0f);
                             }
                         });
                         frame_PlayersList.Draw();
@@ -4839,14 +4909,26 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
                 int left = 50 + 620 + 55;
 
-                CacheManager.DrawString(Session.Current.Font, "MOD:", new Vector2(250, 120), Color.White * alpha);
+                CacheManager.DrawString(Session.Current.Font, "MOD:", new Vector2(250, 120), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
 
                 for (int i = 0; i < mods.Count; i++)
                 {
                     var mod = mods[i];
 
-                    CacheManager.DrawString(Session.Current.Font, mod.Name, new Vector2(250 + 200 + 160 * i, 120), Color.White * alpha);
+                    CacheManager.DrawString(Session.Current.Font, mod.Name, new Vector2(250 + 160 + 120 * i, 120), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
                 }
+
+                #region 头像包CheckBox的标签
+
+                CacheManager.DrawString(Session.Current.Font, "头像包:", new Vector2(250, 155), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
+                for (var i = 0; i < portraitPacks.Count; i++)
+                {
+                    var name = portraitPacks[i];
+                    var labelStr = String.IsNullOrWhiteSpace(name) ? "原版" : name;
+                    CacheManager.DrawString(Session.Current.Font, labelStr, new Vector2(250 + 160 + 120 * i, 155), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
+                }
+
+                #endregion
 
                 CacheManager.DrawString(Session.Current.Font, "语言：", new Vector2(250, 188), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
 

@@ -82,6 +82,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Contracts\Records.cs" />
+    <Compile Include="GameGlobal\PortraitDefaultType.cs" />
+    <Compile Include="GameGlobal\PortraitSize.cs" />
     <Compile Include="GameManager\AnimatedTexture.cs" />
     <Compile Include="GameManager\CacheManager.cs" />
     <Compile Include="GameManager\InputManager.cs" />
