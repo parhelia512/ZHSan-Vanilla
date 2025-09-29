@@ -386,6 +386,23 @@ namespace Platforms
             }
         }
 
+        /// <summary>
+        /// 获取路径下的文件夹名称列表
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public List<string> GetDirectoryNames(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                string[] dirs = Directory.GetDirectories(path);
+
+                return dirs.Select(x => Path.GetFileName(x)).ToList();
+            }
+
+            return new List<string>();
+        }
+
         public override string[] GetDirectoriesBasic(string dir, bool all, bool full)
         {
             return GetDirectories(dir, all, true);

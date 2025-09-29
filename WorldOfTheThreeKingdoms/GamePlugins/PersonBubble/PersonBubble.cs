@@ -107,7 +107,7 @@ namespace PersonBubble
                     layerDepth += -1E-06f;
                     sourceRectangle = null;
 
-                    CacheManager.DrawZhsanAvatar(this.Bubbles[i].SpeakingPerson, "s", this.PortraitDisplayPosition(this.Bubbles[i].Position), Color.White, layerDepth);
+                    CacheManager.DrawZhsanAvatar(this.Bubbles[i].SpeakingPerson, this.PortraitDisplayPosition(this.Bubbles[i].Position), layerDepth, PortraitSize.Small);
 
                     layerDepth += -1E-06f;
                     if (this.Bubbles[i].RichText != null)

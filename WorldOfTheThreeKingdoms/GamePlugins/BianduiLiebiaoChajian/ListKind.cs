@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
 
-
 namespace BianduiLiebiaoChajian
 {
     public class ListKind
@@ -126,7 +125,7 @@ namespace BianduiLiebiaoChajian
                         {
                         }
                     }
-                    CacheManager.DrawZhsanAvatar(person, "s", rec, Color.White, depth);
+                    CacheManager.DrawZhsanAvatar(person, rec, depth, PortraitSize.Small);
                 }
             }
             if (this.tabList.ShowVerticalScrollBar)

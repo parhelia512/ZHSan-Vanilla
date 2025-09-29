@@ -54,7 +54,7 @@
                 CacheManager.Draw(this.BackgroundTexture, this.BackgroundDisplayPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.2f);
                 try
                 {
-                    CacheManager.DrawZhsanAvatar(this.ShowingPerson, "", this.PortraitDisplayPosition, Color.White, 0.199f);
+                    CacheManager.DrawZhsanAvatar(this.ShowingPerson, this.PortraitDisplayPosition, 0.199f);
                 }
                 catch
                 {

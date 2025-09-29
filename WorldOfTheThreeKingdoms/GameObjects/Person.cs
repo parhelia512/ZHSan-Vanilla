@@ -8579,12 +8579,23 @@ namespace GameObjects
             }
         }
 
-        public int FallbackPictureIndex
+        /// <summary>
+        /// 获取默认头像
+        /// </summary>
+        /// <returns></returns>
+        public PortraitDefaultType GetPortraitDefaultType()
         {
-            get
+            // 女性
+            if (Sex) return PortraitDefaultType.Female;
+            
+            // 文官 or 武官
+            if (BaseIntelligence + BasePolitics > BaseStrength + BaseCommand)
             {
-                if (this.Sex) return 9997;
-                if (this.BaseIntelligence + this.BasePolitics > this.BaseStrength + this.BaseCommand) return 9998; else return 9999;
+                return PortraitDefaultType.Civilian;
+            }
+            else
+            {
+                return PortraitDefaultType.Military;
             }
         }
 

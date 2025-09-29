@@ -41,6 +41,12 @@ namespace GameManager
         [DataMember]
         public string MOD { get; set; }
 
+        /// <summary>
+        /// 头像包
+        /// </summary>
+        [DataMember]
+        public string PortraitPack { get; set; }
+
         public string MODRuntime
         {
             get
