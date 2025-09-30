@@ -124,6 +124,19 @@ namespace GameObjects.Influences
             }
             return false;
         }
+        
+        public List<Influence> GetInfluenceByKind(int id)
+        {
+            var result = new List<Influence>();
+            foreach (Influence i in this.Influences.Values)
+            {
+                if (i.Kind.ID == id)
+                {
+                    result.Add(i);
+                }
+            }
+            return result;
+        }
 
         public List<string> LoadFromString(InfluenceTable allInfluences, string influenceIDs)
         {

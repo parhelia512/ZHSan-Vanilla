@@ -11794,19 +11794,13 @@ namespace GameObjects
                     { "cavalry", LocationArchitecture.CavalryTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (QibingExperience + 1000) : 0 },
                     { "bowman", LocationArchitecture.BowmanTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (NubingExperience + 1000) : 0 },
                     { "naval", LocationArchitecture.NavalTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (ShuijunExperience + 1000) : 0 },
-                    { "siege", LocationArchitecture.SiegeTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (QixieExperience + 1000) : 0 }
+                    { "siege", LocationArchitecture.SiegeTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (QixieExperience + 1000) : 0 },
+                    { "pub", LocationArchitecture.HasPub() ? 10 : 0 }
                 };
 
                 float max = 0;
-                string selected = null;
-                foreach (var p in priorities)
-                {
-                    if (p.Value > max)
-                    {
-                        max = p.Value;
-                        selected = p.Key;
-                    }
-                }
+                string selected = WeightedRandom(priorities);
+
                 switch (selected)
                 {
                     case "command": locationArchitecture.FacilityTrainCommand(this); break;
@@ -11819,6 +11813,7 @@ namespace GameObjects
                     case "bowman": locationArchitecture.FacilityTrainBowman(this); break;
                     case "naval": locationArchitecture.FacilityTrainNaval(this); break;
                     case "siege": locationArchitecture.FacilityTrainSiege(this); break;
+                    case "pub": locationArchitecture.GoToPub(this); break;
                 }
             }
         }

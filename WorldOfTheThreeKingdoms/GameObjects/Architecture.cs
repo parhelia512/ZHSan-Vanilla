@@ -15604,6 +15604,32 @@ namespace GameObjects
             }
         }
 
+        public void GoToPub(Person p)
+        {
+            if (HasPub())
+            {
+                int pubCost = GetPubCost();
+                if (p.Fund < pubCost) return;
+                p.Fund -= pubCost;
+
+                p.GlamourExperience += GameObject.Random(40, 60);
+
+                var candidates = Persons.GetList();
+                candidates.AddRange(NoFactionPersons);
+                int invited = 0;
+                foreach (Person p2 in candidates.GetRandomList())
+                {
+                    if (GameObject.Chance(p2.GetRelation(p) / 5))
+                    {
+                        p.AdjustRelation(p2, 6, 10);
+                        p2.AdjustRelation(p, 6, 10);
+                        invited++;
+                        if (invited > 3) break;
+                    }
+                }
+            }
+        }
+
         #region 宝物
 
         /// <summary>
@@ -15734,6 +15760,41 @@ namespace GameObjects
                 }
             }
             return list;
+        }
+
+        public bool HasPub()
+        {
+            foreach (Facility facility in this.Facilities)
+            {
+                if (facility.Kind.Influences.HasInfluenceKind(3520))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public int GetPubCost()
+        {
+            var cost = int.MaxValue;
+            foreach (Facility facility in this.Facilities)
+            {
+                if (facility.Kind.Influences.HasInfluenceKind(3520))
+                {
+                    List<Influence> inf = facility.Kind.Influences.GetInfluenceByKind(3520);
+                    foreach (var i in inf)
+                    {
+                        var thisCost = int.Parse(i.Parameter);
+                        if (thisCost < cost)
+                        {
+                            cost = thisCost;
+                        }
+                    }
+                }
+            }
+
+            return cost;
         }
 
         #endregion
