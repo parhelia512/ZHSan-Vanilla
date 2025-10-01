@@ -608,6 +608,8 @@ namespace Platforms
 
         public string GetMODFile(string res)
         {
+            if (Setting.Current == null) return res;
+            
             var mod = Setting.Current.MODRuntime;
             if (Setting.Current != null && !string.IsNullOrEmpty(mod))
             {

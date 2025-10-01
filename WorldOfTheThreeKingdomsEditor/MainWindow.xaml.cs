@@ -54,7 +54,7 @@ namespace WorldOfTheThreeKingdomsEditor
         public MainWindow()
         {
             InitializeComponent();
-            Platforms.Platform.Current.editing = true;
+            //Platforms.Platform.Current.editing = true;
             CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
 
             scen = new GameScenario();
