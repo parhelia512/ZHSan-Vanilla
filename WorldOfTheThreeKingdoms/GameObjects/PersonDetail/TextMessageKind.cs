@@ -139,5 +139,6 @@ namespace GameObjects.PersonDetail
         QuanXiangFailed, // 130
         GeDi, // 131
         AIMergeAgainstPlayer, //132
+        HougongHate, // 133
     }
 }

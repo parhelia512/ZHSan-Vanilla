@@ -72,15 +72,19 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 Session.Current.Scenario.CurrentFaction.Leader.GoForHouGong(this.CurrentPerson);
                 String msgKey;
+                TextMessageKind msgKind;
                 if (this.CurrentPerson.Hates(Session.Current.Scenario.CurrentFaction.Leader))
                 {
                     msgKey = "chongxingHate";
+                    msgKind = TextMessageKind.HougongHate;
                 }
                 else
                 {
                     msgKey = "chongxing";
+                    msgKind = TextMessageKind.Hougong;
                 }
-                Session.MainGame.mainGameScreen.xianshishijiantupian(this.CurrentPerson, Session.Current.Scenario.CurrentFaction.Leader.Name, TextMessageKind.Hougong, msgKey, this.CurrentPerson.ID.ToString(), "hougong", true);
+                Session.MainGame.mainGameScreen.xianshishijiantupian(this.CurrentPerson, Session.Current.Scenario.CurrentFaction.Leader.Name, 
+                    msgKind, msgKey, this.CurrentPerson.ID.ToString(), "hougong", true);
                 //this.mainGameScreen.DateGo(1);
             }
         }

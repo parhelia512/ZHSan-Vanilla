@@ -41,7 +41,7 @@ namespace WorldOfTheThreeKingdomsEditor
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("语言类型ID",typeof(int));
             dataTable.Columns.Add("语言类型名称");
-            for (int i = 0; i < textkinds.Length-1; i++)
+            for (int i = 0; i < textkinds.Length; i++)
             {
                 DataRow dataRow = dataTable.NewRow();
                 dataRow["语言类型ID"] = i;
@@ -171,6 +171,7 @@ namespace WorldOfTheThreeKingdomsEditor
 
         private string[] textkinds = new string[]
         {
+            "无",
             "暴击",
             "暴击建筑",
             "被暴击",
@@ -301,6 +302,9 @@ namespace WorldOfTheThreeKingdomsEditor
             "任命县令",
             "劝降",
             "劝降失败",
+            "割地",
+            "合併對付玩家",
+            "被宠幸(厭惡)"
         };
 
     }
