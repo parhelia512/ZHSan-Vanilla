@@ -15619,10 +15619,10 @@ namespace GameObjects
                 int invited = 0;
                 foreach (Person p2 in candidates.GetRandomList())
                 {
-                    if (GameObject.Chance(p2.GetRelation(p) / 5))
+                    if (GameObject.Chance(p2.GetRelation(p) / 20))
                     {
-                        p.AdjustRelation(p2, 6, 10);
-                        p2.AdjustRelation(p, 6, 10);
+                        p.AdjustRelation(p2, 4, 6);
+                        p2.AdjustRelation(p, 4, 6);
                         invited++;
                         if (invited > 3) break;
                     }
