@@ -872,7 +872,7 @@ namespace GameObjects
             this.AdjustByArchitectures();
         }
 
-        private bool IsPersonForHouGong(Person p, bool forced, bool alreadyTaken = false)
+        public bool IsPersonForHouGong(Person p, bool forced, bool alreadyTaken = false)
         {
             if (!this.Leader.isLegalFeiZiExcludeAge(p) || !p.isLegalFeiZiExcludeAge(this.Leader)) return false;
 
@@ -950,7 +950,7 @@ namespace GameObjects
             return spousePerson;
         }
 
-        private void AIActuallyMakeMarriage(Person p, Person q)
+        public void AIActuallyMakeMarriage(Person p, Person q)
         {
             if (p.LocationArchitecture == q.LocationArchitecture && p.LocationArchitecture != null &&
                                 p.LocationArchitecture.Fund >= Session.Parameters.MakeMarriageCost)

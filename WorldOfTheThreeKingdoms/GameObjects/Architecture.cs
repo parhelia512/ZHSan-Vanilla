@@ -1322,8 +1322,15 @@ namespace GameObjects
                 {
                     if (!this.BelongedFaction.Leader.HasStrainTo(i.CaptivePerson))
                     {
-                        Session.MainGame.mainGameScreen.OnExecute(this.BelongedFaction.Leader, i.CaptivePerson);
-                        i.CaptivePerson.execute(this.BelongedFaction);
+                        if (this.BelongedFaction.IsPersonForHouGong(i.CaptivePerson, true))
+                        {
+                            this.BelongedFaction.AIActuallyMakeMarriage(this.BelongedFaction.Leader, i.CaptivePerson);   
+                        }
+                        else
+                        {
+                            Session.MainGame.mainGameScreen.OnExecute(this.BelongedFaction.Leader, i.CaptivePerson);
+                            i.CaptivePerson.execute(this.BelongedFaction);
+                        }
 
                         break;
                     }
@@ -1332,10 +1339,17 @@ namespace GameObjects
                     (i.CaptivePerson.PersonalLoyalty >= 2 || this.BelongedFaction.Leader.Hates(i.CaptivePerson) || i.CaptivePerson.Hates(this.BelongedFaction.Leader)) &&
                     GameObject.Chance(10))
                 {
-                    if (!this.BelongedFaction.Leader.HasStrainTo(i.CaptivePerson) && !this.BelongedFaction.Leader.isLegalFeiZiExcludeAge(i.CaptivePerson))
+                    if (!this.BelongedFaction.Leader.HasStrainTo(i.CaptivePerson))
                     {
-                        Session.MainGame.mainGameScreen.OnExecute(this.BelongedFaction.Leader, i.CaptivePerson);
-                        i.CaptivePerson.execute(this.BelongedFaction);
+                        if (this.BelongedFaction.IsPersonForHouGong(i.CaptivePerson, true))
+                        {
+                            this.BelongedFaction.AIActuallyMakeMarriage(this.BelongedFaction.Leader, i.CaptivePerson);   
+                        }
+                        else
+                        {
+                            Session.MainGame.mainGameScreen.OnExecute(this.BelongedFaction.Leader, i.CaptivePerson);
+                            i.CaptivePerson.execute(this.BelongedFaction);
+                        }
                     }
 
                     break;
@@ -15619,10 +15633,10 @@ namespace GameObjects
                 int invited = 0;
                 foreach (Person p2 in candidates.GetRandomList())
                 {
-                    if (GameObject.Chance(p2.GetRelation(p) / 20))
+                    if (GameObject.Chance(p2.GetRelation(p) / 30))
                     {
-                        p.AdjustRelation(p2, 4, 6);
-                        p2.AdjustRelation(p, 4, 6);
+                        p.AdjustRelation(p2, 6, 0);
+                        p2.AdjustRelation(p, 6, 0);
                         invited++;
                         if (invited > 3) break;
                     }
