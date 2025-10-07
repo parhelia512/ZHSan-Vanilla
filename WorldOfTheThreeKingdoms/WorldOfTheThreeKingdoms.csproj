@@ -1457,6 +1457,7 @@
     <Compile Include="GameObjects\TroopStatus.cs" />
     <Compile Include="GameObjects\TroopWill.cs" />
     <Compile Include="GameObjects\UndoneWorkItem.cs" />
+    <Compile Include="GameObjects\Util.cs" />
     <Compile Include="GameObjects\YearTable.cs" />
     <Compile Include="GameObjects\YearTableEntry.cs" />
     <Compile Include="GameObjects\zainanlei.cs" />

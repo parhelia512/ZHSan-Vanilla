@@ -15630,10 +15630,19 @@ namespace GameObjects
 
                 var candidates = Persons.GetList();
                 candidates.AddRange(NoFactionPersons);
-                int invited = 0;
-                foreach (Person p2 in candidates.GetRandomList())
+
+                var dict = new Dictionary<Person, float>();
+                foreach (Person q in candidates)
                 {
-                    if (GameObject.Chance(p2.GetRelation(p) / 30))
+                    if (q == p) break;
+                    dict[q] = Person.GetIdealAttraction(q, p);
+                }
+                dict.SortByDictValueDesc();
+                
+                int invited = 0;
+                foreach (Person p2 in candidates)
+                {
+                    if (GameObject.Chance(p2.GetRelation(p) / 30 + 10))
                     {
                         p.AdjustRelation(p2, 6, 0);
                         p2.AdjustRelation(p, 6, 0);
@@ -15642,6 +15651,11 @@ namespace GameObjects
                     }
                 }
             }
+        }
+
+        public void CreateTreasure(Person p)
+        {
+            // TODO
         }
 
         #region 宝物

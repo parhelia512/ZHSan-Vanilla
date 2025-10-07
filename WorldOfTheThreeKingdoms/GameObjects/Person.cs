@@ -11795,7 +11795,8 @@ namespace GameObjects
                     { "bowman", LocationArchitecture.BowmanTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (NubingExperience + 1000) : 0 },
                     { "naval", LocationArchitecture.NavalTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (ShuijunExperience + 1000) : 0 },
                     { "siege", LocationArchitecture.SiegeTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (QixieExperience + 1000) : 0 },
-                    { "pub", LocationArchitecture.HasPub() ? 10 : 0 }
+                    { "pub", LocationArchitecture.HasPub() ? 10 : 0 },
+                    { "createTreasure", 0 }
                 };
 
                 float max = 0;
@@ -11814,6 +11815,7 @@ namespace GameObjects
                     case "naval": locationArchitecture.FacilityTrainNaval(this); break;
                     case "siege": locationArchitecture.FacilityTrainSiege(this); break;
                     case "pub": locationArchitecture.GoToPub(this); break;
+                    case "createTreasure": locationArchitecture.CreateTreasure(this); break;
                 }
             }
         }
