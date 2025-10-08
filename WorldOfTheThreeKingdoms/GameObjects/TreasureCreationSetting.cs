@@ -15,5 +15,8 @@ namespace GameObjects
         [DataMember]
         public int Cost { get; set; }
         
+        [DataMember]
+        public int[] PicIDs { get; set; }
+        
     }
 }

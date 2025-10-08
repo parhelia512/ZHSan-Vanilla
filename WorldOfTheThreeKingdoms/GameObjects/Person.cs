@@ -11785,7 +11785,7 @@ namespace GameObjects
             if (Fund >= Session.Parameters.TrainAbilityCost && LocationArchitecture != null && GameObject.Random(5) == 0)
             {
                 var priorities = new Dictionary<string, float> {
-                    { "command", LocationArchitecture.CommandTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (commandExperience + 1000) : 0 },
+                    { "command",  LocationArchitecture.CommandTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (commandExperience + 1000) : 0 },
                     { "strength", LocationArchitecture.StrengthTrainingFacilityRate > 0 && Tiredness < 5 ? Strength * 10000 / (StrengthExperience + 1000) : 0 },
                     { "intelligence", LocationArchitecture.IntelligenceTrainingFacilityRate > 0 && Tiredness < 5 ? Intelligence * 10000 / (IntelligenceExperience + 1000) : 0 },
                     { "politics", LocationArchitecture.IntelligenceTrainingFacilityRate > 0 && Tiredness < 5 ? Intelligence * 10000 / (IntelligenceExperience + 1000) : 0 },

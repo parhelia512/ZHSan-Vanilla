@@ -15626,7 +15626,7 @@ namespace GameObjects
                 if (p.Fund < pubCost) return;
                 p.Fund -= pubCost;
 
-                p.GlamourExperience += GameObject.Random(40, 60);
+                p.GlamourExperience += GameObject.Random(20, 30);
 
                 var candidates = Persons.GetList();
                 candidates.AddRange(NoFactionPersons);
@@ -15642,10 +15642,10 @@ namespace GameObjects
                 int invited = 0;
                 foreach (Person p2 in candidates)
                 {
-                    if (GameObject.Chance(p2.GetRelation(p) / 30 + 10))
+                    if (GameObject.Chance(p2.GetRelation(p) / 60 + 10))
                     {
-                        p.AdjustRelation(p2, 6, 0);
-                        p2.AdjustRelation(p, 6, 0);
+                        p.AdjustRelation(p2, 3, 0);
+                        p2.AdjustRelation(p, 3, 0);
                         invited++;
                         if (invited > 3) break;
                     }
