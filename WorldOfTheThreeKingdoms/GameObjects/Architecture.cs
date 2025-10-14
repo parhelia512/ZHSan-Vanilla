@@ -1322,7 +1322,7 @@ namespace GameObjects
                 {
                     if (!this.BelongedFaction.Leader.HasStrainTo(i.CaptivePerson))
                     {
-                        if (this.BelongedFaction.IsPersonForHouGong(i.CaptivePerson, true))
+                        if (!this.BelongedFaction.Leader.Sex && this.BelongedFaction.IsPersonForHouGong(i.CaptivePerson, true))
                         {
                             this.BelongedFaction.AIActuallyMakeMarriage(this.BelongedFaction.Leader, i.CaptivePerson);   
                         }
@@ -1341,7 +1341,7 @@ namespace GameObjects
                 {
                     if (!this.BelongedFaction.Leader.HasStrainTo(i.CaptivePerson))
                     {
-                        if (this.BelongedFaction.IsPersonForHouGong(i.CaptivePerson, true))
+                        if (!this.BelongedFaction.Leader.Sex && this.BelongedFaction.IsPersonForHouGong(i.CaptivePerson, true))
                         {
                             this.BelongedFaction.AIActuallyMakeMarriage(this.BelongedFaction.Leader, i.CaptivePerson);   
                         }
