@@ -6094,7 +6094,7 @@ namespace GameObjects
             Architecture targetArchitecture = this.TargetArchitecture;
 
             if (a == null) return;
-
+            
             if (!moveFollower && NvGuan) return;
 
             if (this.Status == PersonStatus.Captive || this.Status == PersonStatus.Princess) return;

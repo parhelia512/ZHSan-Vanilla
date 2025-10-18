@@ -981,7 +981,19 @@ namespace GameObjects
                 q.WaitForFeiZi = p;
                 if (p.LocationArchitecture != q.LocationArchitecture)
                 {
-                    if (q.Status == PersonStatus.Normal && !q.NvGuan && q.LocationArchitecture != null && q.LocationTroop == null &&
+                    if (p.Status == PersonStatus.Captive && q.LocationArchitecture != null &&
+                        q.LocationTroop == null &&
+                        q.LocationArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                    {
+                        q.MoveToArchitecture(p.LocationArchitecture);
+                    }
+                    else if (q.Status == PersonStatus.Captive && p.LocationArchitecture != null &&
+                             p.LocationTroop == null &&
+                             p.LocationArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                    {
+                        p.MoveToArchitecture(q.LocationArchitecture);
+                    }
+                    else if (q.Status == PersonStatus.Normal && !q.NvGuan && q.LocationArchitecture != null && q.LocationTroop == null &&
                         p.BelongedArchitecture != null && p.BelongedArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
                     {
                         q.MoveToArchitecture(p.BelongedArchitecture);
