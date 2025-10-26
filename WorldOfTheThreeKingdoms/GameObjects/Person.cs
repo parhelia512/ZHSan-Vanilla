@@ -6094,6 +6094,14 @@ namespace GameObjects
             Architecture targetArchitecture = this.TargetArchitecture;
 
             if (a == null) return;
+
+            if (this.BelongedFaction != null && this.BelongedFaction.Leader == this &&
+                a.BelongedFaction != this.BelongedFaction)
+            {
+                int z = 0;
+                z++;
+                return;
+            }
             
             if (!moveFollower && NvGuan) return;
 
