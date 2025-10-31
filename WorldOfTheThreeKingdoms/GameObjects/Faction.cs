@@ -981,27 +981,35 @@ namespace GameObjects
                 q.WaitForFeiZi = p;
                 if (p.LocationArchitecture != q.LocationArchitecture)
                 {
-                    if (p.Status == PersonStatus.Captive && p.LocationArchitecture != null &&
-                        q.LocationTroop == null &&
-                        p.LocationArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                    if (p.Status == PersonStatus.Captive && q.LocationTroop == null)
                     {
-                        q.MoveToArchitecture(p.LocationArchitecture);
+                        if (p.LocationArchitecture != null && p.LocationArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                        {
+                            q.MoveToArchitecture(p.LocationArchitecture);
+                        }
                     }
-                    else if (q.Status == PersonStatus.Captive && q.LocationArchitecture != null &&
-                             p.LocationTroop == null &&
-                             q.LocationArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                    else if (q.Status == PersonStatus.Captive && p.LocationTroop == null)
                     {
-                        p.MoveToArchitecture(q.LocationArchitecture);
+                        if (q.LocationArchitecture != null && q.LocationArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                        {
+                            p.MoveToArchitecture(q.LocationArchitecture);
+                        }
                     }
                     else if (q.Status == PersonStatus.Normal && !q.NvGuan && q.LocationArchitecture != null && q.LocationTroop == null &&
-                        p.BelongedArchitecture != null && p.BelongedArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                        p.BelongedArchitecture != null)
                     {
-                        q.MoveToArchitecture(p.BelongedArchitecture);
+                        if (p.BelongedArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                        {
+                            q.MoveToArchitecture(p.BelongedArchitecture);
+                        }
                     }
                     else if (p.Status == PersonStatus.Normal && !p.NvGuan && p.LocationArchitecture != null && p.LocationTroop == null &&
-                        q.BelongedArchitecture != null && q.BelongedArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                        q.BelongedArchitecture != null)
                     {
-                        p.MoveToArchitecture(q.BelongedArchitecture);
+                        if (q.BelongedArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
+                        {
+                            p.MoveToArchitecture(q.BelongedArchitecture);
+                        }
                     }
                 }
             }
