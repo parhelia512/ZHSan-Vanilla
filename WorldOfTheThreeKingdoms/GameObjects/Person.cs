@@ -11804,10 +11804,9 @@ namespace GameObjects
                     { "naval", LocationArchitecture.NavalTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (ShuijunExperience + 1000) : 0 },
                     { "siege", LocationArchitecture.SiegeTrainingFacilityRate > 0 && Tiredness < 5 ? Command * 10000 / (QixieExperience + 1000) : 0 },
                     { "pub", LocationArchitecture.HasPub() ? 10 : 0 },
-                    { "createTreasure", 0 }
+                    { "createTreasure", LocationArchitecture.GetAvailableCreateTreasureFacilities().Count > 0 ? 10 : 0 }
                 };
 
-                float max = 0;
                 string selected = WeightedRandom(priorities);
 
                 switch (selected)

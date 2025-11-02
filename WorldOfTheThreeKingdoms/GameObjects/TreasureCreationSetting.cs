@@ -11,6 +11,9 @@ namespace GameObjects
             get;
             set;
         }
+
+        [DataMember]
+        public int TreasureGroup { get; set; }
         
         [DataMember]
         public int Cost { get; set; }

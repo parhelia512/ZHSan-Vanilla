@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Linq;
 
 namespace GameObjects
 {
@@ -15653,9 +15654,68 @@ namespace GameObjects
             }
         }
 
+        public List<Facility> GetAvailableCreateTreasureFacilities()
+        {
+            var results = new List<Facility>();
+            
+            foreach (Facility facility in this.Facilities)
+            {
+                if (facility.Kind.Influences.HasInfluenceKind(3530))
+                {
+                    results.Add(facility);
+                }
+            }
+
+            return results;
+        }
+
         public void CreateTreasure(Person p)
         {
-            // TODO
+            var facilities = GetAvailableCreateTreasureFacilities();
+
+            var groupsToCreate = new HashSet<TreasureCreationSetting>();
+            foreach (Facility facility in facilities) 
+            {
+                foreach (Influence influence in facility.Kind.Influences.Influences.Values) 
+                {
+                    if (influence.Kind.ID == 3530) 
+                    {
+                        var treasureSetting = Session.Current.Scenario.GameCommonData.AllTreasureCreationSettings.GetGameObject(influence.Parameter) as TreasureCreationSetting;
+
+                        if (p.Fund < treasureSetting.Cost) continue;
+                        groupsToCreate.Add(treasureSetting);
+                    }
+                }
+            }
+
+            foreach (Treasure t in p.Treasures) {
+                if (groupsToCreate.Select(g => g.TreasureGroup).Contains(t.TreasureGroup)) {
+                    groupsToCreate.RemoveWhere(g => g.TreasureGroup == t.TreasureGroup);
+                }
+            }
+
+            if (groupsToCreate.Count == 0) return;
+
+            var selectedSetting = groupsToCreate.ToList()[GameObject.Random(groupsToCreate.Count)];
+
+            p.Fund -= selectedSetting.Cost;
+
+            var treasure = new Treasure();
+            treasure.TreasureGroup = selectedSetting.TreasureGroup;
+            treasure.AppearYear = Session.Current.Scenario.Date.Year;
+            treasure.Available = true;
+
+            var chosenInfluence = Session.Current.Scenario.GameCommonData.AllInfluences.GetInfluence(selectedSetting.EligibleInfluenceIDs[GameObject.Random(selectedSetting.EligibleInfluenceIDs.Length)]) as Influence;
+            treasure.Influences.AddInfluence(chosenInfluence);
+            
+            treasure.Pic = selectedSetting.PicIDs[GameObject.Random(selectedSetting.PicIDs.Length)];
+            treasure.Worth = selectedSetting.Cost / 250;
+
+            treasure.BelongedPerson = p;
+
+            Session.Current.Scenario.Treasures.Add(treasure);
+
+            p.ReceiveTreasure(treasure);
         }
 
         #region 宝物
