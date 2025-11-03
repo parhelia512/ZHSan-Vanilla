@@ -15705,13 +15705,16 @@ namespace GameObjects
             treasure.AppearYear = Session.Current.Scenario.Date.Year;
             treasure.Available = true;
 
-            var chosenInfluence = Session.Current.Scenario.GameCommonData.AllInfluences.GetInfluence(selectedSetting.EligibleInfluenceIDs[GameObject.Random(selectedSetting.EligibleInfluenceIDs.Length)]) as Influence;
-            treasure.Influences.AddInfluence(chosenInfluence);
+            do {
+                var chosenInfluence = Session.Current.Scenario.GameCommonData.AllInfluences.GetInfluence(selectedSetting.EligibleInfluenceIDs[GameObject.Random(selectedSetting.EligibleInfluenceIDs.Length)]) as Influence;
+                treasure.Influences.AddInfluence(chosenInfluence);
+            } while (GameObject.Chance(50));
             
             treasure.Pic = selectedSetting.PicIDs[GameObject.Random(selectedSetting.PicIDs.Length)];
             treasure.Worth = selectedSetting.Cost / 250;
 
             treasure.BelongedPerson = p;
+            treasure.Name = p.Name + selectedSetting.Name;
 
             Session.Current.Scenario.Treasures.Add(treasure);
 
