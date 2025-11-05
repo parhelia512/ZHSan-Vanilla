@@ -1432,6 +1432,24 @@ namespace GameObjects
             {
                 captive.DayEvent();
             }
+
+            foreach (Treasure treasure in this.Treasures)
+            {
+                if (treasure.Durability > 0)
+                {
+                    treasure.Durability -= Session.Parameters.DayInTurn;
+                    if (treasure.Durability <= 0)
+                    {
+                        if (treasure.BelongedPerson != null)
+                        {
+                            treasure.BelongedPerson.LoseTreasure(treasure);
+                        }
+
+                        Session.Current.Scenario.Treasures.Remove(treasure);
+                    }
+                }
+            }
+            
             this.CheckGameEnd();
 
             //this.DaySince++;

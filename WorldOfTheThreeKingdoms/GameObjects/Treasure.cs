@@ -29,6 +29,9 @@ namespace GameObjects
 
         [DataMember]
         public string InfluencesString { get; set; }
+        
+        [DataMember] 
+        public int Durability { get; set; }
 
         public InfluenceTable Influences = new InfluenceTable();
         private int pic;

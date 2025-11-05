@@ -15713,7 +15713,8 @@ namespace GameObjects
             treasure.Pic = selectedSetting.PicIDs[GameObject.Random(selectedSetting.PicIDs.Length)];
             treasure.Worth = selectedSetting.Cost / 250;
 
-            treasure.BelongedPerson = p;
+            treasure.Durability = GameObject.Random(360) + 1620; 
+            
             treasure.Name = p.Name + selectedSetting.Name;
 
             Session.Current.Scenario.Treasures.Add(treasure);
