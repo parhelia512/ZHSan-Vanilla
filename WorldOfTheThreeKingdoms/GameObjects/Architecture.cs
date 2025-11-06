@@ -15718,11 +15718,11 @@ namespace GameObjects
             treasure.Name = p.Name + selectedSetting.Name;
 
             var minId = 9999;
-            foreach (var p in Session.Current.Scenario.Treasures)
+            foreach (Treasure t in Session.Current.Scenario.Treasures)
             {
-                if (p.ID > minId)
+                if (t.ID > minId)
                 {
-                    minId = p.ID;
+                    minId = t.ID;
                 }
             }
             treasure.ID = minId + 1;
