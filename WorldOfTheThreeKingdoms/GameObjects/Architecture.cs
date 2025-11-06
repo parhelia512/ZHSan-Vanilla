@@ -15717,6 +15717,16 @@ namespace GameObjects
             
             treasure.Name = p.Name + selectedSetting.Name;
 
+            var minId = 9999;
+            foreach (var p in Session.Current.Scenario.Treasures)
+            {
+                if (p.ID > minId)
+                {
+                    minId = p.ID;
+                }
+            }
+            treasure.ID = minId + 1;
+
             Session.Current.Scenario.Treasures.Add(treasure);
 
             p.ReceiveTreasure(treasure);
