@@ -22,6 +22,7 @@ namespace GameObjects
     [KnownType(typeof(InformationKindList))]
     [KnownType(typeof(PersonGeneratorTypeList))]
     [KnownType(typeof(TrainPolicyList))]
+    [KnownType(typeof(TreasureCreationSettingList))]
 
     public class GameObjectList : IEnumerable
     {

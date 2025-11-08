@@ -612,6 +612,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     scenario.GameCommonData.AllTrainPolicies = CommonData.Current.AllTrainPolicies;
                     scenario.UsingOwnCommonData = false;
                 }
+                if (scenario.GameCommonData.AllTreasureCreationSettings == null || scenario.GameCommonData.AllTreasureCreationSettings.Count == 0)
+                {
+                    scenario.GameCommonData.AllTreasureCreationSettings = CommonData.Current.AllTreasureCreationSettings;
+                    scenario.UsingOwnCommonData = false;
+                }
 
             }
             

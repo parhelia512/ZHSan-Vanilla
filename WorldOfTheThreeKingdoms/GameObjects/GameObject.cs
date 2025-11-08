@@ -39,6 +39,8 @@ namespace GameObjects
     [KnownType(typeof(Troop))]
     [KnownType(typeof(Faction))]
     [KnownType(typeof(YearTableEntry))]
+    [KnownType(typeof(TreasureCreationSetting))]
+    
     public class GameObject
     {
         private int id;
