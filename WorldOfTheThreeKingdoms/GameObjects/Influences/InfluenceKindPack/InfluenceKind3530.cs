@@ -45,7 +45,7 @@ using System.Runtime.Serialization;namespace GameObjects.Influences.InfluenceKin
 
         public override double AIFacilityValue(Architecture a)
         {
-            return a.PersonCount / 5.0 + 0.2;
+            return a.PersonCount / 4.0 + 0.25;
         }
     }
 }

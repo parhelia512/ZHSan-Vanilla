@@ -996,7 +996,7 @@ namespace GameObjects
                         }
                     }
                     else if (q.Status == PersonStatus.Normal && !q.NvGuan && q.LocationArchitecture != null && q.LocationTroop == null &&
-                        p.BelongedArchitecture != null)
+                        p.BelongedArchitecture != null && p.BelongedArchitecture.BelongedFaction == p.BelongedFaction)
                     {
                         if (p.BelongedArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
                         {
@@ -1004,12 +1004,17 @@ namespace GameObjects
                         }
                     }
                     else if (p.Status == PersonStatus.Normal && !p.NvGuan && p.LocationArchitecture != null && p.LocationTroop == null &&
-                        q.BelongedArchitecture != null)
+                        q.BelongedArchitecture != null && q.BelongedArchitecture.BelongedFaction == p.BelongedFaction)
                     {
                         if (q.BelongedArchitecture.Fund >= Session.Parameters.MakeMarriageCost)
                         {
                             p.MoveToArchitecture(q.BelongedArchitecture);
                         }
+                    }
+                    else
+                    {
+                        p.WaitForFeiZi = null;
+                        q.WaitForFeiZi = null;
                     }
                 }
             }
