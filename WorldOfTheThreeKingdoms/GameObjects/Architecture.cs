@@ -15680,7 +15680,7 @@ namespace GameObjects
                 {
                     if (influence.Kind.ID == 3530) 
                     {
-                        var treasureSetting = Session.Current.Scenario.GameCommonData.AllTreasureCreationSettings.GetGameObject(influence.Parameter) as TreasureCreationSetting;
+                        var treasureSetting = Session.Current.Scenario.GameCommonData.AllTreasureCreationSettings.GetGameObject(int.Parse(influence.Parameter)) as TreasureCreationSetting;
 
                         if (p.Fund < treasureSetting.Cost) continue;
                         groupsToCreate.Add(treasureSetting);

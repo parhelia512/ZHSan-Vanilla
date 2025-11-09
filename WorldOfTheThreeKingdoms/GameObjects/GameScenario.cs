@@ -1433,7 +1433,7 @@ namespace GameObjects
                 captive.DayEvent();
             }
 
-            foreach (Treasure treasure in this.Treasures)
+            foreach (Treasure treasure in this.Treasures.GetList())
             {
                 if (treasure.Durability > 0)
                 {
