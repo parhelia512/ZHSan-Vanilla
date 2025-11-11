@@ -45,7 +45,7 @@ using System.Runtime.Serialization;namespace GameObjects.Influences.InfluenceKin
 
         public override double AIFacilityValue(Architecture a)
         {
-            return a.PersonCount / 4.0 + 0.25;
+            return a.IsFundAbundant && a.IsFoodAbundant ? a.PersonCount : 0;
         }
     }
 }
