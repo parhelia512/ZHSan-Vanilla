@@ -357,7 +357,33 @@ namespace WorldOfTheThreeKingdomsEditor
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "存档 (*.json)|*.json";
             openFileDialog.RestoreDirectory = true;
-            openFileDialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\WorldOfTheThreeKingdoms\Save\";
+            
+            string initialDir;
+            try
+            {
+                // 1. 取「文件」目錄
+                string docs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (string.IsNullOrWhiteSpace(docs))
+                    throw new InvalidOperationException(); // 直接跳 catch
+
+                // 2. 組合子目錄
+                string wanted = System.IO.Path.Combine(docs, "WorldOfTheThreeKingdoms", "Save");
+
+                // 3. 存在就用；不存在就退到「文件」；再不行就當前目錄
+                if (Directory.Exists(wanted))
+                    initialDir = wanted;
+                else if (Directory.Exists(docs))
+                    initialDir = docs;
+                else
+                    initialDir = Environment.CurrentDirectory;
+            }
+            catch
+            {
+                // 任何意外都降級到當前目錄
+                initialDir = Environment.CurrentDirectory;
+            }
+            openFileDialog.InitialDirectory = initialDir;
+            
             if (openFileDialog.ShowDialog() == true)
             {
                 String filename = openFileDialog.FileName;
