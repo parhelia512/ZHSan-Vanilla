@@ -407,7 +407,33 @@ namespace WorldOfTheThreeKingdomsEditor
                 scen.ProcessScenarioData(true, true);//保存前再读取一进度，是为了把新增加的信息重新刷到scen里
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "剧本档 (*.json)|*.json";
-                saveFileDialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\WorldOfTheThreeKingdoms\Save\";
+                
+                string initialDir;
+                try
+                {
+                    // 1. 取「文件」目錄
+                    string docs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    if (string.IsNullOrWhiteSpace(docs))
+                        throw new InvalidOperationException(); // 直接跳 catch
+
+                    // 2. 組合子目錄
+                    string wanted = System.IO.Path.Combine(docs, "WorldOfTheThreeKingdoms", "Save");
+
+                    // 3. 存在就用；不存在就退到「文件」；再不行就當前目錄
+                    if (Directory.Exists(wanted))
+                        initialDir = wanted;
+                    else if (Directory.Exists(docs))
+                        initialDir = docs;
+                    else
+                        initialDir = Environment.CurrentDirectory;
+                }
+                catch
+                {
+                    // 任何意外都降級到當前目錄
+                    initialDir = Environment.CurrentDirectory;
+                }
+                saveFileDialog.InitialDirectory = initialDir;
+                
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     String filename = saveFileDialog.SafeFileName;
