@@ -894,7 +894,7 @@ namespace GameObjects
             }
             if (this.TirednessDecreaseChanceInViewArea > 0)
             {
-                Session.Current.Scenario.AddPositionAreaInfluence(this, p, AreaInfluenceKind.friendlyTirednessDecrease, this.TirednessIncreaseChanceInViewArea, 0f);
+                Session.Current.Scenario.AddPositionAreaInfluence(this, p, AreaInfluenceKind.friendlyTirednessDecrease, this.TirednessDecreaseChanceInViewArea, 0f);
             }
             if (this.InjuryRecoverInViewArea > 0)
             {
