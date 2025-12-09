@@ -453,6 +453,7 @@
 
         internal void SetPerson(Person person)
         {
+            this.AllSkillTexts.SimpleClear();
             foreach (Skill skill in Session.Current.Scenario.GameCommonData.AllSkills.Skills.Values)
             {
                 Rectangle position = new Rectangle(this.SkillDisplayOffset.X + (skill.DisplayCol * this.SkillBlockSize.X), this.SkillDisplayOffset.Y + (skill.DisplayRow * this.SkillBlockSize.Y), this.SkillBlockSize.X, this.SkillBlockSize.Y);
