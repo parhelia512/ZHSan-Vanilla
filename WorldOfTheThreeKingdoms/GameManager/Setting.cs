@@ -92,6 +92,18 @@ namespace GameManager
                 {
                     WebTools.TakeWarnMsg("初始用户设置失败:Setting.config", "Init:", ex);
                 }
+             }
+
+            if (Current == null)
+            {
+                Current = new Setting();
+
+                if (prepare)
+                {
+                    Prepare();
+                }
+
+                Save();
             }
 
             //if (Platform.PlatFormType == PlatFormType.iOS)  //|| Platform.PlatForm == PlatForm.WinRT || Platform.PlatForm == PlatForm.WP)
@@ -134,7 +146,7 @@ namespace GameManager
                 }
                 if (Current.SpeedUp == null)
                 {
-                    Current.SpeedUp = 1;
+                    Current.SpeedUp = 6;
                 }
                 if (String.IsNullOrEmpty(Current.Chuchangsuiji.ToString()))
                 {

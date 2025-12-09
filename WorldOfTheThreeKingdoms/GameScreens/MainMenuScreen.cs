@@ -3775,7 +3775,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         Session.globalVariablesTemp.OfficerChildrenLimit = (int)nstGeneralChildsMax.NowNumber;
                         if (nstGeneralChildsMax.NowNumber >= 100)
                         {
-                            Session.globalVariablesTemp.OfficerChildrenLimit = 100000;
+                            Session.globalVariablesTemp.OfficerChildrenLimit = 100;
                         }
                     }
 
