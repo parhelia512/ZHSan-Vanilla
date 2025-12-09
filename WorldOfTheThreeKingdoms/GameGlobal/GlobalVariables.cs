@@ -628,7 +628,7 @@ namespace GameGlobal
                 }
                 try
                 {
-                    AIExecutionRate = int.Parse(nextSibling.Attributes.GetNamedItem("AIExecutionRate").Value);
+                    AIExecutionRate = float.Parse(nextSibling.Attributes.GetNamedItem("AIExecutionRate").Value);
                 }
                 catch (Exception exception24)
                 {

@@ -4028,9 +4028,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         Session.globalVariablesTemp.AIMergeAgainstPlayer = (float)nstDianNaoYinWanJiaHeBing.NowNumber;
                     }
 
-                    if (Session.globalVariablesTemp.AIExecutionRate != (int)nstDianNaoChuZhan.NowNumber)
+                    if (Session.globalVariablesTemp.AIExecutionRate != (float)nstDianNaoChuZhan.NowNumber)
                     {
-                        Session.globalVariablesTemp.AIExecutionRate = (int)nstDianNaoChuZhan.NowNumber;
+                        Session.globalVariablesTemp.AIExecutionRate = (float)nstDianNaoChuZhan.NowNumber;
                     }
 
                     if (Session.parametersTemp.AIFundRate != (float)nstDianNaoZiJing1.NowNumber)
