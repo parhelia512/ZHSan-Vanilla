@@ -166,7 +166,7 @@ namespace GameGlobal
         [DataMember]
         public int getRaisedSoliderRate = 90;
         [DataMember]
-        public int AIExecutionRate = 500;
+        public float AIExecutionRate = 0.2f;//规则设置中为0-1，只能修改为浮点
         [DataMember]
         public bool AIExecuteBetterOfficer = false;
         [DataMember]
