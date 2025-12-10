@@ -356,7 +356,7 @@ namespace WorldOfTheThreeKingdomsEditor
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "剧本档 (*.json)|*.json";
             openFileDialog.RestoreDirectory = true;
-            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + ScenarioDir";
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + ScenarioDir;
             if (openFileDialog.ShowDialog() == true)
             {
                 String filename = openFileDialog.FileName;
