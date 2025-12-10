@@ -62,8 +62,13 @@
                 <MenuItem Header="删除所有未登场武将的配偶关系" Click="btnDeleteUnavailableRelation_Click"/>
                 <Separator/>
                 <MenuItem Header="删除所有势力外交" Click="btnDeleteAllDiplomacy_Click"/>
+                <MenuItem Header="更新武将出仕" Click="btnChuShi_Click"/>
+                <MenuItem Header="更新势力ID=君主ID" Click="btnUpdateFactionID_Click"/>
+                <MenuItem Header="更新头像序号=人物ID" Click="btnUpdatePersonImageID_Click"/>
+                <Separator/>
                 <Separator/>
                 <MenuItem Header="重新设置城池链接" Click="btnRedoArchitectureLinks_Click"/>
+                <MenuItem Header="修复单向城池链接" Click="btnRe1ArchitectureLinks_Click"/>
             </MenuItem>
             <MenuItem Header="转换">
                 <MenuItem Header="剧本转excel" Click="btnScenariotoexcel_Click"/>

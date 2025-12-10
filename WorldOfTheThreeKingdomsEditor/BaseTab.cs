@@ -666,7 +666,7 @@ namespace WorldOfTheThreeKingdomsEditor
         {
             if (e.Column.Header.Equals("ID"))
             {
-                MessageBox.Show("请不要轻易修改ID，如其他相关编号未修改完全很可能造成跳出");
+                //MessageBox.Show("请不要轻易修改ID，如其他相关编号未修改完全很可能造成跳出");
                 oldID = int.Parse((e.Column.GetCellContent(e.Row) as TextBlock).Text);
             }
         }

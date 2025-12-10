@@ -311,6 +311,8 @@ namespace Platforms
             }
         }
 
+        public bool editing = false;//编辑器
+
         #region 加載資源文件
 
         /// <summary>
@@ -322,7 +324,10 @@ namespace Platforms
         {
             res = res.Replace("\\", "/");
 
-            res = GetMODFile(res);
+            if (!editing)
+            {
+                res = base.GetMODFile(res);
+            }
 
             lock (Platform.IoLock)
             {
