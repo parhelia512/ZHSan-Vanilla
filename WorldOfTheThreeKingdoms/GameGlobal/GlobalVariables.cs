@@ -270,7 +270,7 @@ namespace GameGlobal
         [DataMember]
         public bool RemoveSpouseIfNotAvailable = false;
         [DataMember]
-        public bool SkyEyeSimpleNotification = false;
+        public bool SkyEyeSimpleNotification = true;
         [DataMember]
         public bool AutoMultipleMarriage = false;
         [DataMember]
