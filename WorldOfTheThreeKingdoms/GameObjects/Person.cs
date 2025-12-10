@@ -4854,7 +4854,7 @@ namespace GameObjects
 
                     foreach (Title t in this.RealTitles)
                     {
-                        if (t.Kind == this.StudyingTitle.Kind)
+                        if (t.Kind == this.StudyingTitle.Kind.ID)
                         {
                             t.Influences.PurifyInfluence(this, GameObjects.Influences.Applier.Title, t.ID, false);
                             this.RealTitles.Remove(t);
@@ -5811,10 +5811,18 @@ namespace GameObjects
             {
                 return;
             }
+             if (this.ideal <= 1 && targetIdeal > 75)//修正相性为0和极端
+            {
+                this.ideal = 150;return;
+            }
+            if ((this.ideal == 150||this.ideal==0) && targetIdeal < 75)
+            {
+                this.ideal = 1;return;
+            }
             else
             {
                 int opposite = (targetIdeal + 75) % 150;
-                if (this.Ideal == opposite)
+                if (this.Ideal == opposite|| Math.Abs(this.Ideal-targetIdeal)==75)//修正相性为0和极端
                 {
                     newValue += diff * (GameObject.Chance(50) ? 1 : -1);
                 }
@@ -9246,7 +9254,7 @@ namespace GameObjects
                 int num = 0;
                 foreach (Treasure treasure in this.effectiveTreasures.Values)
                 {
-                    if (num > treasure.Worth)
+                    if (num < treasure.Worth)
                     {
                         num = treasure.Worth;
                     }
