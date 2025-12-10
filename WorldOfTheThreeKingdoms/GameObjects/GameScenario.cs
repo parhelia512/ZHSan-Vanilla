@@ -5089,7 +5089,7 @@ namespace GameObjects
                     if (!treasure.BelongedPerson.Alive || (treasure.BelongedPerson.ID >= 7000 && treasure.BelongedPerson.ID < 8000))
                     { treasure.Available = false; }
                 }
-            }
+            
             }
 
             foreach (YearTableEntry yt in this.YearTable)
