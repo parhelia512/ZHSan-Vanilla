@@ -268,7 +268,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             this.architectureLayer.Draw(base.viewportSize, gameTime);
             this.routewayLayer.Draw(base.viewportSize);
 
-            this.cloudLayer.Draw();
+            if (!Session.GlobalVariables.SkyEyeSimpleNotification)
+            { this.cloudLayer.Draw(); }
 
             if (this.dantiaoLayer != null)
             {
@@ -277,8 +278,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             this.tileAnimationLayer.Draw(base.viewportSize);
             
-            this.troopLayer.Draw(base.viewportSize, gameTime);
-
+            if (this.dantiaoLayer == null)//防止结果结算在单挑界面出现前
+            {
+                this.troopLayer.Draw(base.viewportSize, gameTime);
+            }
+            
             this.mapVeilLayer.Draw(base.viewportSize);
 
             switch (base.UndoneWorks.Peek().Kind)
