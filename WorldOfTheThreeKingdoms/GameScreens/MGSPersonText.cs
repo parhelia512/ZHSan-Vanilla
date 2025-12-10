@@ -634,6 +634,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         public override void TroopPersonChallenge(int win, Troop sourceTroop, Person P1, Troop destinationTroop, Person P2)
         {
             if ((((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(sourceTroop.Position)) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(destinationTroop.Position)) || (Session.GlobalVariables.SkyEye && !Session.GlobalVariables.SkyEyeSimpleNotification))
+            {
                 sourceTroop.TextDestinationString = destinationTroop.DisplayName;
                 sourceTroop.TextResultString = P1.Name;
                 sourceTroop.CurrentSourceChallengePersonName = P1.Name;

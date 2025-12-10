@@ -4104,7 +4104,7 @@ namespace GameObjects
                 if (Session.Current.Scenario.IsPlayer(this.BelongedFaction) && this.TargetTroop == null && this.TargetArchitecture == null
                     && this.Position.Equals(this.Destination)
                     && this.Status == TroopStatus.一般 && this.WillArchitecture == this.StartingArchitecture
-                    && !this.HasHostileTroopInView() && !this.HasHostileArchitectureInView()) && !Session.GlobalVariables.SkyEyeSimpleNotification)//暂时用简讯开关决定部队无目标后是否回城
+                    && !this.HasHostileTroopInView() && !this.HasHostileArchitectureInView() && !Session.GlobalVariables.SkyEyeSimpleNotification)//暂时用简讯开关决定部队无目标后是否回城
                 {
                     this.Destination = Session.Current.Scenario.GetClosestPoint(this.StartingArchitecture.ArchitectureArea, this.Position);
                     this.TargetArchitecture = this.StartingArchitecture;

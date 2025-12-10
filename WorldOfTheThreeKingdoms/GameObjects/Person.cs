@@ -4854,7 +4854,7 @@ namespace GameObjects
 
                     foreach (Title t in this.RealTitles)
                     {
-                        if (t.Kind == this.StudyingTitle.Kind.ID)
+                        if (t.Kind.ID == this.StudyingTitle.Kind.ID)
                         {
                             t.Influences.PurifyInfluence(this, GameObjects.Influences.Applier.Title, t.ID, false);
                             this.RealTitles.Remove(t);
