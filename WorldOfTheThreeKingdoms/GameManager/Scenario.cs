@@ -57,6 +57,8 @@ namespace GameManager
         public string Funds { get; set; }
         [DataMember]
         public string Foods { get; set; }
+        [DataMember]
+        public string Mod { get; set; }
 
         public string GameTime
         {
