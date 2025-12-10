@@ -1438,7 +1438,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         {
             if (!Session.Current.Scenario.Threading)
             {
-                if (!Session.Current.Scenario.Animating)
+                if (!Session.Current.Scenario.Animating || Setting.Current.GlobalVariables.FastBattleSpeed < 2)
+                //if (!Session.Current.Scenario.Animating)
                 {
                     Session.Current.Scenario.Troops.CurrentQueueTroopMove();
                     if (Session.Current.Scenario.Troops.TotallyEmpty)
@@ -1446,8 +1447,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         return false;
                     }
                 }
-                //else if (gameTime.ElapsedRealTime.TotalMilliseconds > Session.GlobalVariables.MaxTimeOfAnimationFrame)
-                else if (gameTime.ElapsedGameTime.TotalMilliseconds > Session.GlobalVariables.MaxTimeOfAnimationFrame)
+                else if (gameTime.ElapsedGameTime.TotalMilliseconds > Session.GlobalVariables.MaxTimeOfAnimationFrame-(10- Setting.Current.GlobalVariables.FastBattleSpeed)*2.5f)
+                //else if (gameTime.ElapsedGameTime.TotalMilliseconds > Session.GlobalVariables.MaxTimeOfAnimationFrame)
                 {
                     Session.Current.Scenario.Troops.StepAnimationIndex(1);
                 }
@@ -2184,11 +2185,19 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     dialog.SpeakingPerson = Session.Current.Scenario.Persons.GetGameObject(dialog.SpeakingPersonID) as Person;//修复部队事件未识别说话武将
                     if (dialog.SpeakingPerson !=null)
                     {
-                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, null, dialog.Text, te.Image, te.Sound,te.TryToShowString);
+                        if (te.Sound == null && Setting.Current.GlobalVariables.TroopVoice)
+                        {
+                            String ThePersonSound = Platform.Current.GetPersonVioce(dialog.SpeakingPerson, "");
+                            if (ThePersonSound.Length > 0 )
+                            {
+                                PlayNormalSound(ThePersonSound);
+                            }
+                        }
+                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, troop, dialog.Text, te.Image, te.Sound,te.TryToShowString);//增加gameobject
                     }
                     else
                     {
-                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(troop.Leader, null, dialog.Text, te.Image, te.Sound,te.TryToShowString);
+                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(troop.Leader, troop, dialog.Text, te.Image, te.Sound,te.TryToShowString);
                     }
                 }
                 if (Setting.Current.GlobalVariables.DialogShowTime > 0)
@@ -2265,11 +2274,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 {
                     if (dialog.SpeakingPerson != null)
                     {
-                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, null, dialog.Text, e.Image, e.Sound,e.TryToShowString);
+                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, a, dialog.Text, e.Image, e.Sound,e.TryToShowString);//增加GameObject
                     }
                     else
                     {
-                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(a.BelongedFaction.Leader, null, dialog.Text, e.Image, e.Sound,e.TryToShowString);
+                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(a.BelongedFaction.Leader, a, dialog.Text, e.Image, e.Sound,e.TryToShowString);
                     }
                 }
 
