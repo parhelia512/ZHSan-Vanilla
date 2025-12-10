@@ -2092,7 +2092,7 @@ namespace GameObjects
                     int radius = Math.Max(this.BaseAroundAttackRadius, this.AroundAttackRadius);
                     foreach (Troop troop in this.GetAreaAttackTroops(this.Position, radius, true))
                     {
-                        if ((troop != this) && (!this.TroopNoAccidentalInjury || !this.IsFriendly(troop.BelongedFaction)))&& !this.AttackedTroopList.HasGameObject(troop))//修正攻击所有相邻部队和AttackEveryAround同时存在会无限攻击城池上的部队
+                         if ((troop != this) && (!this.TroopNoAccidentalInjury || !this.IsFriendly(troop.BelongedFaction))&& !this.AttackedTroopList.HasGameObject(troop))//修正攻击所有相邻部队和AttackEveryAround同时存在会无限攻击城池上的部队
                         {
                             TroopDamage damage2 = troop.ReceiveAttackDamage(this.SendAttackDamage(troop, false));
                             this.StartAttackTroop(troop, damage2, true);
