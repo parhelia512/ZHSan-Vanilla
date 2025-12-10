@@ -2,6 +2,7 @@
 using GameGlobal;
 using GameManager;
 using GameObjects;
+using GameObjects.FactionDetail;
 using GameObjects.Influences;
 using GameObjects.PersonDetail;
 using GameObjects.TroopDetail;
@@ -305,7 +306,39 @@ namespace CreateTroopPlugin
                 }
             }
         }
-
+        
+        private void PurifyInfluenceDisplay()
+        {
+            if (this.CreatingArchitecture != null)
+            {
+                if (this.CreatingPersons != null)
+                {
+                    foreach (Person person in this.CreatingPersons)
+                    {
+                        foreach (Technique t in this.CreatingTroop.BelongedFaction.AvailableTechniques.Techniques.Values)
+                        {
+                            foreach (GameObjects.Influences.Influence i in t.Influences.Influences.Values)
+                            {
+                                i.PurifyInfluence(this.CreatingTroop, Applier.Technique, t.ID);
+                            }
+                        }
+                        foreach (Skill s in person.Skills.GetSkillList())
+                        {
+                            s.Influences.PurifyInfluence(person, Applier.Skill, s.ID, false);
+                        }
+                        foreach (Title t in person.Titles)
+                        {
+                            t.Influences.PurifyInfluence(person, Applier.Title, t.ID, false);
+                        }
+                        foreach (Stunt s in person.Stunts.GetStuntList())
+                        {
+                            s.Influences.PurifyInfluence(person, Applier.Stunt, 0, false);
+                        }
+                        person.PurifyAllTreasures(false);
+                    }                  
+                }
+            }
+        }
         private void RefreshDetailDisplay()
         {
             if (this.CreatingArchitecture != null)
@@ -327,6 +360,13 @@ namespace CreateTroopPlugin
                             s.Influences.PurifyInfluence(person, Applier.Stunt, 0, false);
                         }
                         person.PurifyAllTreasures(false);
+                    }
+                     foreach (Technique t in this.CreatingTroop.BelongedFaction.AvailableTechniques.Techniques.Values)
+                    {
+                        foreach (GameObjects.Influences.Influence i in t.Influences.Influences.Values)
+                        {
+                            i.PurifyInfluence(this.CreatingTroop, Applier.Technique, t.ID);
+                        }
                     }
                 }
                 this.CreatingTroop = Troop.CreateSimulateTroop(this.CreatingArchitecture, this.CreatingPersons, this.CreatingLeader, this.CreatingMilitary, this.RationDays, this.CreatingArchitecture.Position);
@@ -526,6 +566,7 @@ namespace CreateTroopPlugin
                 {
                     if (this.MilitaryButtonEnabled)
                     {
+                        PurifyInfluenceDisplay();
                         this.SelectMilitary();
                     }
                 }
@@ -533,6 +574,7 @@ namespace CreateTroopPlugin
                 {
                     if (this.PersonButtonEnabled)
                     {
+                        PurifyInfluenceDisplay();
                         this.SelectPersons();
                     }
                 }
@@ -540,6 +582,7 @@ namespace CreateTroopPlugin
                 {
                     if (this.LeaderButtonEnabled)
                     {
+                        PurifyInfluenceDisplay();
                         this.SelectLeader();
                     }
                 }
@@ -559,6 +602,7 @@ namespace CreateTroopPlugin
                 }
                 else if (StaticMethods.PointInRectangle(position, this.CreateButtonDisplayPosition) && this.CreateButtonEnabled)
                 {
+                    PurifyInfluenceDisplay();
                     this.SelectTroopStartPosition();
                 }
             }
