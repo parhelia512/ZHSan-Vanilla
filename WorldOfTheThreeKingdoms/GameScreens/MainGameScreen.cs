@@ -902,7 +902,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 case SelectingUndoneWorkKind.ArchitectureAvailableContactArea:
                     if (!this.selectingLayer.Canceled)
                     {
-                        if(this.CurrentMilitaries.Count==1 && this.CurrentMilitary!=null )
+                        if(this.CurrentMilitaries.Count==1 && this.CurrentMilitary!=null && this.CurrentPerson!=null)//加上this.CurrentPerson!=null防止自动出征一部队错误
                         {
                             this.screenManager.SetCreatingTroopPosition(this.selectingLayer.SelectedPoint);
                         }
@@ -1175,11 +1175,13 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                 else
                                 {
                                     troop.mingling = "Move";
+                                    troop.TargetArchitecture = null;
                                 }
                                 troop.RealDestination = this.selectingLayer.SelectedPoint;
                                 if (!((targetArchitecture == null) || troop.BelongedFaction.IsFriendly(targetArchitecture.BelongedFaction)))
                                 {
                                     troop.BelongedLegion.Kind = LegionKind.Offensive;
+                                    if (troop.CanAttack(troop.TargetArchitecture)) troop.Destination = troop.Position;
                                 }
                                 else
                                 {
@@ -1248,7 +1250,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                 }
                                 else
                                 {
-                                    this.CurrentTroop.RealDestination = this.CurrentTroop.Position;
+                                    //this.CurrentTroop.RealDestination = this.CurrentTroop.Position;
                                 }
                             }
                             
