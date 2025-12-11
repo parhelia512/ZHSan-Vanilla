@@ -15773,6 +15773,8 @@ namespace GameObjects
 
             treasure.Name = p.Name + selectedSetting.Name;
 
+            treasure.Description = treasure.AppearYear + "由" + p + "打造" + selectedSetting.Name;
+
             // 计算新的宝物ID（应该是最大ID+1）
             var maxId = 0;
             foreach (Treasure t in Session.Current.Scenario.Treasures)
