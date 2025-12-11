@@ -1387,6 +1387,7 @@
     <Compile Include="GameObjects\Tool.cs" />
     <Compile Include="GameObjects\ToolAlign.cs" />
     <Compile Include="GameObjects\Treasure.cs" />
+    <Compile Include="GameObjects\TreasureCreation.cs" />
     <Compile Include="GameObjects\TreasureCreationSetting.cs" />
     <Compile Include="GameObjects\TreasureCreationSettingList.cs" />
     <Compile Include="GameObjects\TreasureList.cs" />
