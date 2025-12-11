@@ -4291,6 +4291,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Setting.Current.GlobalVariables.DialogShowTime = (int)nstDialogTime.NowNumber;
                 }
 
+                if (Setting.Current.GlobalVariables.FastBattleSpeed != (int)nstBattleSpeed.NowNumber)
+                {
+                    Setting.Current.GlobalVariables.FastBattleSpeed = (int)nstBattleSpeed.NowNumber;
+                }
+
                 if (Setting.Current.MusicVolume != (int)nstMusic.NowNumber)
                 {
                     Setting.Current.MusicVolume = (int)nstMusic.NowNumber;
