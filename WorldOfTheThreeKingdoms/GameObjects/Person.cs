@@ -3377,8 +3377,8 @@ namespace GameObjects
             //这样配偶和义兄可以无视一切条件强登被登用武将 (当是君主的配偶或者义兄弟)
             ConvinceSuccess |= target.IsVeryCloseTo(this);
 
-            ConvinceSuccess |= target.IsCloseTo(this) && this.BelongedFaction == null;
-
+            ConvinceSuccess |= target.IsCloseTo(this) && target.BelongedFaction == null;
+            
             return ConvinceSuccess;
         }
 
