@@ -14836,7 +14836,7 @@ namespace GameObjects
             {
                 return 100000;
             }
-            else if (this.JianzhuGuimo == 5)
+            else if (this.JianzhuGuimo >= 4)
             {
                 return 200000;
             }
@@ -14851,12 +14851,29 @@ namespace GameObjects
             if (this.JianzhuGuimo == 1)
             {
 
-                xinjiadedian.Add(new Point(zhongxindian.X - 1, zhongxindian.Y));
-                xinjiadedian.Add(new Point(zhongxindian.X + 1, zhongxindian.Y));
-                xinjiadedian.Add(new Point(zhongxindian.X, zhongxindian.Y - 1));
-                xinjiadedian.Add(new Point(zhongxindian.X, zhongxindian.Y + 1));
+                if (!Setting.Current.MOD.Contains("Qinghuai")) 
+                {
+                    xinjiadedian.Add(new Point(zhongxindian.X - 1, zhongxindian.Y));
+                    xinjiadedian.Add(new Point(zhongxindian.X + 1, zhongxindian.Y));
+                    xinjiadedian.Add(new Point(zhongxindian.X, zhongxindian.Y - 1));
+                    xinjiadedian.Add(new Point(zhongxindian.X, zhongxindian.Y + 1));
+                }
+                else
+                {
+                    xinjiadedian.Add(new Point(this.zhongxindian.X + 1, this.zhongxindian.Y + 1));
+                    xinjiadedian.Add(new Point(this.zhongxindian.X + 1, this.zhongxindian.Y));
+                    xinjiadedian.Add(new Point(this.zhongxindian.X, this.zhongxindian.Y + 1));
 
+                }
 
+            }
+            else if(this.JianzhuGuimo == 4)
+            {
+                xinjiadedian.Add(new Point(this.zhongxindian.X, this.zhongxindian.Y - 1));
+                xinjiadedian.Add(new Point(this.zhongxindian.X - 1, this.zhongxindian.Y - 1));
+                xinjiadedian.Add(new Point(this.zhongxindian.X - 1, this.zhongxindian.Y + 1));
+                xinjiadedian.Add(new Point(this.zhongxindian.X - 1, this.zhongxindian.Y));
+                xinjiadedian.Add(new Point(this.zhongxindian.X + 1, this.zhongxindian.Y - 1));               
             }
             else if (this.JianzhuGuimo == 5)
             {
@@ -14880,7 +14897,7 @@ namespace GameObjects
         public bool ExpandAvail()
         {
             if (this.Fund < this.ExpandFund()) return false;
-            if (this.JianzhuGuimo != 1 && this.JianzhuGuimo != 5) return false;
+            //if (this.JianzhuGuimo != 1 && this.JianzhuGuimo != 5) return false;
             if (Session.Current.Scenario.ScenarioMap.UseSimpleArchImages) return false;
 
             if (_architectureKind.Expandable < this.JianzhuGuimo) return false;
