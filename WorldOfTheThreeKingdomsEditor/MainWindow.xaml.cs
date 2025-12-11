@@ -22,6 +22,7 @@ using GameGlobal;
 using GameObjects.FactionDetail;
 using System.Drawing;
 using OfficeOpenXml;
+using GameManager;
 
 namespace WorldOfTheThreeKingdomsEditor
 {
@@ -53,8 +54,9 @@ namespace WorldOfTheThreeKingdomsEditor
 
         public MainWindow()
         {
+            Setting.Init(false);
             InitializeComponent();
-            Platforms.Platform.Current.editing = false;
+            //Platforms.Platform.Current.editing = false;
             CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
             Title = "中华三国志剧本编辑器 -当前MOD-" + Setting.Current.MODRuntime + " 如需更换MOD，请打开游戏切换退出；CommonData.json已经打开";
             scen = new GameScenario();
@@ -67,14 +69,14 @@ namespace WorldOfTheThreeKingdomsEditor
         {
             get
             {
-                return Platforms.Platform.Current.GetMOD(@"\Content\Data\Scenario");
+                return Platforms.Platform.Current.GetMODFile(@"\Content\Data\Scenario");
             }
         }
         private string CommonDir
         {
             get
             {
-                return Platforms.Platform.Current.GetMOD(@"Content\Data\Common\CommonData.json");
+                return Platforms.Platform.Current.GetMODFile(@"Content\Data\Common\CommonData.json");
             }
         }
 
@@ -716,7 +718,7 @@ namespace WorldOfTheThreeKingdomsEditor
         private void btnSyncScenario_Click(object sender, RoutedEventArgs e)
         {
             String scenariosPath = @"Content\Data\Scenario\Scenarios.json";
-            scenariosPath = Platforms.Platform.Current.GetMOD(scenariosPath);
+            scenariosPath = Platforms.Platform.Current.GetMODFile(scenariosPath);
             MessageBoxResult result = MessageBox.Show("更新" + scenariosPath + "檔案，使遊戲能辨認劇本資料夾裡的劇本。是否繼續？", "更新Scenarios.json", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
@@ -1253,27 +1255,27 @@ namespace WorldOfTheThreeKingdomsEditor
 
                 foreach (Person p2 in scen.Persons)
                 {
-                    p2.Tenacity = 0;
-                    if (p2.BaseCommand >= 80)
-                    {
-                        p2.Tenacity++;
-                    }
-                    if (p2.BaseGlamour >= 80)
-                    {
-                        p2.Tenacity++;
-                    }
-                    if (p2.BaseIntelligence >= 80)
-                    {
-                        p2.Tenacity++;
-                    }
-                    //if (this.Politics >= 80)
+                    //p2.Tenacity = 0;
+                    //if (p2.BaseCommand >= 80)
                     //{
-                    //     p2.Tenacity++;
+                    //    p2.Tenacity++;
                     //}
-                    if (p2.BaseStrength >= 80)
-                    {
-                        p2.Tenacity++;
-                    }
+                    //if (p2.BaseGlamour >= 80)
+                    //{
+                    //    p2.Tenacity++;
+                    //}
+                    //if (p2.BaseIntelligence >= 80)
+                    //{
+                    //    p2.Tenacity++;
+                    //}
+                    ////if (this.Politics >= 80)
+                    ////{
+                    ////     p2.Tenacity++;
+                    ////}
+                    //if (p2.BaseStrength >= 80)
+                    //{
+                    //    p2.Tenacity++;
+                    //}
                     p2.BelongedPersonName = "";
                     if (p2.Available)
                     {
