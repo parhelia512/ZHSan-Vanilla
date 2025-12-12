@@ -793,7 +793,18 @@ namespace GameObjects
             }
             return list;
         }
-
+        public List<Treasure> AllEffectiveTreasures
+        {
+            get
+            {
+                List<Treasure> list = new List<Treasure>();
+                foreach (Treasure treasure in this.effectiveTreasures.Values)
+                {
+                    list.Add(treasure);
+                }
+                return list;
+            }
+        }
         //↓获取人物某类称号的名称
         public string TitleNameforGroup(int id)
         {
