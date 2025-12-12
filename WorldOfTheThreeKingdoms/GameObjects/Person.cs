@@ -780,6 +780,20 @@ namespace GameObjects
             return false;
         }
 
+        //↓获取人物某类宝物
+        public TreasureList TreasureListforGroup(int id)
+        {
+            TreasureList list = new TreasureList();
+            foreach (Treasure t in this.Treasures)
+            {
+                if (t.TreasureGroup == id)
+                {
+                    list.Add(t);
+                }
+            }
+            return list;
+        }
+
         //↓获取人物某类称号的名称
         public string TitleNameforGroup(int id)
         {
@@ -7238,6 +7252,19 @@ namespace GameObjects
             }
         }
 
+        public string ClosePersonsName
+        {
+            get
+            {
+                string str = "";
+                foreach (Person person in this.closePersons)
+                {
+                    str = str + person.Name + " ";
+                }
+                return str;
+            }
+        }
+
         public int MilitaryTypeSkillMerit(MilitaryType kind)
         {
             int result = 0;
@@ -7350,6 +7377,14 @@ namespace GameObjects
             get
             {
                 return (int) Math.Pow(this.CommandExperience / 0x3e8, 0.9);
+            }
+        }
+
+        public int CommandLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.CommandExperience, this.BaseCommand); 
             }
         }
 
@@ -7685,6 +7720,14 @@ namespace GameObjects
             set
             {
                 this.glamourExperience = value;
+            }
+        }
+
+        public int GlamourLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.GlamourExperience, this.BaseGlamour); 
             }
         }
 
@@ -8046,6 +8089,14 @@ namespace GameObjects
             get
             {
                 return (this.BaseIntelligence + this.IntelligenceFromExperience);
+            }
+        }
+
+        public int IntelligenceLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.IntelligenceExperience, this.BaseIntelligence);
             }
         }
 
@@ -8669,6 +8720,13 @@ namespace GameObjects
             }
         }
 
+        public int PoliticsLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.PoliticsExperience, this.BasePolitics);
+            }
+        }
         //public Texture2D Portrait
         //{
         //    get
@@ -9115,6 +9173,38 @@ namespace GameObjects
             {
                 return (this.BaseStrength + this.StrengthFromExperience);
             }
+        }
+
+        public int StrengthLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.StrengthExperience, this.BaseStrength); 
+            }
+        }
+
+        private int ExpAddMthd(int ExperienceNow, int BaseAttribute)
+        {
+            int num = 0;
+            while (ExperienceNow >= (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9))
+            {
+                ExperienceNow -= (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9);
+                BaseAttribute++;
+                num++;
+            }
+            return num;
+        }
+
+        private int AttrLevelUpNeedExp(int ExperienceNow, int BaseAttribute)
+        {
+            int num = 0;
+            int num2 = ExperienceNow;
+            while (num2 >= (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9))
+            {
+                num2 -= (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9);
+                num++;
+            }
+            return ((int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9) - num2 + ExperienceNow);
         }
 
         public int StuntCount
