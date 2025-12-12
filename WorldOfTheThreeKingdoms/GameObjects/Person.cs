@@ -7387,7 +7387,8 @@ namespace GameObjects
         {
             get
             {
-                return (int) Math.Pow(this.CommandExperience / 0x3e8, 0.9);
+                //return (int) Math.Pow(this.CommandExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(CommandExperience, this.BaseCommand);
             }
         }
 
@@ -7746,7 +7747,8 @@ namespace GameObjects
         {
             get
             {
-                return (int)Math.Pow(this.GlamourExperience / 0x3e8, 0.9);
+                //return (int)Math.Pow(this.GlamourExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(GlamourExperience, this.BaseGlamour);
             }
         }
 
@@ -8091,7 +8093,8 @@ namespace GameObjects
         {
             get
             {
-                return (int) Math.Pow(this.IntelligenceExperience / 0x3e8, 0.9);
+                //return (int) Math.Pow(this.IntelligenceExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(IntelligenceExperience, this.BaseIntelligence);
             }
         }
 
@@ -8719,7 +8722,8 @@ namespace GameObjects
         {
             get
             {
-                return (int)Math.Pow(this.PoliticsExperience / 0x3e8, 0.9);
+                //return (int)Math.Pow(this.PoliticsExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(PoliticsExperience, this.BasePolitics);
             }
         }
 
@@ -9174,7 +9178,8 @@ namespace GameObjects
         {
             get
             {
-                return  (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9);
+                //return  (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(StrengthExperience, this.BaseStrength);
             }
         }
 
@@ -9197,9 +9202,9 @@ namespace GameObjects
         private int ExpAddMthd(int ExperienceNow, int BaseAttribute)
         {
             int num = 0;
-            while (ExperienceNow >= (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9))
+            while (ExperienceNow >= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 100))
             {
-                ExperienceNow -= (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9);
+                ExperienceNow -= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 100);
                 BaseAttribute++;
                 num++;
             }
@@ -9210,12 +9215,12 @@ namespace GameObjects
         {
             int num = 0;
             int num2 = ExperienceNow;
-            while (num2 >= (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9))
+            while (num2 >= (int)(Math.Pow((BaseAttribute + num -50), 2) + 100))
             {
-                num2 -= (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9);
+                num2 -= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 100);
                 num++;
             }
-            return ((int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9) - num2 + ExperienceNow);
+            return ((int)(Math.Pow((BaseAttribute + num - 50), 2) + 100) - num2 + ExperienceNow);
         }
 
         public int StuntCount

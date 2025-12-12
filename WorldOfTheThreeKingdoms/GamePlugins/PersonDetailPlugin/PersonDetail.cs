@@ -56,7 +56,8 @@
         internal FreeRichText MoreMessageText = new FreeRichText();
         public string Switch_DisplayFamily = "";
         public string Switch_MoreMessage = "";
-
+        public string Switch_PersonPortraitL = "";
+        internal Rectangle PortraitL;
         public string Switch_PersonBG = "";
         public string Switch_PersonBG2 = "";
         public string Switch_EnlargeBG = "";
@@ -1044,7 +1045,7 @@
             IDN = person;
             if (!Session.LargeContextMenu) {
                 ThePersonSound = Platform.Current.GetPersonVioce(IDN, "");
-                if (this.ThePersonSound.Length > 0 && Switch3 == "on")
+                if (this.ThePersonSound.EndsWith(".wav")&& Switch3 == "on")
                 {
                     this.screen.PlayNormalSound(this.ThePersonSound);
                 }
@@ -1165,7 +1166,13 @@
                 return new Rectangle(this.PortraitClient.X + this.DisplayOffset.X, this.PortraitClient.Y + this.DisplayOffset.Y, this.PortraitClient.Width, this.PortraitClient.Height);
             }
         }
-
+        private Rectangle PortraitLDisplayPosition
+        {
+            get
+            {
+                return new Rectangle(this.PortraitL.X + this.DisplayOffset.X, this.PortraitL.Y + this.DisplayOffset.Y, this.PortraitL.Width, this.PortraitL.Height);
+            }
+        }
         private Rectangle TitleDisplayPosition
         {
             get

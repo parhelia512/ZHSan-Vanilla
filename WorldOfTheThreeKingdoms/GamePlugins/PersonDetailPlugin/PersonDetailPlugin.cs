@@ -194,7 +194,7 @@ namespace PersonDetailPlugin
             this.personDetail.Switch_MoreMessage = node.Attributes.GetNamedItem("MoreMessage").Value;
             this.personDetail.Switch_DisplayFamily = node.Attributes.GetNamedItem("DisplayFamily").Value;
             this.personDetail.Switch3 = node.Attributes.GetNamedItem("PersonSound").Value;
-            
+            this.personDetail.Switch_PersonPortraitL = node.Attributes.GetNamedItem("PersonPortraitL").Value;
             this.personDetail.Switch_PersonBG = node.Attributes.GetNamedItem("PersonBG").Value;
             this.personDetail.Switch_PersonBG2 = node.Attributes.GetNamedItem("PersonBG2").Value;
             this.personDetail.Switch_EnlargeBG = node.Attributes.GetNamedItem("EnlargeBG").Value;
@@ -255,7 +255,8 @@ namespace PersonDetailPlugin
             this.personDetail.PersonBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);
             this.personDetail.PersonBGSize.Y = int.Parse(node.Attributes.GetNamedItem("Height").Value);
             this.personDetail.PersonBG = CacheManager.GetTempTexture(@"Content\Textures\GameComponents\PersonDetail\Data\" + node.Attributes.GetNamedItem("FileName").Value);
-            
+            node = nextSibling.ChildNodes.Item(0x27);
+            this.personDetail.PortraitL = StaticMethods.LoadRectangleFromXMLNode(node);
             /*
             node = nextSibling.ChildNodes.Item(12);
             this.personDetail.GuanzhiClient = StaticMethods.LoadRectangleFromXMLNode(node);
@@ -266,7 +267,7 @@ namespace PersonDetailPlugin
             this.personDetail.GuanzhiText.Builder.SetFreeTextBuilder(font);
             this.personDetail.GuanzhiText.DefaultColor = color;
              */
-////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////
         }
         public void SetGraphicsDevice()
         {
