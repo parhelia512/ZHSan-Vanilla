@@ -140,5 +140,6 @@ namespace GameObjects.PersonDetail
         GeDi, // 131
         AIMergeAgainstPlayer, //132
         HougongHate, // 133
+        PersonTreasureFound,
     }
 }

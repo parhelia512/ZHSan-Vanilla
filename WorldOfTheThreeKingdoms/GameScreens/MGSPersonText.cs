@@ -1018,6 +1018,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
                             this.Plugins.GameRecordPlugin.AddBranch(person, "SearchPersonFound", person.Position);
                             break;
+                        case SearchResult.宝物:
+                            person.TextResultString = resultPack.FoundTreasure.Name;
+                            this.xianshishijiantupian(person, person.TextResultString, TextMessageKind.PersonTreasureFound, "PersonTreasureFound", "", "", architecture.Name, false);
+                            this.Plugins.GameRecordPlugin.AddBranch(person, "PersonTreasureFound", person.Position);
+                            break;
                         case SearchResult.无:
                             //person.TextResultString = architecture.Name;
                             //this.xianshishijiantupian(person, person.TextResultString, "SearchPersonFound", "", "", architecture.Name);
@@ -1060,6 +1065,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                             this.Plugins.PersonBubblePlugin.AddPerson(person, architecture.Position, TextMessageKind.SearchPersonFound, "SearchPersonFound");
 
                             this.Plugins.GameRecordPlugin.AddBranch(person, "SearchPersonFound", person.Position);
+                            break;
+                        case SearchResult.宝物:
+                            person.TextResultString = resultPack.FoundTreasure.Name;
+                            this.xianshishijiantupian(person, person.TextResultString, TextMessageKind.PersonTreasureFound, "PersonTreasureFound", "", "", architecture.Name, false);
+                            this.Plugins.GameRecordPlugin.AddBranch(person, "PersonTreasureFound", person.Position);
                             break;
                     }
 
