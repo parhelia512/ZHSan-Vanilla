@@ -15697,24 +15697,33 @@ namespace GameObjects
                 {
                     if (influence.Kind.ID == 3530)
                     {
-                        // 获取TreasureCreationSetting
-                        var treasureSetting = Session.Current.Scenario.GameCommonData.AllTreasureCreationSettings
-                            .GetTreasureCreationKind(int.Parse(influence.Parameter));
-
-                        if (treasureSetting == null)
+                        try
                         {
-                            // 添加调试信息
+                            // 获取TreasureCreationSetting
+                            var treasureSetting = Session.Current.Scenario.GameCommonData.AllTreasureCreationSettings
+                                .GetGameObject(int.Parse(influence.Parameter)) as TreasureCreationSetting;
+
+                            if (treasureSetting == null)
+                            {
+                                // 添加调试信息
+                                Console.WriteLine($"未找到ID为 {influence.Parameter} 的TreasureCreationSetting");
+                                continue;
+                            }
+
+                            if (p.Fund < treasureSetting.Cost)
+                            {
+                                Console.WriteLine($"资金不足: 需要 {treasureSetting.Cost}, 当前 {p.Fund}");
+                                continue;
+                            }
+
+                            groupsToCreate.Add(treasureSetting);
+                        }
+                        catch (Exception)
+                        {
                             Console.WriteLine($"未找到ID为 {influence.Parameter} 的TreasureCreationSetting");
-                            continue;
+                            throw;
                         }
-
-                        if (p.Fund < treasureSetting.Cost)
-                        {
-                            Console.WriteLine($"资金不足: 需要 {treasureSetting.Cost}, 当前 {p.Fund}");
-                            continue;
-                        }
-
-                        groupsToCreate.Add(treasureSetting);
+                        
                     }
                 }
             }
@@ -15773,7 +15782,7 @@ namespace GameObjects
 
             treasure.Name = p.Name + selectedSetting.Name;
 
-            treasure.Description = treasure.AppearYear + "由" + p + "打造" + selectedSetting.Name;
+            treasure.Description = treasure.AppearYear + "由" + p.Name + "打造" + selectedSetting.Name;
 
             // 计算新的宝物ID（应该是最大ID+1）
             var maxId = 0;
