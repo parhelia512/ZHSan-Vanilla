@@ -3042,6 +3042,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 btOne.AlignTexts.Add(new AlignText(new Vector2(-60, 0), ScenarioList.IndexOf(sce).ToString()));
                 if (sce != null && !String.IsNullOrEmpty(sce.Title))
                 {
+                    if (!String.IsNullOrEmpty(sce.Mod))
+                    {
+                        btOne.AlignTexts.Add(new AlignText(new Vector2(540, 0), sce.Mod.ToString()));
+                    }
                     btOne.AlignTexts.Add(new AlignText(new Vector2(10, 2), sce.Title.WordsSubString(25)));
                     btOne.AlignTexts.Add(new AlignText(new Vector2(270, 2), sce.Time.ToSeasonDate()));
                     btOne.AlignTexts.Add(new AlignText(new Vector2(410, 2), sce.Info));
