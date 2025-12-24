@@ -54,7 +54,7 @@ namespace GameGlobal
         [DataMember]
         public const float FrontTileAnimationLayerDepth = 0.65f;
         [DataMember]
-        public string GameDifficulty;
+        public string GameDifficulty = "custom";
         [DataMember]
         public const float GameFrameDepth = 0.4f;
         [DataMember]

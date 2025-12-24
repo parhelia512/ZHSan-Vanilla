@@ -392,7 +392,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         }
                         else
                         {
-                            Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();
+                            //Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();                                                      
+                            Session.globalVariablesTemp = Setting.Current.GlobalVariables.Clone();
                             Session.parametersTemp = Session.parametersBasic.Clone();
 
                             //InitConfig();
@@ -421,7 +422,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     {
                         if (MenuType == MenuType.New)
                         {
-                            Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();
+                            //Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();                                                      
+                            Session.globalVariablesTemp = Setting.Current.GlobalVariables.Clone();                          
                             Session.parametersTemp = Session.parametersBasic.Clone();
                             InitConfig();
                             MenuType = MenuType.Config;
@@ -3262,7 +3264,15 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             //電腦
 
-            changeDifficultySelection(Difficulty.easy);
+            //changeDifficultySelection(Difficulty.easy);
+            if(Enum.TryParse(Session.globalVariablesTemp.GameDifficulty, true, out Difficulty difficulty))
+            {
+                changeDifficultySelection(difficulty);
+            }
+            else
+            {
+                changeDifficultySelection(Difficulty.easy);
+            }
 
             btConfigList4.FirstOrDefault(bt => bt.ID == "DianNaoShuoFuFuLu").Selected = (bool)Session.globalVariablesTemp.AIAutoTakeNoFactionCaptives;
 
