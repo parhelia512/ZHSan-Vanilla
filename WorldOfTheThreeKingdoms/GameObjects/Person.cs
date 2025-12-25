@@ -9202,9 +9202,9 @@ namespace GameObjects
         private int ExpAddMthd(int ExperienceNow, int BaseAttribute)
         {
             int num = 0;
-            while (ExperienceNow >= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 100))
+            while (ExperienceNow >= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 10 * BaseAttribute + 500))
             {
-                ExperienceNow -= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 100);
+                ExperienceNow -= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 10 * BaseAttribute + 500);
                 BaseAttribute++;
                 num++;
             }
@@ -9215,12 +9215,12 @@ namespace GameObjects
         {
             int num = 0;
             int num2 = ExperienceNow;
-            while (num2 >= (int)(Math.Pow((BaseAttribute + num -50), 2) + 100))
+            while (num2 >= (int)(Math.Pow((BaseAttribute + num -50), 2) + 10 * BaseAttribute + 500))
             {
-                num2 -= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 100);
+                num2 -= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 10 * BaseAttribute + 500);
                 num++;
             }
-            return ((int)(Math.Pow((BaseAttribute + num - 50), 2) + 100) - num2 + ExperienceNow);
+            return ((int)(Math.Pow((BaseAttribute + num - 50), 2) + 10 * BaseAttribute + 500) - num2 + ExperienceNow);
         }
 
         public int StuntCount
