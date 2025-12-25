@@ -9,7 +9,7 @@
         <AssemblyName>ZHSan</AssemblyName>
     </PropertyGroup>
     <ItemGroup>
-        <MonoGameContentReference Include="..\ZHSan.Core\Content\ZHSan.mgcb">
+        <MonoGameContentReference Include="..\ZHSan.Core\Content\Content.mgcb">
             <Link>Content\ZHSan.mgcb</Link>
         </MonoGameContentReference>
     </ItemGroup>

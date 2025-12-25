@@ -295,9 +295,10 @@ __pycache__/
 *.xsd.cs
 
 # Images and resource files
-Content
+**/Content
 Content/bin
 Assets
+!Content
 
 # No keystores!
 Docs
