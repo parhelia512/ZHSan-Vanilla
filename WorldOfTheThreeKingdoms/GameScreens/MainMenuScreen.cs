@@ -392,7 +392,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         }
                         else
                         {
-                            Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();
+                            //Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();                                                      
+                            Session.globalVariablesTemp = Setting.Current.GlobalVariables.Clone();
                             Session.parametersTemp = Session.parametersBasic.Clone();
 
                             //InitConfig();
@@ -421,7 +422,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     {
                         if (MenuType == MenuType.New)
                         {
-                            Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();
+                            //Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();                                                      
+                            Session.globalVariablesTemp = Setting.Current.GlobalVariables.Clone();                          
                             Session.parametersTemp = Session.parametersBasic.Clone();
                             InitConfig();
                             MenuType = MenuType.Config;
@@ -3042,6 +3044,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 btOne.AlignTexts.Add(new AlignText(new Vector2(-60, 0), ScenarioList.IndexOf(sce).ToString()));
                 if (sce != null && !String.IsNullOrEmpty(sce.Title))
                 {
+                    if (!String.IsNullOrEmpty(sce.Mod))
+                    {
+                        btOne.AlignTexts.Add(new AlignText(new Vector2(540, 0), sce.Mod.ToString()));
+                    }
                     btOne.AlignTexts.Add(new AlignText(new Vector2(10, 2), sce.Title.WordsSubString(25)));
                     btOne.AlignTexts.Add(new AlignText(new Vector2(270, 2), sce.Time.ToSeasonDate()));
                     btOne.AlignTexts.Add(new AlignText(new Vector2(410, 2), sce.Info));
@@ -3258,7 +3264,15 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             //電腦
 
-            changeDifficultySelection(Difficulty.easy);
+            //changeDifficultySelection(Difficulty.easy);
+            if(Enum.TryParse(Session.globalVariablesTemp.GameDifficulty, true, out Difficulty difficulty))
+            {
+                changeDifficultySelection(difficulty);
+            }
+            else
+            {
+                changeDifficultySelection(Difficulty.easy);
+            }
 
             btConfigList4.FirstOrDefault(bt => bt.ID == "DianNaoShuoFuFuLu").Selected = (bool)Session.globalVariablesTemp.AIAutoTakeNoFactionCaptives;
 
@@ -3775,7 +3789,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         Session.globalVariablesTemp.OfficerChildrenLimit = (int)nstGeneralChildsMax.NowNumber;
                         if (nstGeneralChildsMax.NowNumber >= 100)
                         {
-                            Session.globalVariablesTemp.OfficerChildrenLimit = 100000;
+                            Session.globalVariablesTemp.OfficerChildrenLimit = 100;
                         }
                     }
 
@@ -4028,9 +4042,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         Session.globalVariablesTemp.AIMergeAgainstPlayer = (float)nstDianNaoYinWanJiaHeBing.NowNumber;
                     }
 
-                    if (Session.globalVariablesTemp.AIExecutionRate != (int)nstDianNaoChuZhan.NowNumber)
+                    if (Session.globalVariablesTemp.AIExecutionRate != (float)nstDianNaoChuZhan.NowNumber)
                     {
-                        Session.globalVariablesTemp.AIExecutionRate = (int)nstDianNaoChuZhan.NowNumber;
+                        Session.globalVariablesTemp.AIExecutionRate = (float)nstDianNaoChuZhan.NowNumber;
                     }
 
                     if (Session.parametersTemp.AIFundRate != (float)nstDianNaoZiJing1.NowNumber)
@@ -4289,6 +4303,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 if (Setting.Current.GlobalVariables.DialogShowTime != (int)nstDialogTime.NowNumber)
                 {
                     Setting.Current.GlobalVariables.DialogShowTime = (int)nstDialogTime.NowNumber;
+                }
+
+                if (Setting.Current.GlobalVariables.FastBattleSpeed != (int)nstBattleSpeed.NowNumber)
+                {
+                    Setting.Current.GlobalVariables.FastBattleSpeed = (int)nstBattleSpeed.NowNumber;
                 }
 
                 if (Setting.Current.MusicVolume != (int)nstMusic.NowNumber)

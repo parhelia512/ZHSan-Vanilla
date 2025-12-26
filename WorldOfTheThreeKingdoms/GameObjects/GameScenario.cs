@@ -1126,7 +1126,10 @@ namespace GameObjects
 
             Faction newFaction = new Faction();
             newFaction.Init();
-            newFaction.ID = this.Factions.GetFreeGameObjectID();
+            // newFaction.ID = this.Factions.GetFreeGameObjectID(); 
+            newFaction.Leader = leader;
+            newFaction.ID = leader.ID;
+            if (this.Factions.HasGameObject(newFaction.ID)) { newFaction.ID = this.Factions.GetFreeGameObjectID(); }
             this.Factions.AddFactionWithEvent(newFaction);
             foreach (Faction faction2 in this.Factions)
             {
@@ -3317,14 +3320,22 @@ namespace GameObjects
                     errorMsg.Add("编队ID" + military.ID + "：兵种ID" + military.KindID + "不存在");
                     continue;
                 }
-                foreach (Person p in this.Persons)
+                if (military.RecruitmentPersonID >= 0)
                 {
-                    if (p.ID == military.RecruitmentPersonID)
+                    Person person = (Person)this.Persons.GetGameObject(military.RecruitmentPersonID);
+                    if (person != null)
                     {
-                        //p.RecruitmentMilitary = military;
-                        p.RecruitMilitary(military);
+                        person.RecruitMilitary(military);
                     }
                 }
+                //foreach (Person p in this.Persons)
+                //{
+                //    if (p.ID == military.RecruitmentPersonID)
+                //    {
+                //        //p.RecruitmentMilitary = military;
+                //        p.RecruitMilitary(military);
+                //    }
+                //}
             }
 
             this.InitializeMilitaryData();
@@ -3563,7 +3574,7 @@ namespace GameObjects
                     errorMsg.AddRange(errors);
                 }
 
-                if (troop.Army != null)
+                if (troop.Army != null && !editing)//取消编辑器人物气泡事件，以便于可以存档
                 {
                     this.Troops.AddTroopWithEvent(troop, false);
                 }
@@ -4848,7 +4859,7 @@ namespace GameObjects
                 troop.WillTroopID = troop.RealWillTroop == null ? -1 : troop.RealWillTroop.ID;
                 troop.WillArchitectureID = troop.RealWillArchitecture == null ? -1 : troop.RealWillArchitecture.ID;
 
-                troop.CaptivesString = troop.Captives.SaveToString();
+                if (!editing) troop.CaptivesString = troop.Captives.SaveToString();   //0413剧本编辑器部队可以存储俘虏  
 
                 troop.EventInfluencesString = troop.EventInfluences.SaveToString();
 
@@ -5080,6 +5091,13 @@ namespace GameObjects
                 treasure.BelongedPersonIDString = (treasure.BelongedPerson != null) ? treasure.BelongedPerson.ID : -1;
                 treasure.HidePlaceIDString = (treasure.HidePlace != null) ? treasure.HidePlace.ID : -1;
                 treasure.InfluencesString = treasure.Influences.SaveToString();
+                treasure.Available = (treasure.BelongedPerson != null) ? true : false;
+                if (treasure.Available)
+                {
+                    if (!treasure.BelongedPerson.Alive || (treasure.BelongedPerson.ID >= 7000 && treasure.BelongedPerson.ID < 8000))
+                    { treasure.Available = false; }
+                }
+            
             }
 
             foreach (YearTableEntry yt in this.YearTable)
@@ -5201,7 +5219,8 @@ namespace GameObjects
                         Player = "",
                         Players = String.Join(",", scenarioClone.PlayerList.NullToEmptyList()),
                         Time = time.ToSeasonDate(),
-                        Title = scenarioClone.ScenarioTitle
+                        Title = scenarioClone.ScenarioTitle,
+                        Mod = scenarioClone.MOD
                     };
                     if(!editing)
                     {

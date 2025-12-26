@@ -153,6 +153,7 @@
     <Compile Include="ArchitectureTab.cs" />
     <Compile Include="BaseTab.cs" />
     <Compile Include="DictionaryTab.cs" />
+    <Compile Include="StratagemTab.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

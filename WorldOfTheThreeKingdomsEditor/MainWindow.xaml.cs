@@ -22,6 +22,7 @@ using GameGlobal;
 using GameObjects.FactionDetail;
 using System.Drawing;
 using OfficeOpenXml;
+using GameManager;
 
 namespace WorldOfTheThreeKingdomsEditor
 {
@@ -53,15 +54,32 @@ namespace WorldOfTheThreeKingdomsEditor
 
         public MainWindow()
         {
+            Setting.Init(false);
             InitializeComponent();
-            //Platforms.Platform.Current.editing = true;
+            //Platforms.Platform.Current.editing = false;
             CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
-
+            Title = "中华三国志剧本编辑器 -当前MOD-" + Setting.Current.MODRuntime + " 如需更换MOD，请打开游戏切换退出；CommonData.json已经打开";
             scen = new GameScenario();
             scen.GameCommonData = CommonData.Current;
             populateTables();
         }
         private bool hasScen = false;
+
+        private string ScenarioDir
+        {
+            get
+            {
+                return Platforms.Platform.Current.GetMODFile(@"\Content\Data\Scenario");
+            }
+        }
+        private string CommonDir
+        {
+            get
+            {
+                return Platforms.Platform.Current.GetMODFile(@"Content\Data\Common\CommonData.json");
+            }
+        }
+
         public void initTables(string[] strs)
         {
             foreach (string s in strs)
@@ -82,6 +100,10 @@ namespace WorldOfTheThreeKingdomsEditor
                 else if (s.Equals("dgStunt"))
                 {
                     new StuntTab(scen, dgStunt, lblColumnHelp).setup();
+                }
+                else if (s.Equals("dgStratagem"))
+                {
+                    new StratagemTab(scen, dgStratagem, lblColumnHelp).setup();
                 }
                 else if (s.Equals("dgCombatMethod"))
                 {
@@ -275,6 +297,7 @@ namespace WorldOfTheThreeKingdomsEditor
                 "dgTitleKind",
                 "dgStunt",
                 "dgCombatMethod",
+                "dgStratagem",
                 "dgTextMessage",
                 "dgInfluence",
                 "dgInflunceKind",
@@ -335,7 +358,7 @@ namespace WorldOfTheThreeKingdomsEditor
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "剧本档 (*.json)|*.json";
             openFileDialog.RestoreDirectory = true;
-            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + @"\Content\Data\Scenario";
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + ScenarioDir;
             if (openFileDialog.ShowDialog() == true)
             {
                 String filename = openFileDialog.FileName;
@@ -347,8 +370,8 @@ namespace WorldOfTheThreeKingdomsEditor
                 SaveSav.IsEnabled = false;
                 populateTables();
                 scenLoaded = true;
-                Title = "中华三国志剧本编辑器 - " + openFileDialog.SafeFileName;
-                openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + @"\Content\Data\Scenario";
+                Title = "中华三国志剧本编辑器 -"+ ScenarioDir + "/"+ openFileDialog.SafeFileName;
+                openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + ScenarioDir;
             }
         }
 
@@ -357,6 +380,7 @@ namespace WorldOfTheThreeKingdomsEditor
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "存档 (*.json)|*.json";
             openFileDialog.RestoreDirectory = true;
+            openFileDialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\WorldOfTheThreeKingdoms\Save\";
             
             string initialDir;
             try
@@ -397,7 +421,7 @@ namespace WorldOfTheThreeKingdomsEditor
                 populateTables();
                 scenLoaded = true;
                 Title = "中华三国志剧本编辑器 - " + openFileDialog.SafeFileName;
-                openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + @"\Content\Data\Scenario";
+                //openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + @"\Content\Data\Scenario";
             }
         }
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -407,7 +431,7 @@ namespace WorldOfTheThreeKingdomsEditor
                 scen.ProcessScenarioData(true, true);//保存前再读取一进度，是为了把新增加的信息重新刷到scen里
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "剧本档 (*.json)|*.json";
-                
+                saveFileDialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\WorldOfTheThreeKingdoms\Save\";
                 string initialDir;
                 try
                 {
@@ -440,11 +464,10 @@ namespace WorldOfTheThreeKingdomsEditor
                     scen.SaveGameScenario(filename, true, false, false, false, false, true);
 
                     // GameCommonData.json
-                    String commonPath = @"Content\Data\Common\CommonData.json";
-                    saveGameCommonData(commonPath);
-
-
-                    MessageBox.Show("存档已储存为" + filename + " CommonData已储存为" + commonPath);
+                    //String commonPath = @"Content\Data\Common\CommonData.json";
+                    //saveGameCommonData(CommonDir);//去掉存档存储commondata                   
+                    MessageBox.Show("存档已储存为" + filename);
+                    // MessageBox.Show("存档已储存为" + filename + " CommonData已储存为" + CommonDir);
                 }
             }
         }
@@ -456,7 +479,7 @@ namespace WorldOfTheThreeKingdomsEditor
                 scen.ProcessScenarioData(true, true);//保存前再读取一进度，是为了把新增加的信息重新刷到scen里
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "剧本档 (*.json)|*.json";
-                saveFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + @"\Content\Data\Scenario";
+                saveFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + ScenarioDir;
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     String filename = saveFileDialog.FileName;
@@ -466,8 +489,8 @@ namespace WorldOfTheThreeKingdomsEditor
                     scen.SaveGameScenario(filename, true, false, false, false, true, true);
 
                     // GameCommonData.json
-                    String commonPath = @"Content\Data\Common\CommonData.json";
-                    saveGameCommonData(commonPath);
+                    //String commonPath = @"Content\Data\Common\CommonData.json";
+                    saveGameCommonData(CommonDir);
 
                     // Scenarios.json
                     String scenariosPath = scenPath + @"\Scenarios.json";
@@ -498,16 +521,17 @@ namespace WorldOfTheThreeKingdomsEditor
                     string s2 = Newtonsoft.Json.JsonConvert.SerializeObject(scesList, Newtonsoft.Json.Formatting.Indented);
                     File.WriteAllText(scenariosPath, s2);
 
-                    MessageBox.Show("剧本已储存为" + filename + "。CommonData已储存为" + commonPath);
+                    MessageBox.Show("剧本已储存为" + filename + "。CommonData已储存为" + CommonDir);
                 }
             }
             else
             {
                 // GameCommonData.json
-                String commonPath = @"Content\Data\Common\CommonData.json";
-                saveGameCommonData(commonPath);
+                //String commonPath = @"Content\Data\Common\CommonData.json";
+                saveGameCommonData(CommonDir);
 
-                MessageBox.Show("CommonData已储存为" + commonPath);
+                MessageBox.Show("CommonData已储存为" + CommonDir);
+
             }
         }
 
@@ -694,12 +718,13 @@ namespace WorldOfTheThreeKingdomsEditor
         private void btnSyncScenario_Click(object sender, RoutedEventArgs e)
         {
             String scenariosPath = @"Content\Data\Scenario\Scenarios.json";
+            scenariosPath = Platforms.Platform.Current.GetMODFile(scenariosPath);
             MessageBoxResult result = MessageBox.Show("更新" + scenariosPath + "檔案，使遊戲能辨認劇本資料夾裡的劇本。是否繼續？", "更新Scenarios.json", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
             {
                 List<GameManager.Scenario> scesList = new List<GameManager.Scenario>();
 
-                FileInfo[] files = new DirectoryInfo(@"Content\Data\Scenario").GetFiles("*.json", SearchOption.TopDirectoryOnly);
+                FileInfo[] files = new DirectoryInfo(ScenarioDir).GetFiles("*.json", SearchOption.TopDirectoryOnly);
                 foreach (FileInfo file in files)
                 {
                     if (file.Name.Equals("Scenarios.json")) continue;
@@ -1142,6 +1167,128 @@ namespace WorldOfTheThreeKingdomsEditor
                     }
                 }
                 spouseTab.setup();
+            }
+        }
+
+        private void btnRe1ArchitectureLinks_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("更新所有建築的連接。可能要花上數分鐘的時間，是否確認？", "更新設置城池連接", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {              
+                foreach (Architecture architecture2 in scen.Architectures)
+                {
+                    architecture2.LoadAILandLinksFromString(scen.Architectures, architecture2.AILandLinksString);
+                    foreach (Architecture architecture3 in scen.Architectures)
+                    {
+                        architecture3.LoadAILandLinksFromString(scen.Architectures, architecture3.AILandLinksString);
+                        if (architecture3.AILandLinks.GameObjects.Contains(architecture2) && !architecture2.AILandLinks.GameObjects.Contains(architecture3))
+                        {                           
+                            architecture2.AILandLinks.Add(architecture3);
+                            architecture2.AILandLinksString = architecture2.AILandLinks.SaveToString();
+                        }
+                    }
+                }              
+                architectureTab.setup();
+            }
+        }
+        private void btnUpdateFactionID_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("更新势力ID=君主ID，是否確認？", "更新势力ID=君主ID", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {                            
+               foreach (DiplomaticRelation relation in scen.DiplomaticRelations.DiplomaticRelations.Values)
+               {
+                     foreach(Faction faction in scen.Factions)
+                     {  
+                          if (faction.ID == relation.RelationFaction1ID) { relation.RelationFaction1ID = faction.LeaderID; }
+                          if (faction.ID == relation.RelationFaction2ID) { relation.RelationFaction2ID = faction.LeaderID; }
+                      }
+               }                                
+                foreach (Faction faction in scen.Factions)
+                {                   
+                    faction.ID = faction.LeaderID;
+                }
+                factionTab.setup();              
+            }
+        }
+       
+        private void btnUpdatePersonImageID_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("更新头像序号=人物ID，并更新alive（死亡年大于剧本），是否確認？", "更新头像序号=人物ID", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+               int year = scen.Date.Year;              
+               foreach (Person person in scen.Persons)
+                {
+                    if (person.ID < 7000 || person.ID >= 8000) { person.PictureIndex = person.ID; }
+                    if (person.YearDead > year) { person.Alive = true; }
+                }
+                personTab.setup();
+            }
+        }
+        
+        private void btnChuShi_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("更新出仕，是否確認？", "更新出仕", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                PersonList list = new PersonList();
+                PersonList list2 = new PersonList();
+                PersonList list3 = new PersonList();
+                List<string> data = new List<string>();
+                foreach (Architecture architecture2 in scen.Architectures)
+                {
+                    String[] textRows = architecture2.PersonsString.Split(new char[] { ' ' });
+                    for (int i = 0; i < textRows.Count(); i++)
+                    {
+                        data.Add(textRows[i]);
+                    }
+                }
+                foreach (Person p1 in scen.Persons)
+                {
+                    if (data.Contains(p1.ID.ToString()))
+                    {                         
+                            list3.Add(p1);
+                            if (!p1.Alive || !p1.Available) { list.Add(p1); p1.Alive = true; p1.Available = true; }                           
+                     }
+                }
+
+                foreach (Person p2 in scen.Persons)
+                {
+                    //p2.Tenacity = 0;
+                    //if (p2.BaseCommand >= 80)
+                    //{
+                    //    p2.Tenacity++;
+                    //}
+                    //if (p2.BaseGlamour >= 80)
+                    //{
+                    //    p2.Tenacity++;
+                    //}
+                    //if (p2.BaseIntelligence >= 80)
+                    //{
+                    //    p2.Tenacity++;
+                    //}
+                    ////if (this.Politics >= 80)
+                    ////{
+                    ////     p2.Tenacity++;
+                    ////}
+                    //if (p2.BaseStrength >= 80)
+                    //{
+                    //    p2.Tenacity++;
+                    //}
+                    p2.BelongedPersonName = "";
+                    if (p2.Available)
+                    {
+                        bool b = true;
+                        foreach (Person p3 in list3)
+                        {
+                            if (p2.ID == p3.ID) { b = false; break; }
+                        }
+                        if (b) { list2.Add(p2); }
+                    }
+                }
+                //personTab.setup();
+                MessageBox.Show("建筑中有 " + list.SaveToString() + "但不出仕；" + list2.SaveToString() + "已出场，但不存在建筑中,可能在野");
             }
         }
 

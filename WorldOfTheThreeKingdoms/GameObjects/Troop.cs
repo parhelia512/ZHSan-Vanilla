@@ -894,7 +894,7 @@ namespace GameObjects
             }
             if (this.TirednessDecreaseChanceInViewArea > 0)
             {
-                Session.Current.Scenario.AddPositionAreaInfluence(this, p, AreaInfluenceKind.friendlyTirednessDecrease, this.TirednessIncreaseChanceInViewArea, 0f);
+                Session.Current.Scenario.AddPositionAreaInfluence(this, p, AreaInfluenceKind.friendlyTirednessDecrease, this.TirednessDecreaseChanceInViewArea, 0f);
             }
             if (this.InjuryRecoverInViewArea > 0)
             {
@@ -1456,7 +1456,7 @@ namespace GameObjects
             {
                 if (hasTargetTroopFlag && ((credit < 500) || (GameObject.Chance(this.Combativity) && GameObject.Chance(90))))
                 { //Label_0712:
-                    foreach (CombatMethod method in this.CombatMethods.CombatMethods.Values)
+                    foreach (CombatMethod method in this.CombatMethods.CombatMethods.Values.ToArray())//ToArray()添加防止集合已修改;可能无法执行枚举操作
                     {
                         if (!this.HasCombatMethod(method.ID))
                         {
@@ -2092,7 +2092,7 @@ namespace GameObjects
                     int radius = Math.Max(this.BaseAroundAttackRadius, this.AroundAttackRadius);
                     foreach (Troop troop in this.GetAreaAttackTroops(this.Position, radius, true))
                     {
-                        if ((troop != this) && (!this.TroopNoAccidentalInjury || !this.IsFriendly(troop.BelongedFaction)))
+                         if ((troop != this) && (!this.TroopNoAccidentalInjury || !this.IsFriendly(troop.BelongedFaction))&& !this.AttackedTroopList.HasGameObject(troop))//修正攻击所有相邻部队和AttackEveryAround同时存在会无限攻击城池上的部队
                         {
                             TroopDamage damage2 = troop.ReceiveAttackDamage(this.SendAttackDamage(troop, false));
                             this.StartAttackTroop(troop, damage2, true);
@@ -4104,7 +4104,7 @@ namespace GameObjects
                 if (Session.Current.Scenario.IsPlayer(this.BelongedFaction) && this.TargetTroop == null && this.TargetArchitecture == null
                     && this.Position.Equals(this.Destination)
                     && this.Status == TroopStatus.一般 && this.WillArchitecture == this.StartingArchitecture
-                    && !this.HasHostileTroopInView() && !this.HasHostileArchitectureInView())
+                    && !this.HasHostileTroopInView() && !this.HasHostileArchitectureInView() && !Session.GlobalVariables.SkyEyeSimpleNotification)//暂时用简讯开关决定部队无目标后是否回城
                 {
                     this.Destination = Session.Current.Scenario.GetClosestPoint(this.StartingArchitecture.ArchitectureArea, this.Position);
                     this.TargetArchitecture = this.StartingArchitecture;

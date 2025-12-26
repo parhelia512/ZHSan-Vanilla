@@ -666,7 +666,7 @@ namespace WorldOfTheThreeKingdomsEditor
         {
             if (e.Column.Header.Equals("ID"))
             {
-                MessageBox.Show("请不要轻易修改ID，如其他相关编号未修改完全很可能造成跳出");
+                //MessageBox.Show("请不要轻易修改ID，如其他相关编号未修改完全很可能造成跳出");
                 oldID = int.Parse((e.Column.GetCellContent(e.Row) as TextBlock).Text);
             }
         }
@@ -1172,7 +1172,14 @@ namespace WorldOfTheThreeKingdomsEditor
                     {
                         Microsoft.Xna.Framework.Point? list2;
                         list2 = GameGlobal.StaticMethods.LoadFromString(item[iName].ToString());
-                        i.SetValue(p, list2);
+                        try
+                        {
+                            i.SetValue(p, list2);
+                        }
+                        catch (Exception)
+                        {
+                            // 载入存档后，不关闭编辑器再次载入存档时此处会抛异常，而且存档后超过100士气的编队会降回100
+                        }                     
                     }
                     else if (i.PropertyType == typeof(InfluenceKind))
                     {

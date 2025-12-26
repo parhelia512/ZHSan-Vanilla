@@ -54,7 +54,7 @@ namespace GameGlobal
         [DataMember]
         public const float FrontTileAnimationLayerDepth = 0.65f;
         [DataMember]
-        public string GameDifficulty;
+        public string GameDifficulty = "custom";
         [DataMember]
         public const float GameFrameDepth = 0.4f;
         [DataMember]
@@ -166,7 +166,7 @@ namespace GameGlobal
         [DataMember]
         public int getRaisedSoliderRate = 90;
         [DataMember]
-        public int AIExecutionRate = 500;
+        public float AIExecutionRate = 0.2f;//规则设置中为0-1，只能修改为浮点
         [DataMember]
         public bool AIExecuteBetterOfficer = false;
         [DataMember]
@@ -270,7 +270,7 @@ namespace GameGlobal
         [DataMember]
         public bool RemoveSpouseIfNotAvailable = false;
         [DataMember]
-        public bool SkyEyeSimpleNotification = false;
+        public bool SkyEyeSimpleNotification = true;
         [DataMember]
         public bool AutoMultipleMarriage = false;
         [DataMember]
@@ -628,7 +628,7 @@ namespace GameGlobal
                 }
                 try
                 {
-                    AIExecutionRate = int.Parse(nextSibling.Attributes.GetNamedItem("AIExecutionRate").Value);
+                    AIExecutionRate = float.Parse(nextSibling.Attributes.GetNamedItem("AIExecutionRate").Value);
                 }
                 catch (Exception exception24)
                 {

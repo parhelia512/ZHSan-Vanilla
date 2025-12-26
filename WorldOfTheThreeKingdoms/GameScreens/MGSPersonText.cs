@@ -633,7 +633,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
         public override void TroopPersonChallenge(int win, Troop sourceTroop, Person P1, Troop destinationTroop, Person P2)
         {
-            if ((((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(sourceTroop.Position)) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(destinationTroop.Position)) || Session.GlobalVariables.SkyEye)
+            if ((((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(sourceTroop.Position)) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(destinationTroop.Position)) || (Session.GlobalVariables.SkyEye && !Session.GlobalVariables.SkyEyeSimpleNotification))
             {
                 sourceTroop.TextDestinationString = destinationTroop.DisplayName;
                 sourceTroop.TextResultString = P1.Name;
@@ -816,7 +816,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             neutralPerson = this.getNeutralPerson();
 
             this.xianshishijiantupian(neutralPerson, person.Name, TextMessageKind.Died, killerInBattle == null ? "renwusiwang" : "renwusiwangInBattle",
-                person.ID.ToString(), "renwusiwang", location == null ? troopLocation.Name : location.Name, true);
+                person.ID.ToString(), "renwusiwang", location == null ? troopLocation.Name : location.Name, false);
         }
 
         public override void PersonDeathInChallenge(Person person, Troop troop)
@@ -1018,6 +1018,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
                             this.Plugins.GameRecordPlugin.AddBranch(person, "SearchPersonFound", person.Position);
                             break;
+                        case SearchResult.宝物:
+                            person.TextResultString = resultPack.FoundTreasure.Name;
+                            this.xianshishijiantupian(person, person.TextResultString, TextMessageKind.PersonTreasureFound, "PersonTreasureFound", "", "", architecture.Name, false);
+                            this.Plugins.GameRecordPlugin.AddBranch(person, "PersonTreasureFound", person.Position);
+                            break;
                         case SearchResult.无:
                             //person.TextResultString = architecture.Name;
                             //this.xianshishijiantupian(person, person.TextResultString, "SearchPersonFound", "", "", architecture.Name);
@@ -1060,6 +1065,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                             this.Plugins.PersonBubblePlugin.AddPerson(person, architecture.Position, TextMessageKind.SearchPersonFound, "SearchPersonFound");
 
                             this.Plugins.GameRecordPlugin.AddBranch(person, "SearchPersonFound", person.Position);
+                            break;
+                        case SearchResult.宝物:
+                            person.TextResultString = resultPack.FoundTreasure.Name;
+                            this.xianshishijiantupian(person, person.TextResultString, TextMessageKind.PersonTreasureFound, "PersonTreasureFound", "", "", architecture.Name, false);
+                            this.Plugins.GameRecordPlugin.AddBranch(person, "PersonTreasureFound", person.Position);
                             break;
                     }
 

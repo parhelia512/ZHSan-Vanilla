@@ -38,7 +38,7 @@ namespace GameObjects
                 person.OnGossipFailed += new Person.GossipFailed(this.person_OnGossipFailed);
                 person.OnSearchFinished += new Person.SearchFinished(this.person_OnSearchFinished);
                 //person.OnSpyFound += new Person.SpyFound(this.person_OnSpyFound);
-                //person.OnTreasureFound += new Person.TreasureFound(this.person_OnTreasureFound);
+                person.OnTreasureFound += new Person.TreasureFound(this.person_OnTreasureFound);
                // person.OnShowMessage += new Person.ShowMessage(this.person_OnShowMessage);
                 person.OnDeath += new Person.Death(this.person_OnDeath);
                 person.OnLeave += new Person.Leave(this.person_OnLeave);
@@ -82,7 +82,7 @@ namespace GameObjects
 
         public void ApplyInfluences()
         {
-            this.PurifyInfluences();
+            //this.PurifyInfluences();
             foreach (Person person in base.GameObjects)
             {
                 person.ApplyTitles(false);

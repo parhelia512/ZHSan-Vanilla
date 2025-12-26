@@ -41,7 +41,7 @@ namespace WorldOfTheThreeKingdomsEditor
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("语言类型ID",typeof(int));
             dataTable.Columns.Add("语言类型名称");
-            for (int i = 0; i < textkinds.Length; i++)
+            for (int i = 0; i < textkinds.Length - 1; i++)
             {
                 DataRow dataRow = dataTable.NewRow();
                 dataRow["语言类型ID"] = i;

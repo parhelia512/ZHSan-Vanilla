@@ -780,6 +780,31 @@ namespace GameObjects
             return false;
         }
 
+        //↓获取人物某类宝物
+        public TreasureList TreasureListforGroup(int id)
+        {
+            TreasureList list = new TreasureList();
+            foreach (Treasure t in this.Treasures)
+            {
+                if (t.TreasureGroup == id)
+                {
+                    list.Add(t);
+                }
+            }
+            return list;
+        }
+        public List<Treasure> AllEffectiveTreasures
+        {
+            get
+            {
+                List<Treasure> list = new List<Treasure>();
+                foreach (Treasure treasure in this.effectiveTreasures.Values)
+                {
+                    list.Add(treasure);
+                }
+                return list;
+            }
+        }
         //↓获取人物某类称号的名称
         public string TitleNameforGroup(int id)
         {
@@ -3377,8 +3402,8 @@ namespace GameObjects
             //这样配偶和义兄可以无视一切条件强登被登用武将 (当是君主的配偶或者义兄弟)
             ConvinceSuccess |= target.IsVeryCloseTo(this);
 
-            ConvinceSuccess |= target.IsCloseTo(this) && this.BelongedFaction == null;
-
+            ConvinceSuccess |= target.IsCloseTo(this) && target.BelongedFaction == null;
+            
             return ConvinceSuccess;
         }
 
@@ -4854,7 +4879,7 @@ namespace GameObjects
 
                     foreach (Title t in this.RealTitles)
                     {
-                        if (t.Kind == this.StudyingTitle.Kind)
+                        if (t.Kind.ID == this.StudyingTitle.Kind.ID)
                         {
                             t.Influences.PurifyInfluence(this, GameObjects.Influences.Applier.Title, t.ID, false);
                             this.RealTitles.Remove(t);
@@ -5811,10 +5836,18 @@ namespace GameObjects
             {
                 return;
             }
+             if (this.ideal <= 1 && targetIdeal > 75)//修正相性为0和极端
+            {
+                this.ideal = 150;return;
+            }
+            if ((this.ideal == 150||this.ideal==0) && targetIdeal < 75)
+            {
+                this.ideal = 1;return;
+            }
             else
             {
                 int opposite = (targetIdeal + 75) % 150;
-                if (this.Ideal == opposite)
+                if (this.Ideal == opposite|| Math.Abs(this.Ideal-targetIdeal)==75)//修正相性为0和极端
                 {
                     newValue += diff * (GameObject.Chance(50) ? 1 : -1);
                 }
@@ -7230,6 +7263,19 @@ namespace GameObjects
             }
         }
 
+        public string ClosePersonsName
+        {
+            get
+            {
+                string str = "";
+                foreach (Person person in this.closePersons)
+                {
+                    str = str + person.Name + " ";
+                }
+                return str;
+            }
+        }
+
         public int MilitaryTypeSkillMerit(MilitaryType kind)
         {
             int result = 0;
@@ -7341,7 +7387,16 @@ namespace GameObjects
         {
             get
             {
-                return (int) Math.Pow(this.CommandExperience / 0x3e8, 0.9);
+                //return (int) Math.Pow(this.CommandExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(CommandExperience, this.BaseCommand);
+            }
+        }
+
+        public int CommandLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.CommandExperience, this.BaseCommand); 
             }
         }
 
@@ -7680,11 +7735,20 @@ namespace GameObjects
             }
         }
 
+        public int GlamourLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.GlamourExperience, this.BaseGlamour); 
+            }
+        }
+
         public int GlamourFromExperience
         {
             get
             {
-                return (int)Math.Pow(this.GlamourExperience / 0x3e8, 0.9);
+                //return (int)Math.Pow(this.GlamourExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(GlamourExperience, this.BaseGlamour);
             }
         }
 
@@ -8029,7 +8093,8 @@ namespace GameObjects
         {
             get
             {
-                return (int) Math.Pow(this.IntelligenceExperience / 0x3e8, 0.9);
+                //return (int) Math.Pow(this.IntelligenceExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(IntelligenceExperience, this.BaseIntelligence);
             }
         }
 
@@ -8038,6 +8103,14 @@ namespace GameObjects
             get
             {
                 return (this.BaseIntelligence + this.IntelligenceFromExperience);
+            }
+        }
+
+        public int IntelligenceLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.IntelligenceExperience, this.BaseIntelligence);
             }
         }
 
@@ -8649,7 +8722,8 @@ namespace GameObjects
         {
             get
             {
-                return (int)Math.Pow(this.PoliticsExperience / 0x3e8, 0.9);
+                //return (int)Math.Pow(this.PoliticsExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(PoliticsExperience, this.BasePolitics);
             }
         }
 
@@ -8661,6 +8735,13 @@ namespace GameObjects
             }
         }
 
+        public int PoliticsLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.PoliticsExperience, this.BasePolitics);
+            }
+        }
         //public Texture2D Portrait
         //{
         //    get
@@ -9097,7 +9178,8 @@ namespace GameObjects
         {
             get
             {
-                return  (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9);
+                //return  (int) Math.Pow(this.StrengthExperience / 0x3e8, 0.9);
+                return this.ExpAddMthd(StrengthExperience, this.BaseStrength);
             }
         }
 
@@ -9107,6 +9189,38 @@ namespace GameObjects
             {
                 return (this.BaseStrength + this.StrengthFromExperience);
             }
+        }
+
+        public int StrengthLevelUpNeedExp
+        {
+            get
+            {
+                return this.AttrLevelUpNeedExp(this.StrengthExperience, this.BaseStrength); 
+            }
+        }
+
+        private int ExpAddMthd(int ExperienceNow, int BaseAttribute)
+        {
+            int num = 0;
+            while (ExperienceNow >= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 10 * BaseAttribute + 500))
+            {
+                ExperienceNow -= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 10 * BaseAttribute + 500);
+                BaseAttribute++;
+                num++;
+            }
+            return num;
+        }
+
+        private int AttrLevelUpNeedExp(int ExperienceNow, int BaseAttribute)
+        {
+            int num = 0;
+            int num2 = ExperienceNow;
+            while (num2 >= (int)(Math.Pow((BaseAttribute + num -50), 2) + 10 * BaseAttribute + 500))
+            {
+                num2 -= (int)(Math.Pow((BaseAttribute + num - 50), 2) + 10 * BaseAttribute + 500);
+                num++;
+            }
+            return ((int)(Math.Pow((BaseAttribute + num - 50), 2) + 10 * BaseAttribute + 500) - num2 + ExperienceNow);
         }
 
         public int StuntCount
@@ -9246,7 +9360,7 @@ namespace GameObjects
                 int num = 0;
                 foreach (Treasure treasure in this.effectiveTreasures.Values)
                 {
-                    if (num > treasure.Worth)
+                    if (num < treasure.Worth)
                     {
                         num = treasure.Worth;
                     }

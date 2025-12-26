@@ -268,7 +268,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             this.architectureLayer.Draw(base.viewportSize, gameTime);
             this.routewayLayer.Draw(base.viewportSize);
 
-            this.cloudLayer.Draw();
+            if (!Session.GlobalVariables.SkyEyeSimpleNotification)
+            { this.cloudLayer.Draw(); }
 
             if (this.dantiaoLayer != null)
             {
@@ -277,8 +278,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             this.tileAnimationLayer.Draw(base.viewportSize);
             
-            this.troopLayer.Draw(base.viewportSize, gameTime);
-
+            if (this.dantiaoLayer == null)//防止结果结算在单挑界面出现前
+            {
+                this.troopLayer.Draw(base.viewportSize, gameTime);
+            }
+            
             this.mapVeilLayer.Draw(base.viewportSize);
 
             switch (base.UndoneWorks.Peek().Kind)
@@ -898,7 +902,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 case SelectingUndoneWorkKind.ArchitectureAvailableContactArea:
                     if (!this.selectingLayer.Canceled)
                     {
-                        if(this.CurrentMilitaries.Count==1 && this.CurrentMilitary!=null )
+                        if(this.CurrentMilitaries.Count==1 && this.CurrentMilitary!=null && this.CurrentPerson!=null)//加上this.CurrentPerson!=null防止自动出征一部队错误
                         {
                             this.screenManager.SetCreatingTroopPosition(this.selectingLayer.SelectedPoint);
                         }
@@ -1171,11 +1175,13 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                 else
                                 {
                                     troop.mingling = "Move";
+                                    troop.TargetArchitecture = null;
                                 }
                                 troop.RealDestination = this.selectingLayer.SelectedPoint;
                                 if (!((targetArchitecture == null) || troop.BelongedFaction.IsFriendly(targetArchitecture.BelongedFaction)))
                                 {
                                     troop.BelongedLegion.Kind = LegionKind.Offensive;
+                                    if (troop.CanAttack(troop.TargetArchitecture)) troop.Destination = troop.Position;
                                 }
                                 else
                                 {
@@ -1244,7 +1250,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                 }
                                 else
                                 {
-                                    this.CurrentTroop.RealDestination = this.CurrentTroop.Position;
+                                    //this.CurrentTroop.RealDestination = this.CurrentTroop.Position;
                                 }
                             }
                             
@@ -1434,7 +1440,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         {
             if (!Session.Current.Scenario.Threading)
             {
-                if (!Session.Current.Scenario.Animating)
+                if (!Session.Current.Scenario.Animating || Setting.Current.GlobalVariables.FastBattleSpeed < 2)
+                //if (!Session.Current.Scenario.Animating)
                 {
                     Session.Current.Scenario.Troops.CurrentQueueTroopMove();
                     if (Session.Current.Scenario.Troops.TotallyEmpty)
@@ -1442,8 +1449,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         return false;
                     }
                 }
-                //else if (gameTime.ElapsedRealTime.TotalMilliseconds > Session.GlobalVariables.MaxTimeOfAnimationFrame)
-                else if (gameTime.ElapsedGameTime.TotalMilliseconds > Session.GlobalVariables.MaxTimeOfAnimationFrame)
+                else if (gameTime.ElapsedGameTime.TotalMilliseconds > Session.GlobalVariables.MaxTimeOfAnimationFrame-(10- Setting.Current.GlobalVariables.FastBattleSpeed)*2.5f)
+                //else if (gameTime.ElapsedGameTime.TotalMilliseconds > Session.GlobalVariables.MaxTimeOfAnimationFrame)
                 {
                     Session.Current.Scenario.Troops.StepAnimationIndex(1);
                 }
@@ -2180,11 +2187,19 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     dialog.SpeakingPerson = Session.Current.Scenario.Persons.GetGameObject(dialog.SpeakingPersonID) as Person;//修复部队事件未识别说话武将
                     if (dialog.SpeakingPerson !=null)
                     {
-                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, null, dialog.Text, te.Image, te.Sound,te.TryToShowString);
+                        if (te.Sound == null && Setting.Current.GlobalVariables.TroopVoice)
+                        {
+                            String ThePersonSound = Platform.Current.GetPersonVioce(dialog.SpeakingPerson, "");
+                            if (ThePersonSound.Length > 0 )
+                            {
+                                PlayNormalSound(ThePersonSound);
+                            }
+                        }
+                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, troop, dialog.Text, te.Image, te.Sound,te.TryToShowString);//增加gameobject
                     }
                     else
                     {
-                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(troop.Leader, null, dialog.Text, te.Image, te.Sound,te.TryToShowString);
+                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(troop.Leader, troop, dialog.Text, te.Image, te.Sound,te.TryToShowString);
                     }
                 }
                 if (Setting.Current.GlobalVariables.DialogShowTime > 0)
@@ -2261,11 +2276,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 {
                     if (dialog.SpeakingPerson != null)
                     {
-                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, null, dialog.Text, e.Image, e.Sound,e.TryToShowString);
+                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, a, dialog.Text, e.Image, e.Sound,e.TryToShowString);//增加GameObject
                     }
                     else
                     {
-                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(a.BelongedFaction.Leader, null, dialog.Text, e.Image, e.Sound,e.TryToShowString);
+                        this.Plugins.tupianwenziPlugin.SetGameObjectBranch(a.BelongedFaction.Leader, a, dialog.Text, e.Image, e.Sound,e.TryToShowString);
                     }
                 }
 

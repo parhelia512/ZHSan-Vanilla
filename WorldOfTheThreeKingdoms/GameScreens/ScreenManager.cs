@@ -670,10 +670,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                             this.CurrentArchitecture.RemoveMilitary(military);
                             this.CurrentArchitecture.BelongedFaction.TransferingMilitaries.Add(military);
                             this.CurrentArchitecture.BelongedFaction.TransferingMilitaryCount++;
+                            Session.MainGame.mainGameScreen.PlayNormalSound("Content/Sound/Tactics/Outside");//移至此处防止运输失败有声音
                         }
                     }
                 }
-                Session.MainGame.mainGameScreen.PlayNormalSound("Content/Sound/Tactics/Outside");
+                //Session.MainGame.mainGameScreen.PlayNormalSound("Content/Sound/Tactics/Outside");
             }
         }
 

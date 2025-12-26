@@ -14836,7 +14836,7 @@ namespace GameObjects
             {
                 return 100000;
             }
-            else if (this.JianzhuGuimo == 5)
+            else if (this.JianzhuGuimo >= 4)
             {
                 return 200000;
             }
@@ -14851,12 +14851,29 @@ namespace GameObjects
             if (this.JianzhuGuimo == 1)
             {
 
-                xinjiadedian.Add(new Point(zhongxindian.X - 1, zhongxindian.Y));
-                xinjiadedian.Add(new Point(zhongxindian.X + 1, zhongxindian.Y));
-                xinjiadedian.Add(new Point(zhongxindian.X, zhongxindian.Y - 1));
-                xinjiadedian.Add(new Point(zhongxindian.X, zhongxindian.Y + 1));
+                if (!Setting.Current.MOD.Contains("Qinghuai")) 
+                {
+                    xinjiadedian.Add(new Point(zhongxindian.X - 1, zhongxindian.Y));
+                    xinjiadedian.Add(new Point(zhongxindian.X + 1, zhongxindian.Y));
+                    xinjiadedian.Add(new Point(zhongxindian.X, zhongxindian.Y - 1));
+                    xinjiadedian.Add(new Point(zhongxindian.X, zhongxindian.Y + 1));
+                }
+                else
+                {
+                    xinjiadedian.Add(new Point(this.zhongxindian.X + 1, this.zhongxindian.Y + 1));
+                    xinjiadedian.Add(new Point(this.zhongxindian.X + 1, this.zhongxindian.Y));
+                    xinjiadedian.Add(new Point(this.zhongxindian.X, this.zhongxindian.Y + 1));
 
+                }
 
+            }
+            else if(this.JianzhuGuimo == 4)
+            {
+                xinjiadedian.Add(new Point(this.zhongxindian.X, this.zhongxindian.Y - 1));
+                xinjiadedian.Add(new Point(this.zhongxindian.X - 1, this.zhongxindian.Y - 1));
+                xinjiadedian.Add(new Point(this.zhongxindian.X - 1, this.zhongxindian.Y + 1));
+                xinjiadedian.Add(new Point(this.zhongxindian.X - 1, this.zhongxindian.Y));
+                xinjiadedian.Add(new Point(this.zhongxindian.X + 1, this.zhongxindian.Y - 1));               
             }
             else if (this.JianzhuGuimo == 5)
             {
@@ -14880,7 +14897,7 @@ namespace GameObjects
         public bool ExpandAvail()
         {
             if (this.Fund < this.ExpandFund()) return false;
-            if (this.JianzhuGuimo != 1 && this.JianzhuGuimo != 5) return false;
+            //if (this.JianzhuGuimo != 1 && this.JianzhuGuimo != 5) return false;
             if (Session.Current.Scenario.ScenarioMap.UseSimpleArchImages) return false;
 
             if (_architectureKind.Expandable < this.JianzhuGuimo) return false;
@@ -15674,29 +15691,61 @@ namespace GameObjects
             var facilities = GetAvailableCreateTreasureFacilities();
 
             var groupsToCreate = new HashSet<TreasureCreationSetting>();
-            foreach (Facility facility in facilities) 
+            foreach (Facility facility in facilities)
             {
-                foreach (Influence influence in facility.Kind.Influences.Influences.Values) 
+                foreach (Influence influence in facility.Kind.Influences.Influences.Values)
                 {
-                    if (influence.Kind.ID == 3530) 
+                    if (influence.Kind.ID == 3530)
                     {
-                        var treasureSetting = Session.Current.Scenario.GameCommonData.AllTreasureCreationSettings.GetGameObject(int.Parse(influence.Parameter)) as TreasureCreationSetting;
+                        try
+                        {
+                            // 获取TreasureCreationSetting
+                            var treasureSetting = Session.Current.Scenario.GameCommonData.AllTreasureCreationSettings
+                                .GetGameObject(int.Parse(influence.Parameter)) as TreasureCreationSetting;
 
-                        if (p.Fund < treasureSetting.Cost) continue;
-                        groupsToCreate.Add(treasureSetting);
+                            if (treasureSetting == null)
+                            {
+                                // 添加调试信息
+                                Console.WriteLine($"未找到ID为 {influence.Parameter} 的TreasureCreationSetting");
+                                continue;
+                            }
+
+                            if (p.Fund < treasureSetting.Cost)
+                            {
+                                //Console.WriteLine($"资金不足: 需要 {treasureSetting.Cost}, 当前 {p.Fund}");
+                                continue;
+                            }
+
+                            groupsToCreate.Add(treasureSetting);
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine($"未找到ID为 {influence.Parameter} 的TreasureCreationSetting");
+                            continue;
+                        }
+                        
                     }
                 }
             }
 
-            foreach (Treasure t in p.Treasures) {
-                if (groupsToCreate.Select(g => g.TreasureGroup).Contains(t.TreasureGroup)) {
-                    groupsToCreate.RemoveWhere(g => g.TreasureGroup == t.TreasureGroup);
+            // 检查人物是否已经拥有相同TreasureGroup的宝物
+            foreach (Treasure t in p.Treasures)
+            {
+                var settingToRemove = groupsToCreate.FirstOrDefault(g => g.TreasureGroup == t.TreasureGroup);
+                if (settingToRemove != null)
+                {
+                    groupsToCreate.Remove(settingToRemove);
                 }
             }
 
-            if (groupsToCreate.Count == 0) return;
+            if (groupsToCreate.Count == 0)
+            {
+                Console.WriteLine("没有可创建的宝物");
+                return;
+            }
 
-            var selectedSetting = groupsToCreate.ToList()[GameObject.Random(groupsToCreate.Count)];
+            // 随机选择一个TreasureCreationSetting
+            var selectedSetting = groupsToCreate.ElementAt(GameObject.Random(groupsToCreate.Count));
 
             p.Fund -= selectedSetting.Cost;
 
@@ -15705,31 +15754,53 @@ namespace GameObjects
             treasure.AppearYear = Session.Current.Scenario.Date.Year;
             treasure.Available = true;
 
-            do {
-                var chosenInfluence = Session.Current.Scenario.GameCommonData.AllInfluences.GetInfluence(selectedSetting.EligibleInfluenceIDs[GameObject.Random(selectedSetting.EligibleInfluenceIDs.Length)]) as Influence;
-                treasure.Influences.AddInfluence(chosenInfluence);
+            // 添加随机影响效果
+            do
+            {
+                if (selectedSetting.EligibleInfluenceIDs != null && selectedSetting.EligibleInfluenceIDs.Count > 0)
+                {
+                    var randomIndex = GameObject.Random(selectedSetting.EligibleInfluenceIDs.Count);
+                    var influenceId = selectedSetting.EligibleInfluenceIDs[randomIndex];
+                    var chosenInfluence = Session.Current.Scenario.GameCommonData.AllInfluences.GetInfluence(influenceId) as Influence;
+
+                    if (chosenInfluence != null)
+                    {
+                        treasure.Influences.AddInfluence(chosenInfluence);
+                    }
+                }
             } while (GameObject.Chance(50));
-            
-            treasure.Pic = selectedSetting.PicIDs[GameObject.Random(selectedSetting.PicIDs.Length)];
+
+            // 随机选择图片ID
+            if (selectedSetting.PicIDs != null && selectedSetting.PicIDs.Count > 0)
+            {
+                treasure.Pic = selectedSetting.PicIDs[GameObject.Random(selectedSetting.PicIDs.Count)];
+            }
+
             treasure.Worth = selectedSetting.Cost / 250;
 
-            treasure.Durability = GameObject.Random(360) + 1620; 
-            
+            treasure.Durability = GameObject.Random(360) + 1620;
+
             treasure.Name = p.Name + selectedSetting.Name;
 
-            var minId = 9999;
-            foreach (Treasure t in Session.Current.Scenario.Treasures)
-            {
-                if (t.ID > minId)
-                {
-                    minId = t.ID;
-                }
-            }
-            treasure.ID = minId + 1;
+            treasure.Description = treasure.AppearYear + "由" + p.Name + "打造" + selectedSetting.Name;
+
+            // 计算新的宝物ID（应该是最大ID+1）
+            //var maxId = 0;
+            //foreach (Treasure t in Session.Current.Scenario.Treasures)
+            //{
+            //    if (t.ID > maxId)
+            //    {
+            //        maxId = t.ID;
+            //    }
+            //}
+            //treasure.ID = maxId + 1;
+            treasure.ID = Session.Current.Scenario.Treasures.GetFreeGameObjectID();
 
             Session.Current.Scenario.Treasures.Add(treasure);
 
             p.ReceiveTreasure(treasure);
+
+            Console.WriteLine($"成功创建宝物: {treasure.Name} (ID: {treasure.ID})");
         }
 
         #region 宝物

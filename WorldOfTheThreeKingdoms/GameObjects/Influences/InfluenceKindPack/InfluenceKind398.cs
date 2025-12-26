@@ -15,7 +15,7 @@ using System.Runtime.Serialization;namespace GameObjects.Influences.InfluenceKin
     {
         public override void ApplyInfluenceKind(Troop troop)
         {
-            if (troop.GetCurrentStratagemSuccess(null, false, false, false))
+            if (troop.GetCurrentStratagemSuccess(troop, false, false, false))
             {
                 Session.Current.Scenario.SetPositionOnFire(troop.SelfCastPosition);
             }
