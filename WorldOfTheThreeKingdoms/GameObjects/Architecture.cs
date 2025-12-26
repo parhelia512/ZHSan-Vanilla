@@ -15712,7 +15712,7 @@ namespace GameObjects
 
                             if (p.Fund < treasureSetting.Cost)
                             {
-                                Console.WriteLine($"资金不足: 需要 {treasureSetting.Cost}, 当前 {p.Fund}");
+                                //Console.WriteLine($"资金不足: 需要 {treasureSetting.Cost}, 当前 {p.Fund}");
                                 continue;
                             }
 
@@ -15721,7 +15721,7 @@ namespace GameObjects
                         catch (Exception)
                         {
                             Console.WriteLine($"未找到ID为 {influence.Parameter} 的TreasureCreationSetting");
-                            throw;
+                            continue;
                         }
                         
                     }
@@ -15785,15 +15785,16 @@ namespace GameObjects
             treasure.Description = treasure.AppearYear + "由" + p.Name + "打造" + selectedSetting.Name;
 
             // 计算新的宝物ID（应该是最大ID+1）
-            var maxId = 0;
-            foreach (Treasure t in Session.Current.Scenario.Treasures)
-            {
-                if (t.ID > maxId)
-                {
-                    maxId = t.ID;
-                }
-            }
-            treasure.ID = maxId + 1;
+            //var maxId = 0;
+            //foreach (Treasure t in Session.Current.Scenario.Treasures)
+            //{
+            //    if (t.ID > maxId)
+            //    {
+            //        maxId = t.ID;
+            //    }
+            //}
+            //treasure.ID = maxId + 1;
+            treasure.ID = Session.Current.Scenario.Treasures.GetFreeGameObjectID();
 
             Session.Current.Scenario.Treasures.Add(treasure);
 
