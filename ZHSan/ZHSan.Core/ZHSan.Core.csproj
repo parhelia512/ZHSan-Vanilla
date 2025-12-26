@@ -2,6 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <Platforms>AnyCPU</Platforms>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="FontStashSharp.MonoGame" Version="1.5.2" />

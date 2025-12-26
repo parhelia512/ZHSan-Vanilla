@@ -7,6 +7,7 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <ApplicationIcon>../ZHSan.Core/Content/Icon.ico</ApplicationIcon>
         <AssemblyName>ZHSan</AssemblyName>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
     <ItemGroup>
         <MonoGameContentReference Include="..\ZHSan.Core\Content\Content.mgcb">
