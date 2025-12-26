@@ -298,11 +298,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             {
                 //try
                 //{
-                if (architecture.JianzhuGuimo == 13 && Session.MainGame.mainGameScreen.Textures.largeCityImg.ContainsKey(architecture.Kind.ID))
+                if ((architecture.JianzhuGuimo >= 9) && Session.MainGame.mainGameScreen.Textures.largeCityImg.ContainsKey(architecture.Kind.ID))
                 {
                     tupian = Session.MainGame.mainGameScreen.Textures.largeCityImg[architecture.Kind.ID];
                 }
-                else if (architecture.JianzhuGuimo == 5 && Session.MainGame.mainGameScreen.Textures.mediumCityImg.ContainsKey(architecture.Kind.ID))
+                else if ((architecture.JianzhuGuimo >= 4 && architecture.JianzhuGuimo < 9)&& Session.MainGame.mainGameScreen.Textures.mediumCityImg.ContainsKey(architecture.Kind.ID))
                 {
                     tupian = Session.MainGame.mainGameScreen.Textures.mediumCityImg[architecture.Kind.ID];
                 }

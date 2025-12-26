@@ -57,6 +57,8 @@ namespace GameManager
         public string Funds { get; set; }
         [DataMember]
         public string Foods { get; set; }
+        [DataMember]
+        public string Mod { get; set; }
 
         public string GameTime
         {
@@ -82,7 +84,7 @@ namespace GameManager
 
                 if (!String.IsNullOrEmpty(Title))
                 {
-                    str = String.Join("  ", new string[] { "存档"+ ID + ":    ", Info, Title, Time.ToSeasonDate(), Create.ToSeasonShortTime(), "(" + GameTime + ")" });
+                    str = String.Join("  ", new string[] { "存档"+ ID + ":    ", Info, Title, Mod, Time.ToSeasonDate(), Create.ToSeasonShortTime(), "(" + GameTime + ")" });
                 }
                 return exp + str;
             }

@@ -139,7 +139,7 @@ namespace tupianwenziPlugin
             List<String> msg = Session.Current.Scenario.GameCommonData.AllTextMessages.GetTextMessage(p.ID, k);
             if (msg.Count > 0)
             {
-                SetGameObjectBranch(p, null, msg[GameObject.Random(msg.Count)], tupian, shengyin);
+                SetGameObjectBranch(p, gameObject, msg[GameObject.Random(msg.Count)], tupian, shengyin);
             }
             else
             {
@@ -153,7 +153,8 @@ namespace tupianwenziPlugin
             PlatformTexture shijiantupian;
             Microsoft.Xna.Framework.Rectangle shijiantupianjuxing;
 
-            if (!(Session.Current.Scenario.SkyEyeSimpleNotification(gameObject as GameObject) && Session.GlobalVariables.SkyEye))
+            if (!Session.Current.Scenario.SkyEyeSimpleNotification(gameObject as GameObject)||!(Session.Current.Scenario.SkyEyeSimpleNotification(gameObject as GameObject) && Session.GlobalVariables.SkyEye))
+            //if (!(Session.Current.Scenario.SkyEyeSimpleNotification(gameObject as GameObject) && Session.GlobalVariables.SkyEye))
             {
 
                 this.tupianwenzi.SetGameObjectBranch(person as GameObject, gameObject as GameObject, branchName, TryToShowString );

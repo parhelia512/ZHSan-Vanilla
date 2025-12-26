@@ -167,6 +167,96 @@ namespace PersonDetailPlugin
             StaticMethods.LoadFontAndColorFromXMLNode(node, out font, out color);
             this.personDetail.BiographyText.Builder.SetFreeTextBuilder(font);
             this.personDetail.BiographyText.DefaultColor = color;
+
+            node = nextSibling.ChildNodes.Item(14);
+            this.personDetail.MoreMessageClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.MoreMessageText.ClientWidth = this.personDetail.MoreMessageClient.Width;
+            this.personDetail.MoreMessageText.ClientHeight = this.personDetail.MoreMessageClient.Height;                      
+            this.personDetail.MoreMessageText.RowMargin = int.Parse(node.Attributes.GetNamedItem("RowMargin").Value);
+            this.personDetail.MoreMessageText.TitleColor = StaticMethods.LoadColor(node.Attributes.GetNamedItem("TitleColor").Value);
+
+            this.personDetail.TreasureTextClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.TreasureText.ClientWidth = this.personDetail.MoreMessageClient.Width + 200;
+            this.personDetail.TreasureText.ClientHeight = this.personDetail.MoreMessageClient.Height;
+            this.personDetail.TreasureText.RowMargin = int.Parse(node.Attributes.GetNamedItem("RowMargin").Value);
+            this.personDetail.TreasureText.TitleColor = StaticMethods.LoadColor(node.Attributes.GetNamedItem("TitleColor").Value);
+            StaticMethods.LoadFontAndColorFromXMLNode(node, out font, out color);
+            this.personDetail.MoreMessageText.Builder.SetFreeTextBuilder(font);
+            this.personDetail.MoreMessageText.DefaultColor = color;
+            this.personDetail.TreasureText.Builder.SetFreeTextBuilder(font);
+            this.personDetail.TreasureText.DefaultColor = color;
+            node = nextSibling.ChildNodes.Item(15);
+            this.personDetail.MoreMessageBGClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.MoreMessageBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);
+            this.personDetail.MoreMessageBGSize.Y = int.Parse(node.Attributes.GetNamedItem("Height").Value);
+            this.personDetail.MoreMessageBGTexture = CacheManager.GetTempTexture(@"Content\Textures\GameComponents\PersonDetail\Data\" + node.Attributes.GetNamedItem("FileName").Value);
+            node = nextSibling.ChildNodes.Item(0x10);
+            this.personDetail.Switch_MoreMessage = node.Attributes.GetNamedItem("MoreMessage").Value;
+            this.personDetail.Switch_DisplayFamily = node.Attributes.GetNamedItem("DisplayFamily").Value;
+            this.personDetail.Switch3 = node.Attributes.GetNamedItem("PersonSound").Value;
+            this.personDetail.Switch_PersonPortraitL = node.Attributes.GetNamedItem("PersonPortraitL").Value;
+            this.personDetail.Switch_PersonBG = node.Attributes.GetNamedItem("PersonBG").Value;
+            this.personDetail.Switch_PersonBG2 = node.Attributes.GetNamedItem("PersonBG2").Value;
+            this.personDetail.Switch_EnlargeBG = node.Attributes.GetNamedItem("EnlargeBG").Value;
+            //this.personDetail.Switch_Fuhuo = node.Attributes.GetNamedItem("Fuhuo").Value;
+
+            node = nextSibling.ChildNodes.Item(0x15);
+            this.personDetail.Treasure1group10Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x16);
+            this.personDetail.Treasure2group15Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x17);
+            this.personDetail.Treasure3group20Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x18);
+            this.personDetail.Treasure4group25Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x19);
+            this.personDetail.Treasure5group30Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x1a);
+            this.personDetail.Treasure6group40Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x1b);
+            this.personDetail.Treasure7group50Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x1c);
+            this.personDetail.Treasure8group55Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x1d);
+            this.personDetail.Treasure9group60Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(30);
+            this.personDetail.Treasure10group70Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x1f);
+            this.personDetail.Treasure11group90Client = StaticMethods.LoadRectangleFromXMLNode(node);
+            node = nextSibling.ChildNodes.Item(0x20);
+            this.personDetail.Treasure12group100Client = StaticMethods.LoadRectangleFromXMLNode(node);
+
+            node = nextSibling.ChildNodes.Item(0x21);
+            this.personDetail.TreasureBGClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.TreasureBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);
+            this.personDetail.TreasureBGSize.Y = int.Parse(node.Attributes.GetNamedItem("Height").Value);
+            this.personDetail.TreasureBG = CacheManager.GetTempTexture(@"Content\Textures\GameComponents\PersonDetail\Data\" + node.Attributes.GetNamedItem("FileName").Value);
+            node = nextSibling.ChildNodes.Item(0x22);
+            this.personDetail.TitleBGClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.TitleBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);
+            this.personDetail.TitleBGSize.Y = int.Parse(node.Attributes.GetNamedItem("Height").Value);
+            this.personDetail.TitleBG = CacheManager.GetTempTexture(@"Content\Textures\GameComponents\PersonDetail\Data\" + node.Attributes.GetNamedItem("FileName").Value);
+            node = nextSibling.ChildNodes.Item(0x23);
+            this.personDetail.StuntBGClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.StuntBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);
+            this.personDetail.StuntBGSize.Y = int.Parse(node.Attributes.GetNamedItem("Height").Value);
+            this.personDetail.StuntBG = CacheManager.GetTempTexture(@"Content\Textures\GameComponents\PersonDetail\Data\" + node.Attributes.GetNamedItem("FileName").Value);
+            node = nextSibling.ChildNodes.Item(0x24);
+            this.personDetail.SkillBGClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.SkillBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);
+            this.personDetail.SkillBGSize.Y = int.Parse(node.Attributes.GetNamedItem("Height").Value);
+            this.personDetail.SkillBG = CacheManager.GetTempTexture(@"Content\Textures\GameComponents\PersonDetail\Data\" + node.Attributes.GetNamedItem("FileName").Value);
+            node = nextSibling.ChildNodes.Item(0x25);
+            this.personDetail.FuhuoBGClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.FuhuoBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);
+            this.personDetail.FuhuoBGSize.Y = int.Parse(node.Attributes.GetNamedItem("Height").Value);
+            this.personDetail.FuhuoBG = CacheManager.GetTempTexture(@"Content\Textures\GameComponents\PersonDetail\Data\" + node.Attributes.GetNamedItem("FileName").Value);
+            node = nextSibling.ChildNodes.Item(0x26);
+            this.personDetail.PersonBGClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.PersonBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);
+            this.personDetail.PersonBGSize.Y = int.Parse(node.Attributes.GetNamedItem("Height").Value);
+            this.personDetail.PersonBG = CacheManager.GetTempTexture(@"Content\Textures\GameComponents\PersonDetail\Data\" + node.Attributes.GetNamedItem("FileName").Value);
+            node = nextSibling.ChildNodes.Item(0x27);
+            this.personDetail.PortraitL = StaticMethods.LoadRectangleFromXMLNode(node);
             /*
             node = nextSibling.ChildNodes.Item(12);
             this.personDetail.GuanzhiClient = StaticMethods.LoadRectangleFromXMLNode(node);
@@ -177,7 +267,7 @@ namespace PersonDetailPlugin
             this.personDetail.GuanzhiText.Builder.SetFreeTextBuilder(font);
             this.personDetail.GuanzhiText.DefaultColor = color;
              */
-////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////
         }
         public void SetGraphicsDevice()
         {

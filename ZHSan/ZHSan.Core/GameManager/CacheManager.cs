@@ -748,5 +748,22 @@ namespace GameManager
 
             return null;
         }
+        public static void DrawTreasure(Treasure treasure, Rectangle rec, Rectangle? source, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth)
+        {
+            if (Platform.Current.FileExists(treasure.Picture.Name.ToString()))
+            {
+                CacheManager.Draw(treasure.Picture, rec, source, color, rotation, origin, effect, depth);
+            }
+            else
+            {
+                try
+                {
+                    CacheManager.Draw("Content/Textures/Resources/Treasure/9999.png", rec, source, color, rotation, origin, effect, depth);
+                }
+                catch
+                {
+                }
+            }
+        }
     }
 }

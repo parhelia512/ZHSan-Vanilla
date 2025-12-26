@@ -146,6 +146,10 @@ namespace TabListPlugin
             {
                 return ((Person)this.tabList.gameObjectList[index]).HasInfluenceKind(this.ItemID) ? "○" : "×";
             }
+            if (this.Name.Equals("HasTreasureforGroup"))
+            {
+                return ((Person)this.tabList.gameObjectList[index]).HasTreasureforGroup(this.ItemID) ? "○" : "×";
+            }
             if (this.Name.Equals("InfluenceKindValueByTreasure"))
             {
                 return ((Person)this.tabList.gameObjectList[index]).InfluenceKindValueByTreasure(this.ItemID).ToString();

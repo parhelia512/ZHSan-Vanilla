@@ -113,8 +113,8 @@ namespace GameGlobal
         Faction_officePosition_jingongliangcao,
         Faction_officePosition_SelfBecomeEmperor,
         Faction_officePosition_BecomeEmperorLegally,
-        Faction_changeCapital,
-        Faction_selectPrince,
+        Faction_ChangeCapital,
+        Faction_SelectPrince,
       //  Faction_ZhaoXianBang_AutoCreatePerson, //招贤榜
        // Faction_ZhaoXianBang_AutoZhaoXian,
         Faction_ZhaoXianBang_GenerateOfficer,
