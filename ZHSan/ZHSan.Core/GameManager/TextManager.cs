@@ -59,7 +59,7 @@ namespace GameManager
             {
                 var te = texs[i];
                 Session.Current.SpriteBatch.DrawString(font.GetFont(16), te, pos + new Vector2(0, i * pair.Size * scale), color,
-                    depth == null ? 0 : (float)depth, new Vector2(scale, scale));
+                    0, new Vector2(scale, scale), null, depth ?? 0);
                 //font.DrawString(Session.Current.SpriteBatch, te, pos + new Vector2(0, i * pair.Size * scale), color, new Vector2(scale, scale), depth == null ? 0 : (float)depth);
             }
 
