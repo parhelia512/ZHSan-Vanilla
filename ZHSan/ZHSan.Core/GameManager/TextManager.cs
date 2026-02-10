@@ -116,7 +116,7 @@ namespace GameManager
             {
                 var te = texs[i];
 
-                Session.Current.SpriteBatch.DrawString(font.GetFont(16), te, pos + new Vector2(0, i * pair.Size * scale), color,
+                batch.DrawString(font.GetFont(16), te, pos + new Vector2(0, i * pair.Size * scale), color,
                     depth == null ? 0 : (float)depth, new Vector2(scale, scale));
                 bound = font.GetFont(16).TextBounds(te, pos + new Vector2(0, i * pair.Size * scale), new Vector2(scale, scale));
                 //bound = font.DrawStringReturnBounds(batch, te, pos + new Vector2(0, i * pair.Size * scale), color, new Vector2(scale, scale), depth == null ? 0 : (float)depth);
@@ -150,7 +150,11 @@ namespace GameManager
             {
                 var te = texs[i];
 
-                bound = font.GetFont(16).TextBounds(te, pos + new Vector2(0, i * pair.Size * scale), new Vector2(scale, scale));
+                // te为空字符串时, bound为[0, 0, 0, 0], 若最后一行空字符串则导致长文本高度计算错误
+                bound = !string.IsNullOrWhiteSpace(te) ? 
+                        font.GetFont(16).TextBounds(te, pos + new Vector2(0, i * pair.Size * scale), new Vector2(scale, scale)) :
+                        bounds[i-1];
+
                 //bound = font.CalcStringBounds(te, pos + new Vector2(0, i * pair.Size * scale), new Vector2(scale, scale));
                 if (scale != 1f)   //当字体的缩放倍数不为一时，相应的字体范围也要乘以缩放倍数，字体范围才准确
                 {
